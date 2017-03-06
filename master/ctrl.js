@@ -73,6 +73,7 @@ document.body.style.cursor="";
 function GetCharDetails(elt) {
   var chr = elt.childNodes[0].nodeValue;
   var url = "http://www.archchinese.com/chinese_english_dictionary.html?find="+chr;
+  alert("HELLO");
   makeFrame(url);
 }
 
