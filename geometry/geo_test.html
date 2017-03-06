@@ -1,0 +1,694 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta http-equiv="pragma" content="no-cache"/>
+<title>geo</title>
+
+
+	<link rel="stylesheet" href="css/jqdd2.css" type="text/css" media="screen, projection"/>
+	<!--[if lte IE 7]>
+        <link rel="stylesheet" type="text/css" href="css/ie.css" media="screen" />
+    <![endif]-->
+			
+	<script type="text/javascript" src="scripts/jquery-1.3.2.min.js"></script>	
+	<script type="text/javascript" language="javascript" src="scripts/jqdd2.js"></script>
+
+
+<script type="text/javascript">
+
+  function func1() { 
+    thisMovie("geo").focus();
+  } 
+	 
+  window.onload=func1; 
+
+
+     function thisMovie(movieName) {
+         if (navigator.appName.indexOf("Microsoft") != -1) {
+             return window[movieName];
+         } else {
+             return document[movieName];
+         }
+     }
+
+  var version = "Version: 1.0";
+  var author = "Author: Rob Filippini";
+
+  function setColor(str) {
+    thisMovie("geo").callDoSetColor(str);
+  }
+  function doPoint() {
+    thisMovie("geo").callDoPoint();
+    return true;
+  }
+  function doLine() {
+alert("Calling doLine");
+    thisMovie("geo").callDoLine();
+alert("Back from call to doLine");
+    return true;
+  }
+  function doCircle() {
+    thisMovie("geo").callDoCircle();
+    return true;
+  }
+  function doConic() {
+    thisMovie("geo").callDoConic();
+    return true;
+  }
+  function doSerialize() {
+    var str = thisMovie("geo").callSerialize();
+    document.getElementById("ta").value = str; // thisMovie("geo").doSerialize();
+  }
+  function doDeSerialize() {
+    thisMovie("geo").callDeSerialize(document.getElementById("ta").value);
+  }
+  function doBasicTriangle() {
+    var str = "GEO V1.0 6 1 5 0xff 0 F 129 258 0 1 5 0xff 0 F 489 232 0 1 5 0xff 0 F 258 458 0 2 22 0x0 0 F 2 1 2 2 22 0x0 0 F 2 2 0 2 22 0x0 0 F 2 0 1 ";
+    thisMovie("geo").callDeSerialize(str);
+  }
+  function doOrthoCenter() {
+    var str = "GEO V1.0 10 1 5 0xff 0 F 127 252 0 1 5 0xff 0 F 470 235 0 1 5 0xff 0 F 257 454 0 2 22 0x0 0 F 2 1 2 2 22 0x0 0 F 2 2 0 2 22 0x0 0 F 2 0 1 2 21 0x6600 0 F 2 1 4 2 21 0x6600 0 F 2 2 5 1 23 0xff0000 0 F 2 7 6 2 21 0x6600 0 F 2 0 3 ";
+    thisMovie("geo").callDeSerialize(str);
+  }
+  function doCentroid() {
+    var str = "GEO V1.0 13 1 5 0xff 0 F 123 264 0 1 5 0xff 0 F 466 212 0 1 5 0xff 0 F 256 460 0 2 22 0x0 0 F 2 1 2 2 22 0x0 0 F 2 2 0 2 22 0x0 0 F 2 0 1 1 22 0x66ffff 0 F 2 2 1 2 22 0x66ffff 0 F 2 6 0 1 22 0x66ffff 0 F 2 1 0 2 22 0x66ffff 0 F 2 8 2 1 22 0x66ffff 0 F 2 2 0 2 22 0x66ffff 0 F 2 10 1 1 23 0xff00ff 0 F 2 11 9 ";
+    thisMovie("geo").callDeSerialize(str);
+  }
+  function doEuler() {
+    var str = "GEO V1.0 22 1 5 0xff 0 F 126 258 0 1 5 0xff 0 F 464 228 0 1 5 0xff 0 F 256 455 0 2 22 0x0 0 F 2 1 2 2 22 0x0 0 F 2 2 0 2 22 0x0 0 F 2 0 1 2 21 0x6600 0 F 2 1 4 2 21 0x6600 0 F 2 2 5 1 23 0x336600 0 F 2 7 6 2 21 0x6600 0 F 2 0 3 1 22 0x0 0 F 2 2 1 2 22 0x9900ff 0 F 2 10 0 1 22 0x0 0 F 2 1 0 2 22 0x9900ff 0 F 2 12 2 1 23 0x9900ff 0 F 2 13 11 1 22 0x0 0 F 2 2 0 2 22 0x9900ff 0 F 2 15 1 2 21 0x99ff 0 F 2 10 3 2 21 0x99ff 0 F 2 12 5 1 23 0x99ff 0 F 2 18 17 2 21 0x99ff 0 F 2 15 4 2 22 0xffff00 0 F 2 8 19 ";
+    thisMovie("geo").callDeSerialize(str);
+  }
+  function doCircumCenter() {
+    var str = "GEO V1.0 14 1 5 0xff 0 F 134 256 0 1 5 0xff 0 F 422 403 0 1 5 0xff 0 F 231 558 0 2 22 0x0 0 F 2 1 2 2 22 0x0 0 F 2 2 0 2 22 0x0 0 F 2 0 1 1 22 0x0 0 F 2 2 1 2 21 0x666666 0 F 2 6 3 1 22 0x0 0 F 2 2 0 2 21 0x666666 0 F 2 8 4 1 23 0x0 0 F 2 9 7 1 22 0x0 0 F 2 1 0 2 21 0x666666 0 F 2 11 5 3 22 0x336600 0 F 2 10 2 ";
+    thisMovie("geo").callDeSerialize(str);
+  } 
+  function doFeuerbach() {
+    var str = "GEO V1.0 49 1 5 0xff 0 F 170 207 0 1 5 0xff 0 F 444 248 0 1 5 0xff 0 F 302 583 0 2 22 0xff 0 F 2 1 2 2 22 0xff 0 F 2 2 0 2 22 0xff 0 F 2 0 1 2 21 0x6600 0 F 2 1 4 2 21 0x6600 0 F 2 2 5 1 23 0xff0000 0 F 2 7 6 2 21 0x6600 0 F 2 0 3 1 23 0xff00ff 0 F 2 7 5 1 23 0xff00ff 0 F 2 9 3 1 23 0xff00ff 0 F 2 4 6 1 22 0xff00 0 F 2 2 1 1 22 0xff00 0 F 2 1 0 1 22 0xff00 0 F 2 0 2 1 22 0xff6600 0 F 2 8 0 1 22 0xff6600 0 F 2 8 1 1 22 0xff6600 0 F 2 8 2 2 22 0x0 0 T 2 15 14 1 22 0x0 0 T 2 14 15 2 21 0x0 0 T 2 20 19 2 22 0x0 0 T 2 13 14 1 22 0x0 0 T 2 14 13 2 21 0x0 0 T 2 23 22 1 23 0x0 0 T 2 24 21 3 22 0xffff00 0 F 2 25 14 2 25 0x660000 0 T 3 2 3 4 2 25 0x660000 0 T 3 1 5 3 2 25 0x660000 0 T 3 0 4 5 1 23 0x660000 0 T 2 29 27 2 21 0x0 0 T 2 30 3 1 23 0x0 0 T 2 31 3 3 22 0xff0000 0 F 2 30 32 2 21 0x330066 0 T 2 2 27 2 21 0x330066 0 T 2 1 28 1 23 0x0 0 T 2 35 34 2 21 0x0 0 T 2 36 3 1 23 0x0 0 T 2 37 3 3 22 0xff0000 0 F 2 36 38 2 21 0x330066 0 T 2 0 29 1 23 0x0 0 T 2 40 35 2 21 0x0 0 T 2 41 5 1 23 0x0 0 T 2 42 5 3 22 0xff0000 0 F 2 41 43 1 23 0x0 0 T 2 34 40 2 21 0x0 0 T 2 45 4 1 23 0x0 0 T 2 46 4 3 22 0xff0000 0 F 2 45 47 ";
+    thisMovie("geo").callDeSerialize(str);
+  }
+  function doDesargue() {
+    var str = "GEO V1.0 23 1 5 0x0 0 F 29 588 0 1 5 0x0 0 T 347 180 0 2 22 0xff 0 F 2 0 1 1 6 0xff 0 F 203.5 364.05 1 2 1 6 0xff 0 F 259.6 292.1 1 2 1 5 0x0 0 T 441 223 0 2 22 0xff0000 0 F 2 5 0 1 6 0xff0000 0 F 185.7 449.15 1 6 1 6 0xff0000 0 F 398.05 261 1 6 1 5 0x0 0 T 492 403 0 2 22 0xff00 0 F 2 9 0 1 6 0xff00 0 F 254.75 497.75 1 10 1 6 0xff00 0 F 412.9 434.55 1 10 2 22 0xff 0 F 2 11 7 2 22 0xff 0 F 2 12 8 1 23 0xffff00 0 F 2 14 13 2 22 0xff00 0 F 2 3 7 2 22 0xff00 0 F 2 4 8 1 23 0xffff00 0 F 2 17 16 2 22 0xff0000 0 F 2 11 3 2 22 0xff0000 0 F 2 4 12 1 23 0xffff00 0 F 2 20 19 2 22 0xffff00 0 F 2 15 21 ";
+    thisMovie("geo").callDeSerialize(str);
+  }
+  function doPascal() {
+    var str = "GEO V1.0 22 1 5 0x0 0 T 251 303 0 1 5 0x0 0 T 124 451 0 1 5 0x0 0 T 248 567 0 1 5 0x0 0 T 479 546 0 1 5 0x0 0 T 518 383 0 4 24 0x0 0 F 5 0 1 2 3 4 1 8 0xff0000 0 F 199.75 321.65 1 5 1 8 0xff 0 F 326.95 295.3 1 5 1 8 0xff00 0 F 428.5 316.2 1 5 1 8 0xff0000 0 F 485.4 348.85 1 5 1 8 0xff 0 F 534.5 415.55 1 5 1 8 0xff00 0 F 312.2 580.8 1 5 2 22 0xff 0 F 2 11 6 2 22 0xff 0 F 2 8 9 1 23 0xff 0 F 2 13 12 2 22 0xff00 0 F 2 6 7 2 22 0xff00 0 F 2 10 9 1 23 0xff00 0 F 2 16 15 2 22 0xff0000 0 F 2 10 11 2 22 0xff0000 0 F 2 8 7 1 23 0xff0000 0 F 2 19 18 2 22 0xffff00 0 F 2 20 14 ";
+    thisMovie("geo").callDeSerialize(str);
+  }
+
+ function doBrianchon() {
+    var str = "GEO V1.0 28 1 5 0x0 0 T 255 220 0 1 5 0x0 0 T 128 368 0 1 5 0x0 0 T 252 484 0 1 5 0x0 0 T 483 463 0 1 5 0x0 0 T 522 300 0 4 24 0x0 0 F 5 0 1 2 3 4 1 8 0xffff00 0 F 161.0222874885987 428.2414302890291 1 5 1 8 0xffff00 0 F 170.14484657727223 260.6618241704991 1 5 1 8 0xffff00 0 F 300.8381146583098 212.95775629101476 1 5 1 8 0xffff00 0 F 456.25663545669704 244.25581772197876 1 5 1 8 0xffff00 0 F 537.2710964096898 328.9640576586832 1 5 1 8 0xffff00 0 F 320.97323618496574 498.2768644670314 1 5 2 26 0x0 0 F 2 8 5 2 26 0x0 0 F 2 7 5 1 23 0xff00 0 F 2 13 12 2 26 0x0 0 F 2 6 5 1 23 0xff0000 0 F 2 15 13 2 26 0x0 0 F 2 11 5 1 23 0xff 0 F 2 17 15 2 26 0x0 0 F 2 10 5 1 23 0xff00 0 F 2 19 17 2 26 0x0 0 F 2 9 5 1 23 0xff0000 0 F 2 21 19 1 23 0xff 0 F 2 21 12 2 22 0xff0000 0 F 2 16 22 2 22 0xff 0 F 2 18 23 2 22 0xff00 0 F 2 20 14 1 23 0xffffff 0 F 2 24 25 ";
+    thisMovie("geo").callDeSerialize(str);
+  }
+
+
+  function doDualOfEuler() {
+    var str = "GEO V1.0 41 1 5 0xff0000 0 F 241 224 0 1 5 0xff 0 F 510 229 0 1 5 0xff00 0 F 327 569 0 2 22 0x66ffff 0 F 2 1 2 2 22 0x66ffff 0 F 2 2 0 2 22 0x66ffff 0 F 2 0 1 2 21 0x6600 0 T 2 1 4 2 21 0x6600 0 T 2 2 5 1 23 0x336600 0 F 2 7 6 2 21 0x6600 0 T 2 0 3 1 22 0x0 0 T 2 2 1 2 22 0x9900ff 0 T 2 10 0 1 22 0x0 0 T 2 1 0 2 22 0x9900ff 0 T 2 12 2 1 23 0x9900ff 0 F 2 13 11 1 22 0x0 0 T 2 2 0 2 22 0x9900ff 0 T 2 15 1 2 21 0x99ff 0 T 2 10 3 2 21 0x99ff 0 T 2 12 5 1 23 0x99ff 0 F 2 18 17 2 21 0x99ff 0 T 2 15 4 2 22 0xffff00 0 F 2 8 19 1 5 0x0 0 F 75 608 0 1 5 0x0 0 T 39 557 0 3 22 0x0 0 F 2 22 23 1 7 0x0 0 F 111.19176155180804 557.1359026839455 1 24 2 22 0x0 0 F 2 22 25 1 23 0x0 0 F 2 26 21 2 22 0x0 0 F 2 2 27 1 23 0xff00 0 F 2 28 5 2 22 0x0 0 F 2 27 1 1 23 0xff 0 F 2 30 4 2 22 0x0 0 F 2 0 27 1 23 0xff0000 0 F 2 32 3 2 22 0xff00ff 0 F 2 33 29 1 23 0xffff00 0 F 2 34 4 2 22 0xff00ff 0 F 2 31 29 1 23 0xffff00 0 F 2 36 3 2 22 0xff00ff 0 F 2 33 31 1 23 0xffff00 0 F 2 5 38 2 22 0xff 0 F 2 37 39 "
+    thisMovie("geo").callDeSerialize(str);
+  }
+
+  function doHide() {
+    thisMovie("geo").callDoHide();
+  }
+  function doShow() {
+    thisMovie("geo").callDoShow();
+  }
+  function doErase() {
+    thisMovie("geo").callDoErase();
+  }
+  function doTrace() {
+    thisMovie("geo").callDoTrace();
+  }
+  function doUndo() {
+    thisMovie("geo").callDoUndo();
+  }
+  function doRedo() {
+    thisMovie("geo").callDoRedo();
+  }
+
+
+var bshowText = true;
+var currheight = '';
+window.onresize = doResize1;
+//    var obj1 = document.getElementById("hide1");
+//    var obj2 = document.getElementById("hide2");
+
+  function doResize() 
+  {
+    var obj1 = document.getElementById("hide1");
+    var obj2 = document.getElementById("hide2");
+    var fl2 = document.getElementById("fl2");
+    var geo = document.getElementById("geo1");
+    var con = document.getElementById("content");
+    if (bshowText) {
+      obj1.style.display = "none";
+      obj2.style.display = "none";
+      var viewportWidth = $(window).width();
+      var viewportHeight = window.innerHeight ? window.innerHeight : $(window).height();
+      var vw = viewportWidth + "px";
+      var vh = viewportHeight + "px";
+      var vh2 = (viewportHeight - 24) + "px";
+
+
+      con.style.width=vw;
+      con.style.height=vh;
+      fl2.style.width=vw;
+      fl2.style.height=vh;
+      fl2.style.margin="0px 0px 0px 0px;"
+      fl2.style.border="none";
+      geo.style.width=vw;
+      geo.style.height=vh2; 
+      bshowText = false;
+    }
+    else {
+      obj1.style.display = "block";
+      obj2.style.display = "block";
+      con.style.width="960px";
+      con.style.height="";
+      fl2.style.width="650px";
+      fl2.style.height="700px";
+      fl2.style.margin="0px 0px 0px 20px;"
+      fl2.style.border="1px solid black";
+      geo.style.width="";
+      geo.style.height="676px"; 
+      bshowText = true; 
+    }
+  }
+
+  function doResize2() {
+    var viewportWidth = $(window).width();
+    var viewportHeight = window.innerHeight ? window.innerHeight : $(window).height();
+
+    // toggle selection of showText
+    if (bshowText)
+      bshowText = false;
+    else
+      bshowText = true;
+    var $foo = $('.toggle1');
+    for( var i = 0, n = $foo.length;  i < n;  ++i ) { 
+        var obj = $foo[i];
+        if (bShowText)
+	  obj.style.display = "none";
+        else {
+          alert("Hiding: " + obj);
+          obj.style.display = "none";
+        }
+    } 
+  }
+
+
+
+</script>
+  
+
+
+
+
+<style type="text/css">
+html, body {
+margin:0;
+padding:0;
+height:100%;
+} 
+
+.toggle
+{
+	display:block;
+}
+
+.colorTable
+{
+	border-collapse:collapse;
+	border-style: solid;
+	border-color:#1f1f1f;
+	border-width: 0 0 1px 1px;
+}
+.colorTable td
+{
+	border-style: solid;
+	border-color:#1f1f1f;
+	border-width: 1px 1px 0 0;
+	margin: 0;
+	padding: 0;
+	width:10px;
+	height:10px;
+}
+
+#content
+{
+	width:960px;
+/*	border:5px solid red; */
+}
+
+.fl1
+{
+/*	width:350px;
+	float:left;
+*/
+}
+
+#fl2
+{
+	display:block;
+	width:650px;
+	height:700px;
+	float:right;
+	position:relative;
+	border:1px solid black;
+	padding:0px;
+	margin: 0px 0px 0px 20px;
+}
+
+.b2
+{
+	float:right;
+}
+
+.b1
+{
+	margin:0px 0px 0px 10px;
+}
+
+#geo1
+{
+	height:676px;
+}
+.em
+{
+	font-weight:bold
+}
+.trailer
+{
+	clear:both;
+}
+
+#hide1, #hide2
+{
+	margin: 0px 0px 0px 10px;
+}
+
+</style>
+<script language="javascript">AC_FL_RunContent = 0;</script>
+<script src="AC_RunActiveContent.js" language="javascript"></script>
+</head>
+<body bgcolor="#ffffff">
+<!--url's used in the movie-->
+<!--text used in the movie-->
+<!-- saved from url=(0013)about:internet -->
+
+<div id="hide1" class="toggle1">
+<h1>Interactive Geometry</h1>
+</div>
+
+
+
+<div id="content">
+<div id="fl2">
+<div class="menu">
+  <div id="page-wrap">
+		  	   
+
+        <ul class="dropdown">
+
+		<li><a href="#">Configurations</a>
+			<ul class="sub_menu">
+				<li><a href="#">Triangle</a>
+					<ul>
+						<li><a href="#" onclick="doBasicTriangle(); return false;">Basic Triangle</a></li>
+						<li><a href="#" onclick="doOrthoCenter(); return false;">OrthoCenter</a></li>
+						<li><a href="#" onclick="doCircumCenter(); return false;">CircumCenter</a></li>
+						<li><a href="#" onclick="doCentroid(); return false;">Centroid</a></li>
+						<li><a href="#" onclick="doEuler(); return false;">Euler Line</a></li>
+						<li><a href="#" onclick="doFeuerbach(); return false;">Feuerbach's Theorem</a></li>
+						<li><a href="#" onclick="doDesargue(); return false;">Desargue's Theorem</a></li>
+						<li><a href="#" onclick="doDualOfEuler(); return false;">Dual of Euler Line</a></li>
+					</ul>
+				</li>
+				<li><a href="#" onclick="doPascal(); return false;">Pascal's Mystic Hexagram Theorem</a></li>
+				<li><a href="#" onclick="doBrianchon(); return false;">Brianchon's Theorem</a></li>
+				<li><a href="#">Custom</a>
+					<ul>
+						<li><div style="border:5px solid green">
+<form>
+<input type="button" name="button1" value="set text" onclick="doSerialize()"/>
+<input type="button" name="button2" value="set diagram" onclick="doDeSerialize()"/>
+</form>
+<textarea id="ta" rows="3" cols="23"></textarea></div></li>
+					</ul>
+				</li>
+			</ul>
+		</li>
+        	<li><a href="#">Action</a>
+        		<ul class="sub_menu">
+        			 <li><a href="#" onClick="doPoint(); return false">Point</a></li>
+        			 <li><a href="#" onClick="doLine(); return false">Line</a></li>
+        			 <li><a href="#" onClick="doCircle(); return false">Circle</a></li>
+        			 <li><a href="#" onClick="doConic(); return false">Conic</a></li>
+        		</ul>
+
+        	</li>
+        	<li><a href="#">Color</a>
+        		<ul class="sub_menu">
+<li>
+<table class="colorTable">
+<tr>
+<td onclick="setColor('000000')" style="background-color:#000000;"/>
+ <td onclick="setColor('003300')" style="background-color:#003300;"/>
+ <td onclick="setColor('006600')" style="background-color:#006600;"/>
+ <td onclick="setColor('009900')" style="background-color:#009900;"/>
+ <td onclick="setColor('00cc00')" style="background-color:#00cc00;"/>
+ <td onclick="setColor('00ff00')" style="background-color:#00ff00;"/>
+ <td onclick="setColor('330000')" style="background-color:#330000;"/>
+ <td onclick="setColor('333300')" style="background-color:#333300;"/>
+ <td onclick="setColor('336600')" style="background-color:#336600;"/>
+ <td onclick="setColor('339900')" style="background-color:#339900;"/>
+ <td onclick="setColor('33cc00')" style="background-color:#33cc00;"/>
+ <td onclick="setColor('33ff00')" style="background-color:#33ff00;"/>
+ <td onclick="setColor('660000')" style="background-color:#660000;"/>
+ <td onclick="setColor('663300')" style="background-color:#663300;"/>
+ <td onclick="setColor('666600')" style="background-color:#666600;"/>
+ <td onclick="setColor('669900')" style="background-color:#669900;"/>
+ <td onclick="setColor('66cc00')" style="background-color:#66cc00;"/>
+ <td onclick="setColor('66ff00')" style="background-color:#66ff00;"/>
+ </tr>
+<tr>
+<td onclick="setColor('000033')" style="background-color:#000033;"/>
+ <td onclick="setColor('003333')" style="background-color:#003333;"/>
+ <td onclick="setColor('006633')" style="background-color:#006633;"/>
+ <td onclick="setColor('009933')" style="background-color:#009933;"/>
+ <td onclick="setColor('00cc33')" style="background-color:#00cc33;"/>
+ <td onclick="setColor('00ff33')" style="background-color:#00ff33;"/>
+ <td onclick="setColor('330033')" style="background-color:#330033;"/>
+ <td onclick="setColor('333333')" style="background-color:#333333;"/>
+ <td onclick="setColor('336633')" style="background-color:#336633;"/>
+ <td onclick="setColor('339933')" style="background-color:#339933;"/>
+ <td onclick="setColor('33cc33')" style="background-color:#33cc33;"/>
+ <td onclick="setColor('33ff33')" style="background-color:#33ff33;"/>
+ <td onclick="setColor('660033')" style="background-color:#660033;"/>
+ <td onclick="setColor('663333')" style="background-color:#663333;"/>
+ <td onclick="setColor('666633')" style="background-color:#666633;"/>
+ <td onclick="setColor('669933')" style="background-color:#669933;"/>
+ <td onclick="setColor('66cc33')" style="background-color:#66cc33;"/>
+ <td onclick="setColor('66ff33')" style="background-color:#66ff33;"/>
+ </tr>
+<tr>
+<td onclick="setColor('000066')" style="background-color:#000066;"/>
+ <td onclick="setColor('003366')" style="background-color:#003366;"/>
+ <td onclick="setColor('006666')" style="background-color:#006666;"/>
+ <td onclick="setColor('009966')" style="background-color:#009966;"/>
+ <td onclick="setColor('00cc66')" style="background-color:#00cc66;"/>
+ <td onclick="setColor('00ff66')" style="background-color:#00ff66;"/>
+ <td onclick="setColor('330066')" style="background-color:#330066;"/>
+ <td onclick="setColor('333366')" style="background-color:#333366;"/>
+ <td onclick="setColor('336666')" style="background-color:#336666;"/>
+ <td onclick="setColor('339966')" style="background-color:#339966;"/>
+ <td onclick="setColor('33cc66')" style="background-color:#33cc66;"/>
+ <td onclick="setColor('33ff66')" style="background-color:#33ff66;"/>
+ <td onclick="setColor('660066')" style="background-color:#660066;"/>
+ <td onclick="setColor('663366')" style="background-color:#663366;"/>
+ <td onclick="setColor('666666')" style="background-color:#666666;"/>
+ <td onclick="setColor('669966')" style="background-color:#669966;"/>
+ <td onclick="setColor('66cc66')" style="background-color:#66cc66;"/>
+ <td onclick="setColor('66ff66')" style="background-color:#66ff66;"/>
+ </tr>
+<tr>
+<td onclick="setColor('000099')" style="background-color:#000099;"/>
+ <td onclick="setColor('003399')" style="background-color:#003399;"/>
+ <td onclick="setColor('006699')" style="background-color:#006699;"/>
+ <td onclick="setColor('009999')" style="background-color:#009999;"/>
+ <td onclick="setColor('00cc99')" style="background-color:#00cc99;"/>
+ <td onclick="setColor('00ff99')" style="background-color:#00ff99;"/>
+ <td onclick="setColor('330099')" style="background-color:#330099;"/>
+ <td onclick="setColor('333399')" style="background-color:#333399;"/>
+ <td onclick="setColor('336699')" style="background-color:#336699;"/>
+ <td onclick="setColor('339999')" style="background-color:#339999;"/>
+ <td onclick="setColor('33cc99')" style="background-color:#33cc99;"/>
+ <td onclick="setColor('33ff99')" style="background-color:#33ff99;"/>
+ <td onclick="setColor('660099')" style="background-color:#660099;"/>
+ <td onclick="setColor('663399')" style="background-color:#663399;"/>
+ <td onclick="setColor('666699')" style="background-color:#666699;"/>
+ <td onclick="setColor('669999')" style="background-color:#669999;"/>
+ <td onclick="setColor('66cc99')" style="background-color:#66cc99;"/>
+ <td onclick="setColor('66ff99')" style="background-color:#66ff99;"/>
+ </tr>
+<tr>
+<td onclick="setColor('0000cc')" style="background-color:#0000cc;"/>
+ <td onclick="setColor('0033cc')" style="background-color:#0033cc;"/>
+ <td onclick="setColor('0066cc')" style="background-color:#0066cc;"/>
+ <td onclick="setColor('0099cc')" style="background-color:#0099cc;"/>
+ <td onclick="setColor('00cccc')" style="background-color:#00cccc;"/>
+ <td onclick="setColor('00ffcc')" style="background-color:#00ffcc;"/>
+ <td onclick="setColor('3300cc')" style="background-color:#3300cc;"/>
+ <td onclick="setColor('3333cc')" style="background-color:#3333cc;"/>
+ <td onclick="setColor('3366cc')" style="background-color:#3366cc;"/>
+ <td onclick="setColor('3399cc')" style="background-color:#3399cc;"/>
+ <td onclick="setColor('33cccc')" style="background-color:#33cccc;"/>
+ <td onclick="setColor('33ffcc')" style="background-color:#33ffcc;"/>
+ <td onclick="setColor('6600cc')" style="background-color:#6600cc;"/>
+ <td onclick="setColor('6633cc')" style="background-color:#6633cc;"/>
+ <td onclick="setColor('6666cc')" style="background-color:#6666cc;"/>
+ <td onclick="setColor('6699cc')" style="background-color:#6699cc;"/>
+ <td onclick="setColor('66cccc')" style="background-color:#66cccc;"/>
+ <td onclick="setColor('66ffcc')" style="background-color:#66ffcc;"/>
+ </tr>
+<tr>
+<td onclick="setColor('0000ff')" style="background-color:#0000ff;"/>
+ <td onclick="setColor('0033ff')" style="background-color:#0033ff;"/>
+ <td onclick="setColor('0066ff')" style="background-color:#0066ff;"/>
+ <td onclick="setColor('0099ff')" style="background-color:#0099ff;"/>
+ <td onclick="setColor('00ccff')" style="background-color:#00ccff;"/>
+ <td onclick="setColor('00ffff')" style="background-color:#00ffff;"/>
+ <td onclick="setColor('3300ff')" style="background-color:#3300ff;"/>
+ <td onclick="setColor('3333ff')" style="background-color:#3333ff;"/>
+ <td onclick="setColor('3366ff')" style="background-color:#3366ff;"/>
+ <td onclick="setColor('3399ff')" style="background-color:#3399ff;"/>
+ <td onclick="setColor('33ccff')" style="background-color:#33ccff;"/>
+ <td onclick="setColor('33ffff')" style="background-color:#33ffff;"/>
+ <td onclick="setColor('6600ff')" style="background-color:#6600ff;"/>
+ <td onclick="setColor('6633ff')" style="background-color:#6633ff;"/>
+ <td onclick="setColor('6666ff')" style="background-color:#6666ff;"/>
+ <td onclick="setColor('6699ff')" style="background-color:#6699ff;"/>
+ <td onclick="setColor('66ccff')" style="background-color:#66ccff;"/>
+ <td onclick="setColor('66ffff')" style="background-color:#66ffff;"/>
+ </tr>
+<tr>
+<td onclick="setColor('990000')" style="background-color:#990000;"/>
+ <td onclick="setColor('993300')" style="background-color:#993300;"/>
+ <td onclick="setColor('996600')" style="background-color:#996600;"/>
+ <td onclick="setColor('999900')" style="background-color:#999900;"/>
+ <td onclick="setColor('99cc00')" style="background-color:#99cc00;"/>
+ <td onclick="setColor('99ff00')" style="background-color:#99ff00;"/>
+ <td onclick="setColor('cc0000')" style="background-color:#cc0000;"/>
+ <td onclick="setColor('cc3300')" style="background-color:#cc3300;"/>
+ <td onclick="setColor('cc6600')" style="background-color:#cc6600;"/>
+ <td onclick="setColor('cc9900')" style="background-color:#cc9900;"/>
+ <td onclick="setColor('cccc00')" style="background-color:#cccc00;"/>
+ <td onclick="setColor('ccff00')" style="background-color:#ccff00;"/>
+ <td onclick="setColor('ff0000')" style="background-color:#ff0000;"/>
+ <td onclick="setColor('ff3300')" style="background-color:#ff3300;"/>
+ <td onclick="setColor('ff6600')" style="background-color:#ff6600;"/>
+ <td onclick="setColor('ff9900')" style="background-color:#ff9900;"/>
+ <td onclick="setColor('ffcc00')" style="background-color:#ffcc00;"/>
+ <td onclick="setColor('ffff00')" style="background-color:#ffff00;"/>
+ </tr>
+<tr>
+<td onclick="setColor('990033')" style="background-color:#990033;"/>
+ <td onclick="setColor('993333')" style="background-color:#993333;"/>
+ <td onclick="setColor('996633')" style="background-color:#996633;"/>
+ <td onclick="setColor('999933')" style="background-color:#999933;"/>
+ <td onclick="setColor('99cc33')" style="background-color:#99cc33;"/>
+ <td onclick="setColor('99ff33')" style="background-color:#99ff33;"/>
+ <td onclick="setColor('cc0033')" style="background-color:#cc0033;"/>
+ <td onclick="setColor('cc3333')" style="background-color:#cc3333;"/>
+ <td onclick="setColor('cc6633')" style="background-color:#cc6633;"/>
+ <td onclick="setColor('cc9933')" style="background-color:#cc9933;"/>
+ <td onclick="setColor('cccc33')" style="background-color:#cccc33;"/>
+ <td onclick="setColor('ccff33')" style="background-color:#ccff33;"/>
+ <td onclick="setColor('ff0033')" style="background-color:#ff0033;"/>
+ <td onclick="setColor('ff3333')" style="background-color:#ff3333;"/>
+ <td onclick="setColor('ff6633')" style="background-color:#ff6633;"/>
+ <td onclick="setColor('ff9933')" style="background-color:#ff9933;"/>
+ <td onclick="setColor('ffcc33')" style="background-color:#ffcc33;"/>
+ <td onclick="setColor('ffff33')" style="background-color:#ffff33;"/>
+ </tr>
+<tr>
+<td onclick="setColor('990066')" style="background-color:#990066;"/>
+ <td onclick="setColor('993366')" style="background-color:#993366;"/>
+ <td onclick="setColor('996666')" style="background-color:#996666;"/>
+ <td onclick="setColor('999966')" style="background-color:#999966;"/>
+ <td onclick="setColor('99cc66')" style="background-color:#99cc66;"/>
+ <td onclick="setColor('99ff66')" style="background-color:#99ff66;"/>
+ <td onclick="setColor('cc0066')" style="background-color:#cc0066;"/>
+ <td onclick="setColor('cc3366')" style="background-color:#cc3366;"/>
+ <td onclick="setColor('cc6666')" style="background-color:#cc6666;"/>
+ <td onclick="setColor('cc9966')" style="background-color:#cc9966;"/>
+ <td onclick="setColor('cccc66')" style="background-color:#cccc66;"/>
+ <td onclick="setColor('ccff66')" style="background-color:#ccff66;"/>
+ <td onclick="setColor('ff0066')" style="background-color:#ff0066;"/>
+ <td onclick="setColor('ff3366')" style="background-color:#ff3366;"/>
+ <td onclick="setColor('ff6666')" style="background-color:#ff6666;"/>
+ <td onclick="setColor('ff9966')" style="background-color:#ff9966;"/>
+ <td onclick="setColor('ffcc66')" style="background-color:#ffcc66;"/>
+ <td onclick="setColor('ffff66')" style="background-color:#ffff66;"/>
+ </tr>
+<tr>
+<td onclick="setColor('990099')" style="background-color:#990099;"/>
+ <td onclick="setColor('993399')" style="background-color:#993399;"/>
+ <td onclick="setColor('996699')" style="background-color:#996699;"/>
+ <td onclick="setColor('999999')" style="background-color:#999999;"/>
+ <td onclick="setColor('99cc99')" style="background-color:#99cc99;"/>
+ <td onclick="setColor('99ff99')" style="background-color:#99ff99;"/>
+ <td onclick="setColor('cc0099')" style="background-color:#cc0099;"/>
+ <td onclick="setColor('cc3399')" style="background-color:#cc3399;"/>
+ <td onclick="setColor('cc6699')" style="background-color:#cc6699;"/>
+ <td onclick="setColor('cc9999')" style="background-color:#cc9999;"/>
+ <td onclick="setColor('cccc99')" style="background-color:#cccc99;"/>
+ <td onclick="setColor('ccff99')" style="background-color:#ccff99;"/>
+ <td onclick="setColor('ff0099')" style="background-color:#ff0099;"/>
+ <td onclick="setColor('ff3399')" style="background-color:#ff3399;"/>
+ <td onclick="setColor('ff6699')" style="background-color:#ff6699;"/>
+ <td onclick="setColor('ff9999')" style="background-color:#ff9999;"/>
+ <td onclick="setColor('ffcc99')" style="background-color:#ffcc99;"/>
+ <td onclick="setColor('ffff99')" style="background-color:#ffff99;"/>
+ </tr>
+<tr>
+<td onclick="setColor('9900cc')" style="background-color:#9900cc;"/>
+ <td onclick="setColor('9933cc')" style="background-color:#9933cc;"/>
+ <td onclick="setColor('9966cc')" style="background-color:#9966cc;"/>
+ <td onclick="setColor('9999cc')" style="background-color:#9999cc;"/>
+ <td onclick="setColor('99cccc')" style="background-color:#99cccc;"/>
+ <td onclick="setColor('99ffcc')" style="background-color:#99ffcc;"/>
+ <td onclick="setColor('cc00cc')" style="background-color:#cc00cc;"/>
+ <td onclick="setColor('cc33cc')" style="background-color:#cc33cc;"/>
+ <td onclick="setColor('cc66cc')" style="background-color:#cc66cc;"/>
+ <td onclick="setColor('cc99cc')" style="background-color:#cc99cc;"/>
+ <td onclick="setColor('cccccc')" style="background-color:#cccccc;"/>
+ <td onclick="setColor('ccffcc')" style="background-color:#ccffcc;"/>
+ <td onclick="setColor('ff00cc')" style="background-color:#ff00cc;"/>
+ <td onclick="setColor('ff33cc')" style="background-color:#ff33cc;"/>
+ <td onclick="setColor('ff66cc')" style="background-color:#ff66cc;"/>
+ <td onclick="setColor('ff99cc')" style="background-color:#ff99cc;"/>
+ <td onclick="setColor('ffcccc')" style="background-color:#ffcccc;"/>
+ <td onclick="setColor('ffffcc')" style="background-color:#ffffcc;"/>
+ </tr>
+<tr>
+<td onclick="setColor('9900ff')" style="background-color:#9900ff;"/>
+ <td onclick="setColor('9933ff')" style="background-color:#9933ff;"/>
+ <td onclick="setColor('9966ff')" style="background-color:#9966ff;"/>
+ <td onclick="setColor('9999ff')" style="background-color:#9999ff;"/>
+ <td onclick="setColor('99ccff')" style="background-color:#99ccff;"/>
+ <td onclick="setColor('99ffff')" style="background-color:#99ffff;"/>
+ <td onclick="setColor('cc00ff')" style="background-color:#cc00ff;"/>
+ <td onclick="setColor('cc33ff')" style="background-color:#cc33ff;"/>
+ <td onclick="setColor('cc66ff')" style="background-color:#cc66ff;"/>
+ <td onclick="setColor('cc99ff')" style="background-color:#cc99ff;"/>
+ <td onclick="setColor('ccccff')" style="background-color:#ccccff;"/>
+ <td onclick="setColor('ccffff')" style="background-color:#ccffff;"/>
+ <td onclick="setColor('ff00ff')" style="background-color:#ff00ff;"/>
+ <td onclick="setColor('ff33ff')" style="background-color:#ff33ff;"/>
+ <td onclick="setColor('ff66ff')" style="background-color:#ff66ff;"/>
+ <td onclick="setColor('ff99ff')" style="background-color:#ff99ff;"/>
+ <td onclick="setColor('ffccff')" style="background-color:#ffccff;"/>
+ <td onclick="setColor('ffffff')" style="background-color:#ffffff;"/>
+ </tr>
+</table>
+</li>
+        		</ul>
+        	</li>
+        	<li><a href="#">About</a>
+        		<ul class="sub_menu">
+        			 <li><a href="#">Version 1.0</a></li>
+        			 <li><a href="#">Author: Rob Filippini</a></li>
+        		</ul>
+        	</li>
+        </ul>
+
+<input type="button" class="b1" value="hide" onclick="doHide()"/>
+<input type="button" class="b1" value="show" onclick="doShow()"/>
+<input type="button" class="b1" value="clean" onclick="doErase()"/>
+<input type="button" class="b1" value="trace" onclick="doTrace()"/>
+<input type="button" class="b1" value="<" onclick="doUndo()"/>
+<input type="button" class="b1" value=">" onclick="doRedo()"/>
+<input type="button" class="b2" value="_" onclick="doResize()"/>
+
+  </div>
+</div>
+<div id="geo1" STYLE="z-index: -1;">
+<script language="javascript">
+	if (AC_FL_RunContent == 0) {
+		alert("This page requires AC_RunActiveContent.js.");
+	} else {
+		AC_FL_RunContent(
+			'codebase', 'http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0',
+			'width', '100%',
+			'height', '100%',
+			'src', 'geo',
+			'quality', 'high',
+			'pluginspage', 'http://www.macromedia.com/go/getflashplayer',
+			'align', 'middle',
+			'play', 'true',
+			'loop', 'true',
+			'scale', 'showall',
+			'wmode', 'transparent',
+			'devicefont', 'false',
+			'id', 'geo',
+			'bgcolor', '#ffffff',
+			'name', 'geo',
+			'menu', 'true',
+			'allowFullScreen', 'false',
+			'allowScriptAccess','always',
+			'movie', 'geo',
+			'salign', ''
+			); //end AC code
+	}
+</script>
+<noscript>
+	<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0" width="100%" height="100%" id="geo" align="middle">
+	<param name="allowScriptAccess" value="always" />
+	<param name="allowFullScreen" value="false" />
+	<param name="movie" value="geo.swf" /><param name="quality" value="high" /><param name="bgcolor" value="#ffffff" />	<embed src="geo.swf" quality="high" bgcolor="#ffffff" width="100%" height="100%" name="geo" align="middle" allowScriptAccess="always" allowFullScreen="false" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" />
+	</object>
+</noscript>
+</div>
+</div>
+
+<div id="hide2" class="toggle">
+<p> 
+To get started, <span class="em">shift-click</span> on the canvas. This should create a point. Try dragging the point. Now <span class="em">alt-click</span> on the point. It should get smaller. It is now in the deselected state. Alt-click on it again to reselect the point. Now shift-click somewhere else to create another point. Then Choose "Line" from the Action menu. You should see a line through your points. The points are still moveable of course. The line is currently selected. You can alt-click on it to deselect it. If you leave it selected and shift-click to create a new point, the new point will be constrained to the line. Similarly, points can be constrained to circles or conics. Depending on what is currently selected, certain actions are permitted. Here is a list explaining the actions in the Action menu; each entry lists the types of the selected elements followed by "=>" followed by a description of the result.
+</p>
+<ul>
+<li>Point
+  <ul>
+     <li>Point, Point => MidPoint</li>
+     <li>Line, Line => Intersection</li>
+  </ul>
+</li>
+<li>Line
+  <ul>
+     <li>Point, Point => Line through 2 points</li>
+     <li>Line, Point => Line perpendicular to line through point</li>
+     <li>Conic, Point => Line tangent to conic through point - conic must contain selected point</li>
+     <li>Line, Line, Point => Angle Bisector - both lines contain selected point, rotate first line CCW halfway to second line.</li>
+  </ul>
+</li>
+<li>Circle
+  <ul>
+     <li>Point, Point => Circle (center must be selected first)</li>
+  </ul>
+</li>
+<li>Conic
+  <ul>
+     <li>Point, Point, Point, Point, Point => Conic through 5 points</li>
+  </ul>
+</li>
+</ul>
+
+<p>Colors can be applied to selected elements. The <span class="em">hide</span> button causes selected elements to be hidden. The <span class="em">show</span> button shows all hidden elements and causes them to be selected. The <span class="em"><</span> button steps backwards and the <span class="em">></span> button steps forward through the construction. The Configurations menu lists various prebuilt configurations. Many of these demonstrate interesting theorems in geometry.
+The Custom entry in the Configurations menu shows a text area and 2 buttons labeled "set text" and "set diagram". If you click "set text", the text area is filled with a text representation of the current diagram. The "set diagram" button updates the diagram based on the text. Each element can either be in "clean" mode or "trace" mode. The default of clean mode means that when the element is redrawn in some new location, it is first erased. Clicking on the <span class="em">trace</span> button causes the selected elements to enter trace mode. Clicking on the <span class="em">clean</span> button causes <span class="em">all</span> elements to be put into clean mode. For an interesting application, choose the Dual of Euler Line configuration, select the blue line, press trace, then move the control point around the circle. There is also a <span class="em">maximize/minimize button</span> in the upper right-hand corner. If you want to recenter your drawing, press the <span class="em">alt</span> and <span class="em">shift</span> keys while dragging the canvas.
+</p>
+</div>
+
+</div>
+</body>
+<!-- BEGIN INSERT --><HEAD><META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE"></HEAD><!-- END INSERT --> 
+</html>

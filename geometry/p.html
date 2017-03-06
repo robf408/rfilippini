@@ -1,0 +1,204 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta http-equiv="pragma" content="no-cache"/>
+<title>parabola</title>
+	<style type="text/css">
+		body {
+			margin: 0;
+			padding:0;
+		}
+		#buttons1 {
+			float: top;
+			width:100px;
+			height: 40px;
+			background: #444444;
+		}
+		#buttons2 {
+			position: fixed;
+			width:100%;
+			top: 0;
+			height: 40px;
+			background: #ff0000;
+		}
+		#main1 {
+			top: 80px;
+			margin: 30;
+		}
+		#main2 {
+			margin: 30px;
+		}
+		#box_1 { 
+			float: right;
+		 	width: 610px;
+		 	height: 610px;
+			background: #777777;
+		}
+		#box_2 { 
+			position: fixed;
+		 	right: 20px;
+			top: 70px;
+		 	width: 600px;
+		 	height: 600px;
+			background: #44accf;
+		}
+	</style>
+
+<script type="text/javascript">
+  var version = "Version: 1.0";
+  var author = "Author: Rob Filippini";
+
+  var curPage = 2;
+  var numPages = 3;
+
+  function nextPage() {
+    if (curPage < numPages) {
+      curPage++;
+      document.getElementById("main2").innerHTML = pages[curPage - 1];
+      if (curPage == numPages) {
+        document.getElementById("nextpage").disabled = true;
+      }
+      if (curPage == 2) {
+        document.getElementById("prevpage").disabled = false;
+      }
+      doDrawing();
+    }
+  }
+
+  function prevPage() {
+    if (curPage > 1) {
+      curPage--;
+      document.getElementById("main2").innerHTML = pages[curPage - 1];
+      if (curPage == 1) {
+        document.getElementById("prevpage").disabled = true;
+      }
+      if (curPage == numPages - 1) {
+        document.getElementById("nextpage").disabled = false;
+      }
+      doDrawing();
+    }
+  }
+
+  function func1() {
+    setTimeout("doInit()", 500); 
+  } 
+
+  function doTrace(ndx) {
+    thisMovie("geo").focus();
+    thisMovie("geo").callDoTrace2(ndx);
+  }
+
+  function doErase() {
+    thisMovie("geo").focus();
+    thisMovie("geo").callDoErase();
+  }
+
+  function doInit() {
+    prevPage();
+    thisMovie("geo").focus();
+    thisMovie("geo").callDisableAdditions();
+    doDrawing();
+  }
+
+  window.onload=func1; 
+
+
+  function thisMovie(movieName) {
+    if (navigator.appName.indexOf("Microsoft") != -1) {
+       return window[movieName];
+    } else {
+       return document[movieName];
+    }
+  }
+
+  function doDrawing() {
+    thisMovie("geo").focus();
+    thisMovie("geo").callDeSerialize(drawings[curPage - 1]);
+  }
+
+var drawings = new Array();
+drawings[0] = "GEO V2.0 11 1 5 0x0 0 T 163 550 0 1 5 0x0 0 T 464 550 0 2 22 0x0 0 F 2 0 1 1 5 0x0 0 F 290 460 0 F:-15:10:F:16:Helvetica 1 6 0x0 0 F 502 550 1 2 A:12:-12:F:16:Helvetica 2 22 0x0 0 F 2 4 3 1 22 0x0 0 F 2 3 4 M:14:-8:F:16:Helvetica 2 21 0x0 0 F 2 6 5 2 21 0x0 0 F 2 4 2 1 23 0x0 0 F 2 8 7 P:12:0:F:16:Helvetica 1 6 0x0 0 P 96 550 1 2 d:0:15:F:16:Helvetica ";
+drawings[1] = "GEO V2.0 11 1 5 0x0 0 F 93 602 0 1 5 0x0 0 F 580 602 0 2 22 0x0 0 F 2 0 1 1 5 0x0 0 F 291 509 0 4 21 0x0 0 F 2 3 2 1 8 0x0 0 F 422.1116305222796 463.07924914940463 1 4 3 22 0x0 0 F 2 5 3 2 21 0x0 0 T 2 5 2 1 23 0x0 0 F 2 7 2 2 22 0x0 0 P 2 8 5 2 22 0x0 0 P 2 5 3 ";
+drawings[2] = "GEO V2.0 16 1 5 0x0 0 T 150 665 0 1 5 0x0 0 T 481 665 0 2 22 0x0 0 F 2 0 1 1 5 0x0 0 F 325 585 0 4 21 0x0 0 F 2 3 2 1 8 0xffffff 0 F 204.38985254617828 534.0824520697961 1 4 A1:-5:15:F:18:Helvetica 1 8 0xffffff 0 F 544.0785457303438 325.02869250423515 1 4 B1:12:12:F:18:Helvetica 2 22 0x0 0 F 2 6 5 1 8 0xffffff 0 F 143.26227057340336 418.57123564290714 1 4 A2:-10:17:F:18:Helvetica 2 21 0x0 0 T 2 8 7 2 21 0x0 0 F 2 8 9 1 28 0x0 0 F 3 8 10 4 B2:10:10:F:18:Helvetica 2 21 0xffff00 0 F 2 3 2 1 22 0x0 0 F 2 5 6 M1:14:10:F:18:Helvetica 1 22 0x0 0 F 2 8 11 M2:14:10:F:18:Helvetica 2 22 0x0 0 F 2 14 13 ";
+
+var pages = new Array();
+pages[0] = "<h1>Two Construction Problems</h1>\
+<p><b>Problem 1: </b> Given a parabola, construct the axis of symmetry using a straightedge and a compass</p>\
+<p><b>Problem 2: </b> Given a parabola, construct the focus and directrix using a straightedge and a compass</p>\
+<p>Recall that geometrically a parabola consists of the set of points in a plane that are equidistant from a point F called the focus \
+and a line d called the directrix. The diagram <button onclick=\"doDrawing()\">Parabola 1</button> shows a line d and a point F. It also \
+shows a point A constrained to d and the perpendicular bisector of AF. Every point on this line is equidistant from A and F. Also shown is \
+line through A perpendicular to d and the intersection point P of this line with the perpendicular bisector of AF. The point P is equidistant from F and d \
+and is therefore on the parabola determined by the focus F and the directrix d.</p>\
+<p>Try dragging A along d and see how P moves. If P left a trace as it moved, we'd be able to see the parabola. Click here \
+<button onclick=\"doTrace(9)\">Trace</button> and continue dragging A along d. If you want to erase the trace, click here \
+<button onclick=\"doErase()\">Erase</button></p>";
+
+
+pages[1] = "<b>Theorem: </b> Given a parabola P and two parallel lines L1 and L2 intersecting the P in A1, B1, and A2, B2 respectively, \
+let M1 be the midpoint of A1 and B1 and let M2 be the midpoint of A2 and B2. Then the line through M1 and M2 is parallel to the axis of symmetry of P<br/>\
+<b>Proof: </b> Consider the diagram given here: <button onclick=\"doDrawing()\">Parabola 2</button>. The axis of symmetry is shown in yellow. \
+The focus of the parabola and the directrix are also visible.";
+
+pages[2] = "<p>TODO<\p>";
+
+</script>
+
+<script language="javascript">AC_FL_RunContent = 0;</script>
+<script src="AC_RunActiveContent.js" language="javascript"></script>
+
+</head>
+<body>
+  <div id="buttons1">  
+    <div id="buttons2">
+      <button id="prevpage" onclick="prevPage()"> < </button>
+      <button id="nextpage" onclick="nextPage()"> > </button>
+    </div>
+  </div>
+  <div id="main1">
+    <div id="box_1">
+      <div id="box_2">
+<script language="javascript">
+	if (AC_FL_RunContent == 0) {
+		alert("This page requires AC_RunActiveContent.js.");
+	} else {
+		AC_FL_RunContent(
+			'codebase', 'http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0',
+			'width', '100%',
+			'height', '100%',
+			'src', 'geo',
+			'quality', 'high',
+			'pluginspage', 'http://www.macromedia.com/go/getflashplayer',
+			'align', 'middle',
+			'play', 'true',
+			'loop', 'true',
+			'scale', 'showall',
+			'wmode', 'transparent',
+			'devicefont', 'false',
+			'id', 'geo',
+			'bgcolor', '#ffffff',
+			'name', 'geo',
+			'menu', 'true',
+			'allowFullScreen', 'false',
+			'allowScriptAccess','always',
+			'movie', 'geo',
+			'salign', ''
+			); //end AC code
+	}
+</script>
+
+<noscript>
+	<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0" width="100%" height="100%" id="geo" align="middle">
+	<param name="allowScriptAccess" value="always" />
+	<param name="allowFullScreen" value="false" />
+	<param name="movie" value="geo.swf" /><param name="quality" value="high" /><param name="bgcolor" value="#ffffff" />	<embed src="geo.swf" quality="high" bgcolor="#ffffff" width="100%" height="100%" name="geo" align="middle" allowScriptAccess="always" allowFullScreen="false" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" />
+	</object>
+</noscript>
+      </div>
+    </div>
+    <div id="main2">
+    </div>
+  </div>
+</body>
+</html>
