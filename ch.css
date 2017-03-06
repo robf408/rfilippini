@@ -1,0 +1,51 @@
+body {
+	font-family: Helvetica,Arial,SimSun;
+}
+
+table {
+//	table-layout: fixed;
+	width: 100%;
+}
+	
+table, th, td {
+    border: 1px solid black;
+	border-collapse: collapse;
+	padding: 2px 5px;
+}
+tbody {
+    cursor:pointer;
+}
+#cht {
+    width: 32%;
+	padding:0px;
+}
+#chs {
+    width: 32%;
+	padding:0px;
+}
+.tr_s_diff {
+  background-color: #c0c0c0;
+}
+.cht {
+    font-size: 48px;
+	font-family: YaHei, SimSun;
+	font-weight: normal;
+//	word-wrap: "break-word";
+}
+.chs {
+    font-size: 48px;
+	font-family: YaHei, SimSun;
+	font-weight: normal;
+//	word-wrap: "break-word";
+}
+.py {
+    font-size: 24px;
+	width: 18%;
+}
+.en {
+    font-size: 18px;
+	width: 18%
+}
+.s {
+  width: 64px;
+}
