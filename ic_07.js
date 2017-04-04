@@ -13,14 +13,14 @@ var readAloud = "http://s3.amazonaws.com/chinesepod.com/1979/5edac646bcdcf5a659b
 var record = "http://s3.amazonaws.com/chinesepod.com/2316/1cb5bc01bed6a3e854b8f77a436bdd6cd99680ef/mp3/64/chinesepod_6805_dialogue_62309_prototype_153454_122278.mp3";
 
 var ic_07 = [
-[pen, "一支筆,還有一張紙。", "一枝笔，还有一张纸。", "Yī zhī bǐ, háiyǒu yī zhāng zhǐ.", "A pen, and a piece of paper."],
-[slow, "你可以說得慢一點嗎？", "你可以说得慢一点吗？", "Nǐ kěyǐ shuō de màn yīdiǎn ma?", "Can you speak a little slower?"],
-[review, "考試前我沒有復習，"+z+"所以考得不好。", "考试前我没有复习，"+z+"所以考得不好。", "Kǎoshì qián wǒ méiyǒu fùxí, suǒyǐ kǎo dé bù hǎo.", "I didn't review before the test, so I did poorly."],
+[pen, "一支筆,還有"+z+"一張紙。", "一枝笔，还有"+z+"一张纸。", "Yī zhī bǐ, háiyǒu yī zhāng zhǐ.", "A pen, and a piece of paper."],
+[slow, "你可以說得慢"+z+"一點嗎？", "你可以说得慢"+z+"一点吗？", "Nǐ kěyǐ shuō de màn yīdiǎn ma?", "Can you speak a little slower?"],
+[review, "考試前我沒有"+z+"復習，所以考得"+z+"不好。", "考试前我没有"+z+"复习，所以考得"+z+"不好。", "Kǎoshì qián wǒ méiyǒu fùxí, suǒyǐ kǎo dé bù hǎo.", "I didn't review before the test, so I did poorly."],
 [easy, "沒想到這麼"+z+"容易就買到票了！", "没想到这么"+z+"容易就买到票了！", "Méi xiǎngdào zhème róngyì jiù mǎi dào piàole!", "I had no idea it would be so easy to buy a ticket."],
 [preview, "預習", "预习", "yùxí", "to preview, study in advance"],
-[homework, "你每天都複習功課嗎？", "你每天都复习功课吗？", "Nǐ měitiān dōu fùxí gōngkè ma?", "Do you review your homework every day?"],
+[homework, "你每天都複習"+z+"功課嗎？", "你每天都复习"+z+"功课吗？", "Nǐ měitiān dōu fùxí gōngkè ma?", "Do you review your homework every day?"],
 [start, "我們開始上課。", "我们开始上课。", "Wǒmen kāishǐ shàngkè.", "Let's begin class."],
 [started, "會議剛開始，"+z+"你快進去吧。", "会议刚开始，"+z+"你快进去吧。", "Huìyì gāng kāishǐ, nǐ kuài jìnqù ba.", "The meeting just started. Hurry and go in."],
-[readAloud, "老師，這個字怎麼念？", "老师，这个字怎么念？", "Lǎoshī, zhège zì zěnme niàn?", "Teacher, how do you read this character?"],
-[record, "好，下面準備錄音，"+z+"請看我的手勢。", "好，下面准备录音，"+z+"请看我的手势。", "Hǎo, xiàmiàn zhǔnbèi lùyīn, qǐng kàn wǒ de shǒushì.", "Okay, next we're going to start recording. Please watch for my signal."]
+[readAloud, "老師，這個字"+z+"怎麼念？", "老师，这个字"+z+"怎么念？", "Lǎoshī, zhège zì zěnme niàn?", "Teacher, how do you read this character?"],
+[record, "好，下面準備"+z+"錄音，請看我的"+z+"手勢。", "好，下面准备"+z+"录音，请看我的"+z+"手势。", "Hǎo, xiàmiàn zhǔnbèi lùyīn, qǐng kàn wǒ de shǒushì.", "Okay, next we're going to start recording. Please watch for my signal."]
 ];

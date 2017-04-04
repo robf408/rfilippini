@@ -13,14 +13,14 @@ var comeOut = "http://s3.amazonaws.com/chinesepod.com/0379/a639717f5e3d930848857
 
 var ic_13 = [
 [sport, "我做好作業，"+z+"然後去運動。", "我做好作业，"+z+"然后去运动。", "Wǒ zuò hǎo zuòyè, ránhòu qù yùndòng.", "I will finish my assignment, then go exercise."],
-[center, "我來運動啊，"+z+"三樓有個健身中心。", "我来运动啊，"+z+"三楼有个健身中心。", "Wǒ lái yùndòng a, sān lóu yǒu gè jiànshēn zhōngxīn.", "I came to work out, there's a gym on the third floor."],
+[center, "我來運動啊，三樓"+z+"有個健身中心。", "我来运动啊，三楼"+z+"有个健身中心。", "Wǒ lái yùndòng a, sān lóu yǒu gè jiànshēn zhōngxīn.", "I came to work out, there's a gym on the third floor."],
 [from, "書店離學校不遠。", "书店离学校不远。", "Shūdiàn lí xuéxiào bù yuǎn.", "The bookstore is not far from the school."],
 [back, "他坐在後面，"+z+"什麼都聽不清。", "他坐在后面，"+z+"什么都听不清。", "Tā zuò zài hòumiàn, shénme dōu tīng bù qīng.", "He is sitting in the back, and can't hear anything clearly."], 
 [right, "前面右拐。", "前面右拐。", "Qiánmiàn yòu guǎi.", "Turn right up ahead."],
-[pass, "過了紅綠燈就到了。", "过了红绿灯就到了。", "Guòle hónglǜdēng jiù dàole.", "Just pass the traffic light and you're there."],
-[straight, "一直往前走100米。", "一直往前走100米。", "Yīzhí wǎng qián zǒu 100 mǐ.", "Go 100 meters straight ahead!"],
+[pass, "過了紅綠燈"+z+"就到了。", "过了红绿灯"+z+"就到了。", "Guòle hónglǜdēng jiù dàole.", "Just pass the traffic light and you're there."],
+[straight, "一直往前走"+z+"100米。", "一直往前走"+z+"100米。", "Yīzhí wǎng qián zǒu 100 mǐ.", "Go 100 meters straight ahead!"],
 [intersection, "那你一直往前走，"+z+"在第二個路口，"+z+"右轉，就到了。", "那你一直往前走，"+z+"在第二个路口，"+z+"右转，就到了。", "Nà nǐ yīzhí wǎng qián zǒu, zài dì èr gè lùkǒu, yòu zhuǎn, jiù dàole.", "Go straight ahead, turn right at the second intersection, and you'll be there."],
 [map, "大家看，"+z+"這是台灣的地圖。", "大家看，"+z+"这是台湾的地图。", "Dàjiā kàn, zhè shì táiwān dì dìtú.", "Everyone look. This is a map of Taiwan."],
-[comeOut, "我從郵局出來，往東走。", "我从邮局出来，往东走。", "Wǒ cóng yóujú chūlái, wǎng dōng zǒu.", "I come out of the post office and head east."]
+[comeOut, "我從郵局出來，"+z+"往東走。", "我从邮局出来，"+z+"往东走。", "Wǒ cóng yóujú chūlái, wǎng dōng zǒu.", "I come out of the post office and head east."]
 
 ];

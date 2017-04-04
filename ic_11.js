@@ -12,13 +12,13 @@ var fun = "http://s3.amazonaws.com/chinesepod.com/2611/6faf3fc6dd81dc2d0eb5412b9
 
 
 var ic_11 = [
-[mess, "一直下雨，真糟糕！", "一直下雨，真糟糕！", "Yīzhí xià yǔ, zhēn zāogāo!", "It's been raining for a long time--- what a mess!"],
+[mess, "一直下雨，"+z+"真糟糕！", "一直下雨，"+z+"真糟糕！", "Yīzhí xià yǔ, zhēn zāogāo!", "It's been raining for a long time--- what a mess!"],
 [snow, "冬天下雪嗎？", "冬天下雪吗？", "Dōngtiān xià xuě ma?", "Does it snow in the winter?"],
 [iceSkate, "我會滑冰，"+z+"我想兩個差不多。", "我会滑冰，"+z+"我想两个差不多。", "Wǒ huì huábīng, wǒ xiǎng liǎng gè chàbùduō.", "I know how to ice skate. I thought there wasn't much difference between the two."],
 [dvd, "最近有什麼新碟？", "最近有什么新碟？", "Zuìjìn yǒu shé me xīn dié?", "What new DVDs have you gotten in recently?"],
 [warm, "明天要降溫，"+z+"你穿得暖和一點。", "明天要降温，"+z+"你穿得暖和一点。", "Míngtiān yào jiàngwēn, nǐ chuān dé nuǎnhuo yīdiǎn.", "Tomorrow it will cool down. Wear some warmer clothes."],
 [park, "他每天早上都"+z+"去公園鍛煉身體。", "他每天早上都"+z+"去公园锻炼身体。", "Tā měitiān zǎoshang dōu qù gōngyuán duànliàn shēntǐ.", "Every morning he goes to the park to exercise."],
-[nice, "秋天真的很舒服，"+z+"但是我覺得夏天最好！", "秋天真的很舒服，"+z+"但是我觉得夏天最好！", "Qiūtiān zhēn de hěn shūfú, dànshì wǒ juédé xiàtiān zuì hǎo!", "Autumn is really nice, but I think Summer is the best!"],
+[nice, "秋天真的很舒服，"+z+"但是我覺得夏天"+z+"最好！", "秋天真的很舒服，"+z+"但是我觉得夏天"+z+"最好！", "Qiūtiān zhēn de hěn shūfú, dànshì wǒ juédé xiàtiān zuì hǎo!", "Autumn is really nice, but I think Summer is the best!"],
 [ca, "啊？因為我是在"+z+"加州長大的...", "啊？因为我是在"+z+"加州长大的...", "A? Yīnwèi wǒ shì zài jiāzhōu zhǎngdà de...", "Huh? That's because I grew up in California..."],
 [fun, "怎麼樣？好玩嗎？", "怎么样？好玩吗？", "Zěnme yàng? Hǎowán ma?", "How was it? Was it fun?"]
 

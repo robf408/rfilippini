@@ -15,12 +15,12 @@ var subway = "http://s3.amazonaws.com/chinesepod.com/0814/03181a41813725d0ebd80a
 var airport = "http://s3.amazonaws.com/chinesepod.com/1070/c6011e9bb0ddc81e417862551c9b7c656aa17d32/mp3/64/rec-1230764563781-8.mp3";
 
 var ic_10 = [
-[airplane, "她坐飛機去北京了。", "她坐飞机去北京了。", "Tā zuò fēijī qù běijīngle.", "She went to Beijing by plane."],
+[airplane, "她坐飛機去"+z+"北京了。", "她坐飞机去"+z+"北京了。", "Tā zuò fēijī qù běijīngle.", "She went to Beijing by plane."],
 [transportation, 
-"嗯，其實我一直"+z+"覺得公共交通"+z+"系統很不錯。"+z+"軌道和地面交通"+z+"四通八達。公共汽車"+z+"還有專門的車道，"+z+"開得比汽車還快。"+z+"而且收費也非常低。", 
-"嗯，其实我一直"+z+"觉得公共交通"+z+"系统很不错。"+z+"轨道和地面交通"+z+"四通八达。公共汽车"+z+"还有专门的车道，"+z+"开得比汽车还快。"+z+"而且收费也非常低。", 
+"嗯，其實我一直"+z+"覺得公共交通"+z+"系統很不錯。"+z+"軌道和地面交通"+z+"四通八達。"+z+"公共汽車還有"+z+"專門的車道，開得"+z+"比汽車還快。而且"+z+"收費也非常低。", 
+"嗯，其实我一直"+z+"觉得公共交通"+z+"系统很不错。"+z+"轨道和地面交通"+z+"四通八达。"+z+"公共汽车还有"+z+"专门的车道，开得"+z+"比汽车还快。而且"+z+"收费也非常低。", 
 "Ń, qíshí wǒ yīzhí juédé gōnggòng jiāotōng xìtǒng hěn bùcuò. Guǐdào hé dìmiàn jiāotōng sìtōngbādá. Gōnggòng qìchē hái yǒu zhuānmén de jū dào, kāi dé bǐ qìchē hái kuài. Érqiě shōufèi yě fēicháng dī.", "Uh-huh. Actually, I’ve always felt that the public transportation system is pretty good. The light-rail and surface transportation goes everywhere. The buses also have special lanes, so they go faster than the cars can. In addition, the fares are very low."],
-[ranhou, "昨天你們去了超市，"+z+"然後去了哪裡？", "昨天你们去了超市，"+z+"然后去了哪里？", "Zuótiān nǐmen qùle chāoshì, ránhòu qùle nǎlǐ?", "You went to the supermarket yesterday. Then where did you go?"],
+[ranhou, "昨天你們去了"+z+"超市，然後去了"+z+"哪裡？", "昨天你们去了"+z+"超市，然后去了"+z+"哪里？", "Zuótiān nǐmen qùle chāoshì, ránhòu qùle nǎlǐ?", "You went to the supermarket yesterday. Then where did you go?"],
 [last, "最後兩片在這裡。", "最后两片在这里。", "Zuìhòu liǎng piàn zài zhèlǐ.", "Here are the last two pieces."],
 [green, "绿茶真好喝。", "绿茶真好喝。", "Lǜchá zhēn hǎo hē.", "Green tea is really delicious."],
 [blue, "那我穿藍色"+z+"的西裝吧。", "那我穿蓝色"+z+"的西装吧。", "Nà wǒ chuān lán sè de xīzhuāng ba.", "Then I'll wear a blue suit."],
@@ -28,7 +28,7 @@ var ic_10 = [
 [taxi, "很少。雖然坐"+z+"出租車很方便，"+z+"但是很貴。", "很少。虽然坐"+z+"出租车很方便，"+z+"但是很贵。", "Hěn shǎo. Suīrán zuò chūzū chē hěn fāngbiàn, dànshì hěn guì.", "Very seldom. Although taking a taxi is convenient, it’s expensive."],
 [car, "每一輛汽車都"+z+"有發動機。", "每一辆汽车都"+z+"有发动机。", "Měi yī liàng qìchē dōu yǒu fādòngjī.", "Every car has an engine."],
 [highway, "先生，我們走"+z+"高速公路好嗎？", "先生，我们走"+z+"高速公路好吗？", "Xiānshēng, wǒmen zǒu gāosù gōnglù hǎo ma?", "Sir, shall we take the highway?"],
-[city, "很多人說，紐約是"+z+"世界上最棒的城市。", "很多人说，纽约是"+z+"世界上最棒的城市。", "Hěnduō rén shuō, niǔyuē shì shìjiè shàng zuì bàng de chéngshì.", "Many people say that New York is the greatest city in the world."],
+[city, "很多人說，紐約是"+z+"世界上最棒的"+z+"城市。", "很多人说，纽约是"+z+"世界上最棒的"+z+"城市。", "Hěnduō rén shuō, niǔyuē shì shìjiè shàng zuì bàng de chéngshì.", "Many people say that New York is the greatest city in the world."],
 [subway, "坐地鐵很方便，"+z+"不過很擠。", "坐地铁很方便，"+z+"不过很挤。", "Zuò dìtiě hěn fāngbiàn, bùguò hěn jǐ.", "Taking the subway is convenient, but it's very crowded."],
 [airport, "我送你去機場。", "我送你去机场。", "Wǒ sòng nǐ qù jīchǎng.", "I'll take you to the airport."]
 
