@@ -22,23 +22,23 @@ var notOnly = "http://s3.amazonaws.com/chinesepod.com/0082/55e33612f1dccdf32ab2b
 
 var post01 = [
 
-[thanks, "我要感謝家人"+z+"給我的鼓勵和支持。", "我要感谢家人"+z+"给我的鼓励和支持。", "Wǒ yào gǎnxiè jiārén gěi wǒ de gǔlì hé zhīchí.", "I want to thank my family for the encouragement and support they have given me."],
+[thanks, "我要感謝家人給"+z+"我的鼓勵和支持。", "我要感谢家人给"+z+"我的鼓励和支持。", "Wǒ yào gǎnxiè jiārén gěi wǒ de gǔlì hé zhīchí.", "I want to thank my family for the encouragement and support they have given me."],
 [turn, "哎，好像不對，"+z+"應該左拐。", "哎，好像不对，"+z+"应该左拐。", "Āi, hǎoxiàng bùduì, yīnggāi zuǒ guǎi.", "Hm, that doesn't seem right. We should turn left."],
 [on, "幫我開燈，好嗎？", "帮我开灯，好吗？", "Bāng wǒ kāi dēng, hǎo ma?", "Can you turn on the light for me please?"],
 [off, "幫我關燈，好嗎？", "帮我关灯，好吗？", "Bāng wǒ guān dēng, hǎo ma?", "Can you turn off the light for me, please?"],
-[clean, "他的房間挺乾淨的。", "他的房间挺干净的。", "Tā de fángjiān tǐng gānjìng de.", "His room is quite clean."],
+[clean, "他的房間挺"+z+"乾淨的。", "他的房间挺"+z+"干净的。", "Tā de fángjiān tǐng gānjìng de.", "His room is quite clean."],
 [meet, "劉小姐，"+z+"很高興認識你。", "刘小姐，"+z+"很高兴认识你。", "Liú xiǎojiě, hěn gāoxìng rènshí nǐ.", "Ms. Liu, I'm very happy to meet you."],
-[been, "我去過北京和上海。", "我去过北京和上海。", "Wǒ qùguò běijīng hé shànghǎi.", "I've been to Beijing and Shanghai."],
+[been, "我去過北京和上海", "我去过北京和上海", "Wǒ qùguò běijīng hé shànghǎi.", "I've been to Beijing and Shanghai."],
 [veg, "因為我不喜歡"+z+"吃蔬菜。", "因为我不喜欢"+z+"吃蔬菜。", "Yīnwèi wǒ bù xǐhuān chī shūcài.", "Because I don't like eating vegetables."],
 [respect, "我們應該尊敬"+z+"老人，照顧孩子。", "我们应该尊敬"+z+"老人，照顾孩子。", "Wǒmen yīnggāi zūnjìng lǎorén, zhàogù háizi.", "We should respect the elderly and take care of the children."],
 [dog, "別擔心。你度假的"+z+"時候，我會好好"+z+"照顧你的狗。", "别担心。你度假的"+z+"时候，我会好好"+z+"照顾你的狗。", "Bié dānxīn. Nǐ dùjià de shíhòu, wǒ huì hǎohǎo zhàogù nǐ de gǒu.", "Don't worry. When you are on vacation I will take good care of your dog."],
 [come, "我希望你能來。", "我希望你能来。", "Wǒ xīwàng nǐ néng lái.", "I hope you are able to come."],
 [chopsticks, "你會用筷子嗎？", "你会用筷子吗？", "Nǐ huì yòng kuàizi ma?", "Can you use chopsticks?"],
 [must, "你必須去火車站。", "你必须去火车站。", "Nǐ bìxū qù huǒchēzhàn.", "You must go to the train station."],
-[call, "你給他打電話了嗎？", "你给他打电话了吗？", "Nǐ gěi tā dǎ diànhuàle ma?", "Did you give him a phone call?"],
+[call, "你給他打電話了"+z+"嗎？", "你给他打电话了"+z+"吗？", "Nǐ gěi tā dǎ diànhuàle ma?", "Did you give him a phone call?"],
 [say, "有些話我"+z+"憋在心裡很久了，"+z+"今天不得不說了。", "有些话我"+z+"憋在心里很久了，"+z+"今天不得不说了。", "Yǒuxiē huà wǒ biē zài xīnlǐ hěnjiǔle, jīntiān bùdé bù shuōle.", "There are some things I've wanted to say that I've kept to myself for a long time. Today I have to say them."],
 [tell, "你怎麼不告訴我？", "你怎么不告诉我？", "Nǐ zěnme bù gàosù wǒ?", "How come you didn't tell me?"],
 [need, "你需要糖嗎？", "你需要糖吗？", "Nǐ xūyào táng ma?", "Do you need sugar?"],
-[need2, "先生，您需要什麼？", "先生，您需要什么？", "Xiānshēng, nín xūyào shénme?", "What do you need, sir?"],
+[need2, "先生，"+z+"您需要什麼？", "先生，"+z+"您需要什么？", "Xiānshēng, nín xūyào shénme?", "What do you need, sir?"],
 [notOnly, "這裡不僅漂亮"+z+"而且乾淨。", "这里不仅漂亮"+z+"而且干净。", "Zhèlǐ bùjǐn piàoliang érqiě gānjìng.", "This place is not only pretty, but also clean."]
 ];

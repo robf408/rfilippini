@@ -29,7 +29,7 @@ var sc01 = [
 [exaggerate, "可能我說得有點"+z+"誇張，但他"+z+"真的很能喝酒。", "可能我说得有点"+z+"夸张，但他"+z+"真的很能喝酒。", "Kěnéng wǒ shuō de yǒudiǎn kuāzhāng, dàn tā zhēn de hěn néng hējiǔ.", "Perhaps I exaggerated a bit, but he can really drink a lot."],
 [use, "王先生從來"+z+"不使用電腦。", "王先生从来"+z+"不使用电脑。", "Wáng xiānshēng cónglái bu shǐyòng diànnǎo.", "Mr. Wang never uses a computer."],
 [express, "老闆表示，"+z+"以後公司會"+z+"提高加班費。", "老板表示，"+z+"以后公司会"+z+"提高加班费。", "Lǎobǎn biǎoshì, yǐhòu gōngsī huì tígāo jiābān fèi.", "Our boss said that the company will raise overtime pay."],
-[express2, "你不太會表達自己"+z+"的感受，你比別的"+z+"孩子更容易生病。", "你不太会表达自己"+z+"的感受，你比别的"+z+"孩子更容易生病。", "Nǐ bù tài huì biǎodá zìjǐ de gǎnshòu, nǐ bǐ bié de hái zǐ gēng róngyì shēngbìng.", "You couldn't express yourself very well and you were more susceptible to illness than other children."],
+[express2, "你不太會表達自己"+z+"的感受，你比別的"+z+"孩子更容易生病。", "你不太会表达自己"+z+"的感受，你比别的"+z+"孩子更容易生病。", "Nǐ bù tài huì biǎodá zìjǐ de gǎnshòu, nǐ bǐ bié de háizi gēng róngyì shēngbìng.", "You couldn't express yourself very well and you were more susceptible to illness than other children."],
 [passAway, "我奶奶去世了。"+z+"我要回老家"+z+"參加葬禮。", "我奶奶去世了。"+z+"我要回老家"+z+"参加葬礼。", "Wǒ nǎinai qùshìle. Wǒ yào huílǎojiā cānjiā zànglǐ.", "My grandmother passed away. I have to go back home and attend the funeral."],
 [simple, "還有一個比較"+z+"簡單的辦法就"+z+"是重複這個動詞。", "还有一个比较"+z+"简单的办法就"+z+"是重复这个动词。", "Hái yǒu yīgè bǐjiào jiǎndān de bànfǎ jiùshì chóngfù zhège dòngcí.", "Another pretty simple way is to reduplicate the verb."],
 [complain, "現在不是抱怨"+z+"的時候。"+z+"我們要想出方案。", "现在不是抱怨"+z+"的时候。"+z+"我们要想出方案。", "Xiànzài bùshì bàoyuàn de shíhòu. Wǒmen yào xiǎngchū fāng'àn.", "Now isn't the time to be complaining. We need to think of a plan."],
@@ -45,7 +45,7 @@ var sc01 = [
 [fan, "真沒想到你是"+z+"她的歌迷！"+z+"我以為你比較喜歡"+z+"重金屬音樂。", "真没想到你是"+z+"她的歌迷！"+z+"我以为你比较喜欢"+z+"重金属音乐。", "Zhēn méi xiǎngdào nǐ shì tā de gēmí! Wǒ yǐwéi nǐ bǐjiào xǐhuān zhòngjīnshǔ yīnyuè.", "I never would have thought you were a fan of hers! I thought you were more into heavy metal."],
 [even, "哎。可是他一點兒"+z+"也不高興，"+z+"甚至還想放棄呢！", "哎。可是他一点儿"+z+"也不高兴，"+z+"甚至还想放弃呢！", "Āi. Kěshì tā yīdiǎn er yě bù gāoxìng, shènzhì hái xiǎng fàngqì ne!", "Agh. But he's not happy about it at all. He's even thinking about forfeiting it."],
 [remember, "我只記住幾個常用"+z+"的電話號碼。", "我只记住几个常用"+z+"的电话号码。", "Wǒ zhǐ jìzhu jǐ gè chángyòng de diànhuà hàomǎ.", "I only remember by heart a few of the phone numbers I use more often."],
-[bei, "你這樣讓水母受到"+z+"更嚴重的驚嚇，"+z+"難怪被咬得"+z+"那麼厲害，"+z+"下次別這樣！", "你这样让水母受到"+z+"更严重的惊吓，"+z+"难怪被咬得"+z+"那么厉害，"+z+"下次别这样！", "Nǐ zhèyàng ràng shuǐmǔ shòudào gèng yánzhòng de jīngxià, nánguài bèi yǎo dé nàme lìhài, xià cì bié zhèyàng!", "You probabl y frightened the jellyfish even more by doing that, no wonder you got stung so badly. Don't do that next time!"],
-[dontworry, "別著急，一會兒就"+z+"變綠燈了。", "别着急，一会儿就"+z+"变绿灯了。", "Bié zhāojí, yīhuǐ'er jiù biàn lǜdēngle.", "Don't worry. It'll change to a green light in a moment."],
+[bei, "你這樣讓水母受到"+z+"更嚴重的驚嚇，"+z+"難怪被咬得"+z+"那麼厲害，"+z+"下次別這樣！", "你这样让水母受到"+z+"更严重的惊吓，"+z+"难怪被咬得"+z+"那么厉害，"+z+"下次别这样！", "Nǐ zhèyàng ràng shuǐmǔ shòudào gèng yánzhòng de jīngxià, nánguài bèi yǎo dé nàme lìhài, xià cì bié zhèyàng!", "You probably frightened the jellyfish even more by doing that, no wonder you got stung so badly. Don't do that next time!"],
+[dontworry, "別著急，一會兒就"+z+"變綠燈了。", "别着急，一会儿就"+z+"变绿灯了。", "Bié zháojí, yīhuǐ'er jiù biàn lǜdēngle.", "Don't worry. It'll change to a green light in a moment."],
 [excited, "馬上就要跟他"+z+"見面了，你們"+z+"激動嗎？", "马上就要跟他"+z+"见面了，你们"+z+"激动吗？", "Mǎshàng jiù yào gēn tā jiànmiànle, nǐmen jīdòng ma?", "You're about to meet him, are you excited?"]
 ];

@@ -20,7 +20,7 @@ var ic_13 = [
 [pass, "過了紅綠燈"+z+"就到了。", "过了红绿灯"+z+"就到了。", "Guòle hónglǜdēng jiù dàole.", "Just pass the traffic light and you're there."],
 [straight, "一直往前走"+z+"100米。", "一直往前走"+z+"100米。", "Yīzhí wǎng qián zǒu 100 mǐ.", "Go 100 meters straight ahead!"],
 [intersection, "那你一直往前走，"+z+"在第二個路口，"+z+"右轉，就到了。", "那你一直往前走，"+z+"在第二个路口，"+z+"右转，就到了。", "Nà nǐ yīzhí wǎng qián zǒu, zài dì èr gè lùkǒu, yòu zhuǎn, jiù dàole.", "Go straight ahead, turn right at the second intersection, and you'll be there."],
-[map, "大家看，"+z+"這是台灣的地圖。", "大家看，"+z+"这是台湾的地图。", "Dàjiā kàn, zhè shì táiwān dì dìtú.", "Everyone look. This is a map of Taiwan."],
+[map, "大家看，"+z+"這是台灣的地圖。", "大家看，"+z+"这是台湾的地图。", "Dàjiā kàn, zhè shì táiwān de dìtú.", "Everyone look. This is a map of Taiwan."],
 [comeOut, "我從郵局出來，"+z+"往東走。", "我从邮局出来，"+z+"往东走。", "Wǒ cóng yóujú chūlái, wǎng dōng zǒu.", "I come out of the post office and head east."]
 
 ];

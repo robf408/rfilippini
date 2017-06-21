@@ -29,5 +29,5 @@ var sc02 = [
 [enter, "中國隊進入"+z+"決賽了。", "中国队进入"+z+"决赛了。", "Zhōngguó duì jìnrù juésàile.", "The Chinese team has entered the finals."],
 [scenery, "你是來這里"+z+"辦事的，"+z+"不是來看風景的。", "你是来这里"+z+"办事的，"+z+"不是来看风景的。", "Nǐ shì lái zhèlǐ bànshì de, bùshì lái kàn fēngjǐng de.", "You came here to work, not to look at the scenery."],
 [wait, "沒辦法了，"+z+"只能在這裡"+z+"耐心地等待了。", "没办法了，"+z+"只能在这里"+z+"耐心地等待了。", "Méi bànfǎle, zhǐ néng zài zhèlǐ nàixīn de děngdàile.", "There's nothing we can do but wait here patiently."],
-[lookForward, "謝謝您，"+z+"那我們就期待"+z+"與您的合作了。", "谢谢您，"+z+"那我们就期待"+z+"与您的合作了。", "Xièxiè nín, nà wǒmen jiù qídài yǔ nín de hézuòle.", "Thank you. We are looking forward to working with you."]
+[lookForward, "謝謝您，"+z+"那我們就期待"+z+"與您的合作了。", "谢谢您，"+z+"那我们就期待"+z+"与您的合作了。", "Xièxie nín, nà wǒmen jiù qīdài yǔ nín de hézuòle.", "Thank you. We are looking forward to working with you."]
 ];
