@@ -17,10 +17,10 @@ var prepare = "http://s3.amazonaws.com/chinesepod.com/0633/75be40e6d92e004835fda
 var ic_06 = [
 [who, "餵，哪位？", "喂，哪位？", "wéi, nǎ wèi?", "Hello. Who is this?"],
 [must, "不行，我得走了。", "不行，我得走了。", "Bùxíng, wǒ děi zǒule.", "I can't, I have to go."],
-[convenient, "還可以，地鐵很方便。", "还可以，地铁很方便。", "hái kěyǐ, dìtiě hěn fāngbiàn.", "It was OK. The subway was very convenient."],
+[convenient, "還可以，"+z+"地鐵很方便。", "还可以，"+z+"地铁很方便。", "hái kěyǐ, dìtiě hěn fāngbiàn.", "It was OK. The subway was very convenient."],
 [office, "下午吧。你下午"+z+"到辦公室找我。", "下午吧。你下午"+z+"到办公室找我。", "Xiàwǔ ba. Nǐ xiàwǔ dào bàngōngshì zhǎo wǒ.", "How about this afternoon? Come to my office this afternoon."],
 [grade, "哦，她是三年級的。", "哦，她是三年级的。", "Ó, tā shì sān niánjí de.", "Oh, she's a third-year student."],
-[question, "老師，我有一個問題。", "老师，我有一个问题。", "lǎoshī, wǒ yǒu yīgè wèntí.", "Teacher, I have a question."],
+[question, "老師，"+z+"我有一個問題。", "老师，"+z+"我有一个问题。", "lǎoshī, wǒ yǒu yīgè wèntí.", "Teacher, I have a question."],
 [classes, "你今天有幾節課？", "你今天有几节课？", "nǐ jīntiān yǒu jǐ jié kè?", "How many classes do you have today?"],
 [test, "不行，下個星期"+z+"要考試。", "不行，下个星期"+z+"要考试。", "bùxíng, xià gè xīngqí yào kǎoshì.", "You can't do that. You have a test next week!"],
 [time, "考試的時候"+z+"時間不夠用。", "考试的时候"+z+"时间不够用。", "Kǎoshì de shíhòu shíjiān bù gòuyòng.", "When you're taking an exam there's never enough time."],

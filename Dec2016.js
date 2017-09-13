@@ -19,7 +19,7 @@ var dec2016 = [
   [spoken, "我覺得漢語很難，"+z+"特別是聽力和"+z+"口語。", "我觉得汉语很难，"+z+"特别是听力和"+z+"口语。", "Wǒ juéde hànyǔ hěn nán, tèbié shì tīnglì hé kǒuyǔ.", "I think Chinese is very difficult, especially aural comprehension and spoken language."],
   [dehua, "有空的話，"+z+"我會去的。", "有空的话，"+z+"我会去的。", "Yǒu kòng dehuà, wǒ huì qù de.", "If I have time, I will go."],
   [continu, "吃完飯以後我還得"+z+"繼續工作。", "吃完饭以后我还得"+z+"继续工作。", "Chī wán fàn yǐhòu wǒ hái děi jìxù gōngzuò.", "After I finish eating I had better go on working."],
-  [habit, "我習慣在睡覺前"+z+"喝一杯牛奶。", "我习惯在睡觉前"+z+"喝一杯牛奶。", "Wǒ xíguàn zài shuìjiào qián hè yībēi niúnǎi.", "I'm in the habit of drinking a glass of milk before bed."],
+  [habit, "我習慣在睡覺前"+z+"喝一杯牛奶。", "我习惯在睡觉前"+z+"喝一杯牛奶。", "Wǒ xíguàn zài shuìjiào qián hē yībēi niúnǎi.", "I'm in the habit of drinking a glass of milk before bed."],
   [face, "你早上洗臉刷牙"+z+"要多久？", "你早上洗脸刷牙"+z+"要多久？", "Nǐ zǎoshang xǐliǎn shuāyá yào duōjiǔ?", "How long does it take you to wash your face and brush your teeth in the morning?"],
   [putOn, "穿上外套，"+z+"別感冒了。", "穿上外套，"+z+"别感冒了。", "Chuān shàng wàitào, bié gǎnmàole.", "Put on a jacket, you don't want to catch a cold."],
   [game, "你怎麼一天到晚玩"+z+"電腦遊戲？", "你怎么一天到晚玩"+z+"电脑游戏？", "Nǐ zěnme yītiāndàowǎn wán diànnǎo yóuxì?", "How can you play computer games all day long?"],
