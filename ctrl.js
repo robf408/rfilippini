@@ -58,7 +58,19 @@ ifrm.style.left="0px";
 ifrm.style.zIndex= "-1";
 ifrm.style.visibility = "hidden";
 
+b = document.createElement("DIV");
+b.setAttribute("onclick","removeFrame();")
+b.style.position = "fixed";
+b.style.float = "right";
+b.style.backgroundColor = "red";
+b.style.zIndex="102";
+		var im = document.createElement('IMG');
+		im.setAttribute('src', 'x2.jpg');
+		b.appendChild(im);
+
+		
 idiv.appendChild(ifrm);
+idiv.appendChild(b);
 document.body.appendChild(idiv);
 document.body.style.cursor="progress";
 ifrm.onload = function() {
@@ -86,7 +98,7 @@ function makeNode(n, str, str2) {
 	  if (str2 != null && str.length == str2.length && str[i] != str2[i]) {
 	    ts2.className = "tr_s_diff";
 	  }
-	  ts2.addEventListener("click", function(e) {if (e.ctrlKey || e.shiftKey) {GetCharDetails(this);}});
+	  ts2.addEventListener("click", function(e) {if (1 || e.ctrlKey || e.shiftKey) {e.stopPropagation(); GetCharDetails(this);}});
 	  ts2.appendChild(document.createTextNode(str[i]));
 	  n.appendChild(ts2);
 	}
