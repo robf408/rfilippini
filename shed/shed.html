@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html>
+<body onload="reset(); last()">
+<canvas id="myCanvas" width="1000" height="600" style="border:1px solid #d3d3d3;">
+Your browser does not support the HTML5 canvas tag.</canvas>
+<button onclick="reset()"><<</button>
+<button onclick="prev()"><</button>
+<button onclick="next()">></button>
+<button onclick="last()">>></button>
+<img id="site" hidden="true" width="1339" height="965" src="site.jpg" alt="Site">
+<script>
+
+
+var c = document.getElementById("myCanvas");
+var ctx = c.getContext("2d");
+var img = document.getElementById("site");
+
+var r=20
+var h1=50
+// var L = 500;
+var H = 350; // 300;
+var W1 = 360 - 4*36;
+var W2 = 140 - 4*14;
+var alpha = .20;
+var beta = .20;
+var bw = 8
+var Bw = 2*bw;
+var pw = bw/2;
+var W = W1 + W2 - Bw;
+var L = (3/2)*W;
+var bh = Bw; // 20;
+var x0 = 500; // 550;
+var y0 = 580; // 560;
+var delta = 40;
+var nRafters = 10;
+var ridgeOverHang = (L-bw)/(nRafters - 1); // 40;
+
+var rafterOverHang = 40;
+var H1 = H + 3 * bw + pw; // top of plate
+var ridgeHeight = H1 + (7/11)*W/2;
+
+
+ctx.fillStyle = "brown";
+
+function sheer([x, y, z]) {
+   xL = 2000;
+   yL = 4000;
+   z0 = 100;
+   return [(1-y/yL)*x, (1-x/xL)*y, (1-x/xL - y/yL)*(z-z0) + z0];
+}
+
+function Point(x,y,z) {
+  var p = sheer([x,y,z]);
+  var x1 = x0 - p[0]*Math.cos(alpha) + p[1]*Math.cos(beta);
+  var y1 = y0 - p[0]*Math.sin(alpha) - p[1]*Math.sin(beta) - p[2];
+  return([x1, y1]);
+}
+
+function MoveTo(x,y,z) {
+  var p = Point(x,y,z);
+  ctx.beginPath();
+  ctx.moveTo(p[0], p[1]);
+}
+
+function LineTo(x,y,z) {
+  var p = Point(x,y,z);
+  ctx.lineTo(p[0], p[1]);
+}
+
+function ClosePath() {
+	ctx.closePath();
+	ctx.fill();
+	ctx.stroke();
+}
+
+function DrawPillar(x, y, z, r, h) {
+	var p = Point(x, y, z);
+	var x1 = p[0];
+	var y1 = p[1];
+    var ctx = c.getContext("2d");
+	ctx.resetTransform();
+	ctx.translate(x1,y1);
+	ctx.beginPath();
+	ctx.scale(1.0, .2);
+	ctx.arc(0, 0, r, 0, 2 * Math.PI);
+	ctx.fill();
+	ctx.stroke();
+	
+	ctx.moveTo(-r,0);
+	ctx.lineTo(-r,h);
+	ctx.arc(0, h, r, 2*Math.PI, 3*Math.PI);
+	ctx.lineTo(r,h);
+	ctx.lineTo(r,0);
+	ctx.arc(0, 0, r, 2*Math.PI, Math.PI);
+	ctx.closePath();
+	ctx.fill();
+	ctx.stroke();
+}
+
+function DrawRoof() {
+   var ymin = -rafterOverHang;
+   var ymax = W/2 - bw/2;
+   var zmax = ridgeHeight;
+   var zmin = H1 - bw;
+   var zL = bh;
+   var x = -ridgeOverHang;
+   var xM = L + ridgeOverHang;
+   
+	ctx.resetTransform()
+	MoveTo(x, ymax, zmax);
+	LineTo(x, ymin, zmin);
+	LineTo(xM, ymin, zmin);
+	LineTo(xM, ymax, zmax);
+	ClosePath();
+}
+	
+function DrawRafter(x, isOnEnd) {
+   var ymin = -rafterOverHang;
+   var ymax = W/2 - bw/2;
+   var zmax = ridgeHeight;
+   var zmin = H1 - bw;
+   var zL = bh;
+   var y = ymax;
+   var z = zmax;
+	ctx.resetTransform()
+	
+	ctx.beginPath();
+	MoveTo(x, ymax, zmax);
+	LineTo(x, ymin, zmin);
+	LineTo(x+bw, ymin, zmin);
+	LineTo(x+bw, ymax, zmax);
+	ctx.closePath();
+	ctx.fill();
+	ctx.stroke();
+	
+	MoveTo(x+bw, ymin, zmin);
+	LineTo(x, ymin, zmin);
+	LineTo(x, ymin, zmin-zL);
+	LineTo(x+bw, ymin, zmin-zL);
+	ctx.closePath();
+	ctx.fill();
+	ctx.stroke();
+
+	MoveTo(x, ymax, zmax - zL);
+	MoveTo(x, ymax, zmax);
+	LineTo(x, ymin, zmin);
+	LineTo(x, ymin, zmin-zL);
+
+	var y00 = isOnEnd ? 0 : -pw;
+	var d = (y00 - ymin)/(ymax - ymin);
+	var z00 = (1-d)*zmin + d*zmax;
+
+	LineTo(x, y00, z00 - zL);
+	LineTo(x, y00, H1);
+	
+	var slope = (zmax - zmin)/(ymax - ymin);
+	var dy = (H1 - (z00 - zL))/slope;
+	
+	LineTo(x, y00+dy, H1);
+	LineTo(x, ymax, zmax - zL);
+	ctx.closePath();
+	ctx.fill();
+	ctx.stroke();
+}
+
+function DrawRearRafter(x, isOnEnd) {
+   var ymin = -rafterOverHang;
+   var ymax = W/2 - bw/2;
+   var zmax = ridgeHeight;
+   var zmin = H1 - bw;
+   var zL = bh;
+   var y = ymax;
+   var z = zmax;
+   	var x1 = x0 - x*Math.cos(alpha) + (W-ymax)*Math.cos(beta);
+	var y1 = y0 - x*Math.sin(alpha) - (W-ymax)*Math.sin(beta) - zmax;
+	ctx.resetTransform()
+	
+	ctx.beginPath();
+	MoveTo(x, W-ymax, zmax - zL);
+	LineTo(x, W-ymax, zmax);
+	LineTo(x, W-ymin, zmin);
+	LineTo(x, W-ymin, zmin-zL);
+
+	var y00 = isOnEnd? W : W+pw;
+	var d = (y00 - (W-ymin))/((W-ymax) - (W-ymin));
+	var z00 = (1-d)*zmin + d*zmax;
+	LineTo(x, y00, z00-zL);
+	LineTo(x, y00, H1);
+	
+	var slope = -(zmax - zmin)/(ymax - ymin);
+	var dy = (H1 - (z00 - zL))/slope;
+	LineTo(x, y00+dy, H1);
+	
+	ctx.closePath();
+	ctx.fill();
+	ctx.stroke();
+}
+
+function DrawParallelogram(p, u, v) {
+	ctx.beginPath();
+	MoveTo(p[0], p[1], p[2]);
+	LineTo(p[0] + u[0], p[1] + u[1], p[2] + u[2]);
+	LineTo(p[0] + u[0] + v[0], p[1] + u[1] + v[1], p[2] + u[2] + v[2]);
+	LineTo(p[0] + v[0], p[1] + v[1], p[2] + v[2]);
+	ctx.closePath();
+	ctx.fill();
+	ctx.stroke();
+}
+
+function DrawBoard(x, y, z, xL, yL, zL) {
+	ctx.resetTransform()
+	DrawParallelogram([x,y,z+zL], [xL,0,0], [0,0,-zL])
+	DrawParallelogram([x,y,z+zL], [0,yL,0], [0,0,-zL])
+	DrawParallelogram([x,y,z+zL], [xL,0,0], [0,yL,0])
+}
+
+function DrawXYFrame(x, y, z, xL, yL, Bw, bw, bh, nL) {
+	DrawBoard(x, y + yL - Bw, z, xL, Bw, bh);
+	DrawBoard(x + xL - Bw, y + Bw, z, Bw, yL - 2*Bw, bh);
+	for (i = 1; i < nL; i++) { 
+	  var d = xL - Bw - (xL - 2*Bw + bw)*i/nL;
+      DrawBoard(x + d, y + Bw, z, bw, yL - 2*Bw, bh);
+    }
+	DrawBoard(x, y + Bw, z, Bw, yL - 2*Bw, bh);
+	DrawBoard(x, y, z, xL, Bw, bh);
+}
+
+function DrawXZFrame(x, y, z, xL, zL, Bw, bw, bh, nL) {
+	DrawBoard(x, y, z, xL, bh, bw); // bottom
+	DrawBoard(x + xL - bw, y, z + bw, bw, bh, zL - 2*bw);
+	for (i = 1; i < nL; i++) { 
+	  var d = xL - Bw - (xL - 2*Bw + bw)*i/nL;
+	  DrawBoard(x + d, y, z + bw, bw, bh, zL - 2*bw);
+    }
+	DrawBoard(x, y, z + bw, bw, bh, zL - 2*bw);
+	DrawBoard(x, y, z + zL - bw, xL, bh, bw); 
+}
+
+function DrawYZFrame(x,y,z, yL, zL, Bw, bw, bh, nL, skipTop) {
+	DrawBoard(x, y, z, bh, yL, Bw); // bottom
+	DrawBoard(x, y + yL - Bw, z + Bw, bh, Bw, zL - 2*Bw); // backmost vertical
+	for (i = 1; i < nL; i++) { 
+	  var d = yL - Bw - (yL - 2*Bw + bw)*i/nL;
+	  DrawBoard(x, y + d, z + Bw, bh, bw, zL - 2*bw);
+    }	
+	DrawBoard(x, y, z + Bw, bh, Bw, zL - 2*Bw); // frontmost vertical
+	if (! skipTop) {
+		DrawBoard(x, y, z + zL - bw, bh, yL, bw); // top
+	}
+}
+
+function Draw45(y) {
+    var D = .75*ridgeOverHang;
+	var d = Bw;
+	var x = -pw;
+    var z = H1 - bw - D;
+	ctx.resetTransform()	
+	ctx.beginPath();
+	
+	MoveTo(x, y, z+d);
+	LineTo(x, y, z);
+	LineTo(x-D, y, z+D);
+	LineTo(x-D+d, y, z+D);
+	ctx.closePath();
+	ctx.fill();
+	ctx.stroke();
+	
+	MoveTo(x, y, z);
+	LineTo(x, y+Bw, z);
+	LineTo(x-D, y+Bw, z+D);
+	LineTo(x-D, y, z+D);
+	ctx.closePath();
+	ctx.fill();
+	ctx.stroke();
+}
+/*********************************************/
+function f1() {
+	ctx.fillStyle = "blue";
+	DrawXYFrame(0, 0, 0, L, W1, Bw, bw, bh, 6);
+}
+
+function f2() {
+	ctx.fillStyle = "green";
+	DrawBoard(0, 0, bh, L, W1, pw);
+}
+
+function f3() {
+	ctx.fillStyle = "brown";
+	DrawBoard(0, W1 - Bw, bh + pw, L, bh, bw);
+	DrawXYFrame(0, W1 - Bw, bh + pw + bw, L, W2, Bw, bw, bh, 6);
+}
+function f3b() {
+	ctx.fillStyle = "green";
+	DrawBoard(0, W1 - Bw, 2*bh + pw + bw, L, W2, pw);
+}
+// backwall
+function f5() {
+	ctx.fillStyle = "brown";
+	DrawXZFrame(Bw, W - Bw, 2*bh + 2*pw + bw, L-2*Bw, H - Bw - bw - pw, bw, bw, bh, 9);
+}
+
+function f4() {
+	DrawYZFrame(L - Bw, W1 - Bw, 2*bh + 2*pw + bw, W2, H - Bw - bw - pw, bw, bw, bh, 2, true);
+	DrawYZFrame(L - Bw, 0, bh + pw, W1 - Bw, H, bw, bw, bh, 4, true);
+	DrawBoard(L - Bw, 0, H + bw + pw, bh, W, bw); // top
+}
+
+function f7() {
+	ctx.fillStyle = "red";
+	DrawYZFrame(0, W1 - Bw, 2*bh + 2*pw + bw, W2, H - Bw - bw - pw, bw, bw, bh, 2, true);
+	DrawBoard(0, W1 - Bw - bw, bh + pw, bh, bw, H - bw);
+	DrawBoard(0, W2, Bw + pw, bh, bw, H - bw);
+	DrawYZFrame(0, 0, bh + pw, W2, H, bw, bw, bh, 2, true);
+	DrawBoard(0, 0, H + bw + pw, bh, W, bw); // top
+}
+
+function f6() {
+	ctx.fillStyle = "brown";
+	DrawXZFrame(Bw, 0, bh + pw, L - 2*Bw, H, bw, bw, bh, 9);
+}
+
+function f7b() {
+	ctx.fillStyle = "CC3333";
+	DrawBoard(-ridgeOverHang, W - Bw, H + 2*bw + pw, L + 2*ridgeOverHang, bh, bw);
+	DrawBoard(L - Bw, Bw, H + 2* bw + pw, bh, W - 2*Bw , bw); // top
+	DrawBoard(0, Bw, H + 2* bw + pw, bh, W - 2*Bw , bw);
+	DrawBoard(-ridgeOverHang, 0, H + 2*bw + pw, L + 2*ridgeOverHang, bh, bw);
+}
+
+function f8() {
+	// T111
+	ctx.globalAlpha=0.9;
+	ctx.fillStyle = "#997A56";
+	DrawBoard(0, -pw, 0, L, pw, H1)
+	ctx.globalAlpha=1.0;
+	f7b()
+}
+
+function f8b() {
+	// T111
+	ctx.globalAlpha=0.9;
+	ctx.fillStyle = "#997A56";
+	DrawBoard(-pw, -pw, 0, pw, W2 + bw + pw, H1 - bw)
+	ctx.globalAlpha=1.0;
+	f7b()
+}
+
+function f8c() {
+	ctx.fillStyle = "blue";
+	Draw45(0);
+	Draw45(W - Bw);
+	f7b()
+}
+
+function f9() {
+	DrawBoard(-ridgeOverHang, W/2 - bw/2, ridgeHeight - bh, L + 2*ridgeOverHang, bw, bh);
+}
+
+function f10() {
+	ctx.fillStyle = "orange";
+	
+	DrawRearRafter(L + ridgeOverHang - bw, true);
+	for(i = 0; i<nRafters ; i++) {
+	  DrawRearRafter(L - bw - i*(L-bw)/(nRafters - 1), false);
+	}
+	DrawRearRafter(-ridgeOverHang, true);
+
+	f9();
+	f7b();
+	DrawRafter(L + ridgeOverHang - bw, true);
+	for(i = 0; i<nRafters ; i++) {
+	  DrawRafter(L - bw - i*(L-bw)/(nRafters - 1), false);
+	}
+	DrawRafter(-ridgeOverHang, true);
+}
+
+function f11() {
+	ctx.fillStyle = "black";
+	ctx.globalAlpha=.70;
+	DrawRoof();
+	ctx.globalAlpha=1.0;
+}
+
+function f0() {
+	ctx.resetTransform(); 
+	ctx.clearRect(0, 0, c.width, c.height); 
+	ctx.scale(1000/1339, 600/965);
+    ctx.drawImage(img, 0, 0);
+	DrawPillars();
+}
+
+function DrawPillars() {
+	DrawPillar(bw, bw, 0, r, 2*h1);
+	DrawPillar(L - bw, bw, 0, r, 2*h1);
+	DrawPillar(L/3, bw, 0, r, 2*h1);
+	DrawPillar(2*L/3, bw, 0, r, 2*h1);
+
+	DrawPillar(bw, W1 - bw, 0, r, h1);
+	DrawPillar(L - bw, W1 - bw, 0, r, h1);
+	DrawPillar(L/3, W1 - bw, 0, r, h1);
+	DrawPillar(2*L/3, W1 - bw, 0, r, h1);
+
+	var dd = Bw + bw + pw;
+	DrawPillar(bw, W - bw, dd, r, h1);
+	DrawPillar(L - bw, W - bw, dd, r, h1);
+	DrawPillar(L/3, W - bw, dd, r, h1);
+	DrawPillar(2*L/3, W - bw, dd, r, h1);
+}
+
+var ndx = -1;
+var array_of_functions = 
+	[f0, f1, f2, f3, f3b, f4, f5, f6, f7, f7b, f8, f8b, f8c, f9, f10, f11];
+
+function reset() {
+  ndx = -1;
+  next();
+}
+function prev() {
+  if (ndx > 0) {
+    var step = ndx;
+	reset();
+	while(ndx < step - 1) {
+	  next();
+	}
+  }
+}
+function next() {
+	if (ndx < 16) {
+		ndx++;
+		array_of_functions[ndx]();
+	}
+}
+function last() {
+  while(ndx < 16) {
+    next(); 
+  }
+}
+
+last();
+</script>
+
+
+</body>
+</html>
