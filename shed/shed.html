@@ -10,50 +10,70 @@ Your browser does not support the HTML5 canvas tag.</canvas>
 <img id="site" hidden="true" width="1339" height="965" src="site.jpg" alt="Site">
 <script>
 
-
+var debug = false;
 var c = document.getElementById("myCanvas");
 var ctx = c.getContext("2d");
 var img = document.getElementById("site");
 
 var r=20
 var h1=50
-// var L = 500;
 var H = 350; // 300;
-var W1 = 360 - 4*36;
-var W2 = 140 - 4*14;
-var alpha = .20;
-var beta = .20;
+var W1 = 360 - 2*36;
+var W2 = 140 - 2*14;
 var bw = 8
 var Bw = 2*bw;
 var pw = bw/2;
 var W = W1 + W2 - Bw;
 var L = (3/2)*W;
-var bh = Bw; // 20;
-var x0 = 500; // 550;
-var y0 = 580; // 560;
-var delta = 40;
+var bh = Bw;
+var x0 = 500;
+var y0 = 560;
 var nRafters = 10;
 var ridgeOverHang = (L-bw)/(nRafters - 1); // 40;
-
 var rafterOverHang = 40;
 var H1 = H + 3 * bw + pw; // top of plate
 var ridgeHeight = H1 + (7/11)*W/2;
 
-
 ctx.fillStyle = "brown";
 
-function sheer([x, y, z]) {
-   xL = 2000;
-   yL = 4000;
-   z0 = 100;
-   return [(1-y/yL)*x, (1-x/xL)*y, (1-x/xL - y/yL)*(z-z0) + z0];
+function dp(u,v) {
+  return u[0]*v[0]+u[1]*v[1]+u[2]*v[2];
+}
+function cross(u, v) {
+  return [u[1]*v[2]-u[2]*v[1], u[2]*v[0]-u[0]*v[2], u[0]*v[1]-u[1]*v[0]];
+}
+function sub(u,v) {
+  return [u[0] - v[0], u[1] - v[1], u[2] - v[2]];
+}
+function sum(u,v) {
+  return [u[0] + v[0], u[1] + v[1], u[2] + v[2]];
+}
+function mul(a, u) {
+  return [a*u[0], a*u[1], a*u[2]];
+}
+function norm(u) {
+  return mul(1/Math.sqrt(dp(u,u)), u);
 }
 
+var u1 = [0, 0, H1/2];
+var ue = [-4.0*L, -4.3*W, 1.1*H1];
+var n = norm(sub(u1, ue));
+var a = dp(n, u1);
+var nDue = dp(n, ue);
+  
+function proj(v) {
+  // project to plane: n1*x + n2*y + n3*z = a
+  var lambda = (a + nDue)/(dp(n,v) - nDue);
+  return sum(ue, mul(lambda, sub(v, ue)));
+}
+
+var o = proj([0,0,0]);
+var k = norm(sub(o, proj([0,0,1])));
+var i = cross(n, k);  
+
 function Point(x,y,z) {
-  var p = sheer([x,y,z]);
-  var x1 = x0 - p[0]*Math.cos(alpha) + p[1]*Math.cos(beta);
-  var y1 = y0 - p[0]*Math.sin(alpha) - p[1]*Math.sin(beta) - p[2];
-  return([x1, y1]);
+  var p = sub(proj([x,y,z]), o);
+  return([x0 + dp(p,i), y0 + dp(p,k)]);
 }
 
 function MoveTo(x,y,z) {
@@ -102,7 +122,6 @@ function DrawRoof() {
    var ymax = W/2 - bw/2;
    var zmax = ridgeHeight;
    var zmin = H1 - bw;
-   var zL = bh;
    var x = -ridgeOverHang;
    var xM = L + ridgeOverHang;
    
@@ -129,17 +148,13 @@ function DrawRafter(x, isOnEnd) {
 	LineTo(x, ymin, zmin);
 	LineTo(x+bw, ymin, zmin);
 	LineTo(x+bw, ymax, zmax);
-	ctx.closePath();
-	ctx.fill();
-	ctx.stroke();
+	ClosePath();
 	
 	MoveTo(x+bw, ymin, zmin);
 	LineTo(x, ymin, zmin);
 	LineTo(x, ymin, zmin-zL);
 	LineTo(x+bw, ymin, zmin-zL);
-	ctx.closePath();
-	ctx.fill();
-	ctx.stroke();
+	ClosePath();
 
 	MoveTo(x, ymax, zmax - zL);
 	MoveTo(x, ymax, zmax);
@@ -158,9 +173,7 @@ function DrawRafter(x, isOnEnd) {
 	
 	LineTo(x, y00+dy, H1);
 	LineTo(x, ymax, zmax - zL);
-	ctx.closePath();
-	ctx.fill();
-	ctx.stroke();
+	ClosePath();
 }
 
 function DrawRearRafter(x, isOnEnd) {
@@ -171,8 +184,6 @@ function DrawRearRafter(x, isOnEnd) {
    var zL = bh;
    var y = ymax;
    var z = zmax;
-   	var x1 = x0 - x*Math.cos(alpha) + (W-ymax)*Math.cos(beta);
-	var y1 = y0 - x*Math.sin(alpha) - (W-ymax)*Math.sin(beta) - zmax;
 	ctx.resetTransform()
 	
 	ctx.beginPath();
@@ -191,9 +202,7 @@ function DrawRearRafter(x, isOnEnd) {
 	var dy = (H1 - (z00 - zL))/slope;
 	LineTo(x, y00+dy, H1);
 	
-	ctx.closePath();
-	ctx.fill();
-	ctx.stroke();
+	ClosePath();
 }
 
 function DrawParallelogram(p, u, v) {
@@ -202,9 +211,7 @@ function DrawParallelogram(p, u, v) {
 	LineTo(p[0] + u[0], p[1] + u[1], p[2] + u[2]);
 	LineTo(p[0] + u[0] + v[0], p[1] + u[1] + v[1], p[2] + u[2] + v[2]);
 	LineTo(p[0] + v[0], p[1] + v[1], p[2] + v[2]);
-	ctx.closePath();
-	ctx.fill();
-	ctx.stroke();
+	ClosePath();
 }
 
 function DrawBoard(x, y, z, xL, yL, zL) {
@@ -217,7 +224,8 @@ function DrawBoard(x, y, z, xL, yL, zL) {
 function DrawXYFrame(x, y, z, xL, yL, Bw, bw, bh, nL) {
 	DrawBoard(x, y + yL - Bw, z, xL, Bw, bh);
 	DrawBoard(x + xL - Bw, y + Bw, z, Bw, yL - 2*Bw, bh);
-	for (i = 1; i < nL; i++) { 
+	
+	for (var i = 1; i < nL; i++) { 
 	  var d = xL - Bw - (xL - 2*Bw + bw)*i/nL;
       DrawBoard(x + d, y + Bw, z, bw, yL - 2*Bw, bh);
     }
@@ -228,7 +236,7 @@ function DrawXYFrame(x, y, z, xL, yL, Bw, bw, bh, nL) {
 function DrawXZFrame(x, y, z, xL, zL, Bw, bw, bh, nL) {
 	DrawBoard(x, y, z, xL, bh, bw); // bottom
 	DrawBoard(x + xL - bw, y, z + bw, bw, bh, zL - 2*bw);
-	for (i = 1; i < nL; i++) { 
+	for (var i = 1; i < nL; i++) { 
 	  var d = xL - Bw - (xL - 2*Bw + bw)*i/nL;
 	  DrawBoard(x + d, y, z + bw, bw, bh, zL - 2*bw);
     }
@@ -239,7 +247,7 @@ function DrawXZFrame(x, y, z, xL, zL, Bw, bw, bh, nL) {
 function DrawYZFrame(x,y,z, yL, zL, Bw, bw, bh, nL, skipTop) {
 	DrawBoard(x, y, z, bh, yL, Bw); // bottom
 	DrawBoard(x, y + yL - Bw, z + Bw, bh, Bw, zL - 2*Bw); // backmost vertical
-	for (i = 1; i < nL; i++) { 
+	for (var i = 1; i < nL; i++) { 
 	  var d = yL - Bw - (yL - 2*Bw + bw)*i/nL;
 	  DrawBoard(x, y + d, z + Bw, bh, bw, zL - 2*bw);
     }	
@@ -255,23 +263,18 @@ function Draw45(y) {
 	var x = -pw;
     var z = H1 - bw - D;
 	ctx.resetTransform()	
-	ctx.beginPath();
 	
 	MoveTo(x, y, z+d);
 	LineTo(x, y, z);
 	LineTo(x-D, y, z+D);
 	LineTo(x-D+d, y, z+D);
-	ctx.closePath();
-	ctx.fill();
-	ctx.stroke();
+	ClosePath();
 	
 	MoveTo(x, y, z);
 	LineTo(x, y+Bw, z);
 	LineTo(x-D, y+Bw, z+D);
 	LineTo(x-D, y, z+D);
-	ctx.closePath();
-	ctx.fill();
-	ctx.stroke();
+	ClosePath();
 }
 /*********************************************/
 function f1() {
@@ -360,7 +363,7 @@ function f10() {
 	ctx.fillStyle = "orange";
 	
 	DrawRearRafter(L + ridgeOverHang - bw, true);
-	for(i = 0; i<nRafters ; i++) {
+	for(var i = 0; i<nRafters ; i++) {
 	  DrawRearRafter(L - bw - i*(L-bw)/(nRafters - 1), false);
 	}
 	DrawRearRafter(-ridgeOverHang, true);
@@ -368,7 +371,7 @@ function f10() {
 	f9();
 	f7b();
 	DrawRafter(L + ridgeOverHang - bw, true);
-	for(i = 0; i<nRafters ; i++) {
+	for(var i = 0; i<nRafters ; i++) {
 	  DrawRafter(L - bw - i*(L-bw)/(nRafters - 1), false);
 	}
 	DrawRafter(-ridgeOverHang, true);
