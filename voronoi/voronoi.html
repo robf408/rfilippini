@@ -1,0 +1,77 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+
+<script language="JavaScript">
+ function getFlashMovie(movieName) {
+  var isIE = navigator.appName.indexOf("Microsoft") != -1;
+  return (isIE) ? window[movieName] : document[movieName];
+ }
+ function showD(bool b) {
+  getFlashMovie("DrawVoronoi").showDelaunay(b); 
+ }
+ 
+</script>
+
+
+<H1>Voronoi Diagram</H1>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>DrawVoronoi</title>
+<script language="javascript">AC_FL_RunContent = 0;</script>
+<script src="AC_RunActiveContent.js" language="javascript"></script>
+</head>
+<body bgcolor="#ffffff">
+<!--url's used in the movie-->
+<!--text used in the movie-->
+<!-- saved from url=(0013)about:internet -->
+
+<P>The Voronoi diagram of a set of points in the plane (referred to as sites) simply consists of cells and cell boundaries where the cell corresponding to a site P consists of all points whose distance to P is less than or equal to the distance to any other site. If P and Q are sites, and if the corresponding cells share an edge, then P and Q are connected in the Delaunay Triangulation.
+
+<P>This is a pure ActionScript implementation of Fortune's sweep algorithm to compute the Voronoi Diagram of a set of points and the associated Delaunay Triangulation.</P>
+
+<P>Click on stage to create new site. Sites can be dragged and are eliminated if dragged off the stage.</P>
+
+<script language="javascript">
+	if (AC_FL_RunContent == 0) {
+		alert("This page requires AC_RunActiveContent.js.");
+	} else {
+		AC_FL_RunContent(
+			'codebase', 'http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0',
+			'width', '550',
+			'height', '400',
+			'src', 'DrawVoronoi',
+			'quality', 'high',
+			'pluginspage', 'http://www.macromedia.com/go/getflashplayer',
+			'align', 'middle',
+			'play', 'true',
+			'loop', 'true',
+			'scale', 'showall',
+			'wmode', 'window',
+			'devicefont', 'false',
+			'id', 'DrawVoronoi',
+			'bgcolor', '#efefef',
+			'name', 'DrawVoronoi',
+			'menu', 'true',
+			'allowFullScreen', 'false',
+			'allowScriptAccess','sameDomain',
+			'movie', 'DrawVoronoi',
+			'salign', ''
+			); //end AC code
+	}
+
+</script>
+<noscript>
+	<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0" width="550" height="400" id="DrawVoronoi" align="middle">
+	<param name="allowScriptAccess" value="sameDomain" />
+	<param name="allowFullScreen" value="false" />
+	<param name="movie" value="DrawVoronoi.swf" /><param name="quality" value="high" /><param name="bgcolor" value="#ffffff" />	<embed src="DrawVoronoi.swf" quality="high" bgcolor="#ffffff" width="550" height="400" name="DrawVoronoi" align="middle" allowScriptAccess="sameDomain" allowFullScreen="false" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" />
+	</object>
+</noscript>
+
+<form>
+Show Delaunay Triangulation:<input type="checkbox" onclick="DrawVoronoi.showDelaunay(this.checked)">
+</form>
+
+
+
+</body>
+</html>
