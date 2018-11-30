@@ -88,7 +88,7 @@ function GetCharDetails(elt) {
   makeFrame(url);
 }
 
-function makeNode(n, str, str2) {
+function makeNode(n, str, str2, ndx) {
   if (str2 != null && str.length != str2.length && str.length > 0 && str2.length > 0) {
 	    alert("str.length="+ str.length+" and str2.length="+str2.length + " (str=" + str);
   }
@@ -98,7 +98,8 @@ function makeNode(n, str, str2) {
 	  if (str2 != null && str.length == str2.length && str[i] != str2[i]) {
 	    ts2.className = "tr_s_diff";
 	  }
-	  ts2.addEventListener("click", function(e) {if (1 || e.ctrlKey || e.shiftKey) {e.stopPropagation(); GetCharDetails(this);}});
+	  ts2.id=ndx;
+	  ts2.addEventListener("click", function(e) {if (e.ctrlKey || e.shiftKey) {e.stopPropagation(); GetCharDetails(this);} else {e.stopPropagation(); playMe(this);} });
 	  ts2.appendChild(document.createTextNode(str[i]));
 	  n.appendChild(ts2);
 	}
@@ -157,16 +158,17 @@ function makeTable(sel) {
   tbl.appendChild(tblBody);
   for (var i=0 ; i<data.length ; i++) {
     var tr = document.createElement("TR");
+	// tr.id=i;
 	tblBody.appendChild(tr);
 	for (var j=1 ; j<5 ; j++) {
 	  var td = document.createElement('TD');
 	  var ts = document.createElement('SPAN'); // span -> div
 	  if (j==1) {
-		makeNode(ts, data[i][1], data[i][2]);
+		makeNode(ts, data[i][1], data[i][2], i);
 		td.addEventListener("click", function(e) {if (! (e.ctrlKey || e.shiftKey)) { toggleMe(this.childNodes[0]);}});
 	  }
 	  else if (j == 2) {
-	    makeNode(ts, data[i][2], data[i][1]);
+	    makeNode(ts, data[i][2], data[i][1], i);
 		td.addEventListener("click", function(e) {if (! (e.ctrlKey || e.shiftKey)) { toggleMe(this.childNodes[0]);}});
 	  }
 	  else {
