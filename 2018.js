@@ -16,6 +16,8 @@ var yingpan = cp + "2787/31e257d6695568196e2a46a13cc169b473a3e501/mp3/64/chinese
 var xingfen = cp + "0938/c9a2b8decc374b7860a6188b3550ec685b2310e9/mp3/64/rec-1215465156937-27.mp3";
 var weile = cp + "1426/30246e2e56b3618ee8622a80177dd3cc677572b7/mp3/64/chinesepod_4876_dialogue_39392_prototype_17520_94986.mp3";
 yinxiang = cp + "4010/c4252e59af4332ac24b10e50e961d1ce051cfc3d/mp3/64/chinesepod_7793_dialogue_74255_prototype_30445_44294_37881.mp3";
+reng = cp + "0773/7ffea5b9947a0f7ec876a3221832e829405720f2/mp3/64/rec-1200388780078-10.mp3";
+var shiyu = cp + "1987/f8698c8ee1344dff1b9cc59f143fefca2d7f74e6/mp3/64/chinesepod_6483_dialogue_57730_prototype_4690_21024.mp3";
 var v2018 = [
   [nazou, "那本書被她"+z+"拿走了。", "那本书被她"+z+"拿走了。", "nà běn shū bèi tā názǒu le。", "That book was taken away by her."],
   [laizi, "美國是一個移民"+z+"國家，有來自"+z+"世界各地的人。", "美国是一个移民"+z+"国家，有来自"+z+"世界各地的人。", "Měiguó shì yī ge yímín guójiā，yǒu láizì shìjiè gèdì de rén。", "America is a nation of immigrants. It has people from all parts of the world."],
@@ -31,5 +33,7 @@ var v2018 = [
   [yingpan, "哎呀！電腦硬盤"+z+"空間又不夠了。", "哎呀！电脑硬盘"+z+"空间又不够了。", "āiyā！diànnǎo yìngpán kōngjiān yòu bù gòu le。", "Oh no! There's not enough space on the hard disk of my computer again."],
   [xingfen, "看到屏幕上的數字"+z+"在瘋狂地跳動，他"+z+"也越來越興奮了。", "看到屏幕上的数字"+z+"在疯狂地跳动，他"+z+"也越来越兴奋了。", "kàndào píngmù shang de shùzì zài fēngkuáng de tiàodòng，tā yě yuèláiyuè xīngfèn le。", "Seeing the numbers on the screen jumping around like crazy, he got more and more excited."],
   [weile, "為了大家的安全！", "为了大家的安全！", "wèile dàjiā de ānquán！", "It's for everyone's safety!"],
-  [yinxiang, "請你說說你在目前"+z+"的工作上，印象最"+z+"深刻的一件事。", "请你说说你在目前"+z+"的工作上，印象最"+z+"深刻的一件事。", "qǐng nǐ shuō shuo nǐ zài mùqián de gōngzuò shàng，yìnxiàng zuì shēnkè de yī jiàn shì。", "Please tell me about something that left the deepest impression on you in your current job."]
+  [yinxiang, "請你說說你在目前"+z+"的工作上，印象最"+z+"深刻的一件事。", "请你说说你在目前"+z+"的工作上，印象最"+z+"深刻的一件事。", "qǐng nǐ shuō shuo nǐ zài mùqián de gōngzuò shàng，yìnxiàng zuì shēnkè de yī jiàn shì。", "Please tell me about something that left the deepest impression on you in your current job."],
+  [reng, "誰亂扔香蕉皮？","谁乱扔香蕉皮？", "shéi luàn rēng xiāngjiāopí？", "Who littered the banana peel?"],
+  [shiyu, "旁邊那個人吃麵條"+z+"聲音太大了，一聽"+z+"我就沒食慾了。", "旁边那个人吃面条"+z+"声音太大了，一听"+z+"我就没食欲了。", "pángbiān nà ge rén chī miàntiáo shēngyīn tài dà le，yī tīng wǒ jiù méi shíyù le。", "That person eating next to us is eating his noodles really loudly. As soon as I hear him I lose my appetite."]
 ];

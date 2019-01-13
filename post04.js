@@ -31,7 +31,7 @@ var post04 = [
 [hurts, "對。他好像很疼。", "对。他好像很疼。", "Duì. Tā hǎoxiàng hěn téng.", "Right. He looks like it hurts."],
 [forget, "上次你忘記"+z+"付錢了嗎？", "上次你忘记"+z+"付钱了吗？", "Shàngcì nǐ wàngjì fùqián le ma?", "Did you forget to pay the last time?"],
 [remember, "我當然記得"+z+"你的生日。", "我当然记得"+z+"你的生日。", "Wǒ dāngrán jìdé nǐ de shēngrì.", "Of course I remember your birthday."],
-[world, "我覺得漢語是"+z+"世界上最難的語言。", "我觉得汉语是"+z+"世界上最难的语言。", "Wǒ juédé hànyǔ shì shìjiè shàng zuì nán de yǔyán.", "I think that Mandarin is the most difficult language in the world."],
+[world, "我覺得漢語是世界"+z+"上最難的語言。", "我觉得汉语是世界"+z+"上最难的语言。", "Wǒ juédé hànyǔ shì shìjiè shàng zuì nán de yǔyán.", "I think that Mandarin is the most difficult language in the world."],
 [fortunate, "你真幸運，"+z+"找到一份"+z+"那麼好的工作。", "你真幸运，"+z+"找到一份"+z+"那么好的工作。", "Nǐ zhēn xìngyùn, zhǎodào yī fèn nàme hǎo de gōngzuò.", "You're really lucky to find such a good job."],
 [thought, "他以為你不來了，"+z+"所以就走了。", "他以为你不来了，"+z+"所以就走了。", "Tā yǐwéi nǐ bù láile, suǒyǐ jiù zǒu le.", "He thought you weren't coming, so he left."],
 [then, "當時我在睡覺，"+z+"沒聽見門鈴響。", "当时我在睡觉，"+z+"没听见门铃响。", "Dāngshí wǒ zài shuìjiào, méi tīngjiàn ménlíng xiǎng.", "At the time, I was sleeping. I didn't hear the doorbell ring."],
@@ -39,8 +39,8 @@ var post04 = [
 [classes, "你今天有幾節課？", "你今天有几节课？", "Nǐ jīntiān yǒu jǐ jié kè?", "How many classes do you have today?"],
 [definitely, "我一定要做。", "我一定要做。", "wǒ yīdìng yào zuò.", "I will definitely do it."],
 [opportunity, "機會來了，"+z+"一定要抓住。", "机会来了，"+z+"一定要抓住。", "jīhuì láile, yīdìng yào zhuāzhù.", "If an opportunity arises, you must grab hold of it."],
-[giveUp, "沒有你的鼓勵，"+z+"我肯定早就放棄了。", "没有你的鼓励，"+z+"我肯定早就放弃了。", "méiyǒu nǐ de gǔlì, wǒ kěndìng zǎo jiù fàngqìle.", "Without your encouragement I definitely would have given up a long time ago."],
-[ghost, "別怕，外面沒有鬼。", "别怕，外面没有鬼。", "Bié pà, wàimiàn méiyǒu guǐ.", "Don't be afraid. There aren't any ghosts outside."],
+[giveUp, "沒有你的鼓勵，我"+z+"肯定早就放棄了。", "没有你的鼓励，我"+z+"肯定早就放弃了。", "méiyǒu nǐ de gǔlì, wǒ kěndìng zǎo jiù fàngqìle.", "Without your encouragement I definitely would have given up a long time ago."],
+[ghost, "別怕，"+z+"外面沒有鬼。", "别怕，"+z+"外面没有鬼。", "Bié pà, wàimiàn méiyǒu guǐ.", "Don't be afraid. There aren't any ghosts outside."],
 [lost, "我終於找到了"+z+"那本失踪了"+z+"很久的書。", "我终于找到了"+z+"那本失踪了"+z+"很久的书。", "wǒ zhōngyú zhǎodàole nà běn shīzōngle hěnjiǔ de shū.", "I finally found that book that had been missing for a long time."]
 
 ];

@@ -21,7 +21,7 @@ var post03 = [
 [happen1, "通常這樣的"+z+"事情不會發生。", "通常这样的"+z+"事情不会发生。", "Tōngcháng zhèyàng de shìqíng bù huì fāshēng.", "Usually this kind of thing wouldn't happen."],
 [happen2, "這種事經常發生，"+z+"你不必大驚小怪。", "这种事经常发生，"+z+"你不必大惊小怪。", "Zhè zhǒng shì jīngcháng fāshēng, nǐ bùbì dàjīngxiǎoguài.", "This kind of thing happens all the time. You don't need to make such a big deal out of it."],
 [seen, "你好，有沒有"+z+"看到過一隻黑狗？", "你好，有没有"+z+"看到过一只黑狗？", "Nǐ hǎo, yǒu méiyǒu kàndào guò yī zhī hēi gǒu?", "Hello, have you seen a black dog?"],
-[incredible, "那個牌子的"+z+"衣服好是好，"+z+"可惜貴得不得了。", "那个牌子的"+z+"衣服好是好，"+z+"可惜贵得不得了。", "Nàgè páizi de yīfú hǎo shì hǎo, kěxí guì dé bùdéliǎo.", "That brand of clothing is good, of course; it's just a shame that it's so expensive."],
+[incredible, "那個牌子的"+z+"衣服好是好，"+z+"可惜貴得不得了。", "那个牌子的"+z+"衣服好是好，"+z+"可惜贵得不得了。", "nàge páizi de yīfu hǎo shì hǎo，kěxī guì de bùdéliǎo。", "That brand of clothing is good, of course; it's just a shame that it's so expensive."],
 [popular, "他喜歡聽音樂，"+z+"尤其是流行音樂。", "他喜欢听音乐，"+z+"尤其是流行音乐。", "Tā xǐhuān tīng yīnyuè, yóuqí shì liúxíng yīnyuè.", "He likes to listen to music, especially pop music."]
 
 

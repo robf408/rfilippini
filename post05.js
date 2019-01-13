@@ -6,7 +6,7 @@ var willing = "http://s3.amazonaws.com/chinesepod.com/0104/7619aeda0c47369a294c2
 var agree = "http://s3.amazonaws.com/chinesepod.com/0643/0e2e69005f61ff212c0d2986bda4ffdb9473306c/mp3/64/rec-1189499171906-27.mp3";
 var wait = "http://s3.amazonaws.com/chinesepod.com/1154/94f0ca7094889e2953304dce571e534324bb86ed/mp3/64/rec-1241550968343-13.mp3";
 var intentional = "http://s3.amazonaws.com/chinesepod.com/0862/51e912a7ad71c9f1fe8f8245bfb42d41016349f8/mp3/64/rec-1208324710771-4.mp3";
-var goal = "http%3A//s3.amazonaws.com/chinesepod.com/1056/841c3acea05f84b1b1e3fdc396ac7c575ea61813/mp3/64/rec-1229040762421-7.mp3";
+var goal = "http://s3.amazonaws.com/chinesepod.com/1056/841c3acea05f84b1b1e3fdc396ac7c575ea61813/mp3/64/rec-1229040762421-7.mp3";
 var whats = "http://s3.amazonaws.com/chinesepod.com/2325/eb6d88c1f9f8cf699132e7d8b83d47a0fb5ddae8/mp3/64/chinesepod_6820_dialogue_62493_prototype_1317_7577.mp3";
 var plan = "http://s3.amazonaws.com/chinesepod.com/0645/06b7ddfda7555b640796e41121baa6824c444edb/mp3/64/rec-1189587050281-25.mp3";
 var ready = "http://s3.amazonaws.com/chinesepod.com/1956/8f0a2b71aeb22ceb5bd1636bb1568953c731d765/mp3/64/chinesepod_6439_dialogue_57096_prototype_19032_19564.mp3";
@@ -26,7 +26,7 @@ var post05 = [
 [intentional, "我不知道啊。"+z+"我不是故意的。", "我不知道啊。"+z+"我不是故意的。", "Wǒ bù zhīdào a. Wǒ bùshì gùyì de.", "I didn't know. I didn't do it on purpose."],
 [goal, "你真會說話！"+z+"我主要的目的"+z+"就是減肥。", "你真会说话！"+z+"我主要的目的"+z+"就是减肥。", "Nǐ zhēn huì shuōhuà! Wǒ zhǔyào de mùdì jiùshì jiǎnféi.", "You sure know how to talk! My main goal is weight loss."],
 [whats, "怎麼回事？", "怎么回事？", "Zěnmehuíshì?", "What's the matter?"],
-[plan, "他的突然出现"+z+"破坏了我的计划。", "他的突然出现"+z+"破坏了我的计划。", "tā dì tú​​rán chūxiàn pòhuàile wǒ de jìhuà.", "His sudden appearance ruined my plan."],
+[plan, "他的突然出现"+z+"破坏了我的计划。", "他的突然出现"+z+"破坏了我的计划。", "tā de tūrán chūxiàn pòhuài le wǒ de jìhuà。", "His sudden appearance ruined my plan."],
 [ready, "你準備好了嗎？", "你准备好了吗？", "nǐ zhǔnbèi hǎole ma?", "Are you ready?"],
 [completely, "現在天氣完全"+z+"不正常。熱死了！", "现在天气完全"+z+"不正常。热死了！", "Xiànzài tiānqì wánquán bù zhèngcháng. Rè sǐle!", "The weather now is totally abnormal. It's so hot!"],
 [prevent, "為了防止地球"+z+"溫室效應加劇，"+z+"我們應該"+z+"保護好環境。", "为了防止地球"+z+"温室效应加剧，"+z+"我们应该"+z+"保护好环境。", "Wèile fángzhǐ dìqiú wēnshì xiàoyìng jiājù, wǒmen yīnggāi bǎohù hǎo huánjìng.", "In order to prevent the greenhouse effect on earth, we should protect the environment."],

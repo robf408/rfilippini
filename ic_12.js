@@ -23,7 +23,7 @@ var ic_12 = [
 [put, "放到桌子上。", "放到桌子上。", "Fàng dào zhuōzi shàng.", "Put it on the desk/table."],
 [seat, "有沒有靠窗的"+z+"位子？", "有没有靠窗的"+z+"位子？", "Yǒu méiyǒu kào chuāng de wèizi?", "Are there any seats by the window?"],
 [salt, "這個菜很淡，"+z+"好像沒放鹽。", "这个菜很淡，"+z+"好像没放盐。", "Zhège cài hěn dàn, hǎoxiàng méi fàng yán.", "This dish is very bland, it's as if they didn't add salt."],
-[soldOut, "去北京的火車票"+z+"賣完了。", "去北京的火车票"+z+"卖完了。", "Qù běijīng de huǒchē piào mài wánliǎo.", "Train tickets to Beijing are sold out."],
+[soldOut, "去北京的火車票"+z+"賣完了。", "去北京的火车票"+z+"卖完了。", "Qù běijīng de huǒchē piào mài wánle.", "Train tickets to Beijing are sold out."],
 [enough, "考試的時候"+z+"時間不夠用。", "考试的时候"+z+"时间不够用。", "Kǎoshì de shíhòu shíjiān bùgòu yòng.", "When you're taking an exam there's never enough time."],
 [hungry, "我不餓但是我很"+z+"渴。", "我不饿但是我很"+z+"渴。", "Wǒ bù è dànshì wǒ hěn kě.", "I'm not hungry, but I'm thirsty."]
 

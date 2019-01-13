@@ -22,7 +22,7 @@ var ic_06 = [
 [grade, "哦，她是三年級的。", "哦，她是三年级的。", "Ó, tā shì sān niánjí de.", "Oh, she's a third-year student."],
 [question, "老師，"+z+"我有一個問題。", "老师，"+z+"我有一个问题。", "lǎoshī, wǒ yǒu yīgè wèntí.", "Teacher, I have a question."],
 [classes, "你今天有幾節課？", "你今天有几节课？", "nǐ jīntiān yǒu jǐ jié kè?", "How many classes do you have today?"],
-[test, "不行，下個星期"+z+"要考試。", "不行，下个星期"+z+"要考试。", "bùxíng, xià gè xīngqí yào kǎoshì.", "You can't do that. You have a test next week!"],
+[test, "不行，下個星期"+z+"要考試。", "不行，下个星期"+z+"要考试。", "bù xíng，xià ge xīngqī yào kǎoshì。", "You can't do that. You have a test next week!"],
 [time, "考試的時候"+z+"時間不夠用。", "考试的时候"+z+"时间不够用。", "Kǎoshì de shíhòu shíjiān bù gòuyòng.", "When you're taking an exam there's never enough time."],
 [appt, "好的，那你方便"+z+"的時候把最近更新"+z+"的中英文簡歷"+z+"發給我吧。"+z+"然後我們再"+z+"約時間面談一下。", "好的，那你方便"+z+"的时候把最近更新"+z+"的中英文简历"+z+"发给我吧。"+z+"然后我们再"+z+"约时间面谈一下。", "hǎo de, nà nǐ fāngbiàn de shíhòu bǎ zuìjìn gēngxīn de zhōng yīngwén jiǎnlì fā gěi wǒ ba. Ránhòu wǒmen zài yuē shíjiān miàntán yīxià.", "OK. When you have the time, send me your updated Chinese and English resume and we'll set up a time to discuss it in person."],
 [chat, "上網聊天很有趣。", "上网聊天很有趣。", "shàngwǎng liáotiān hěn yǒuqù.", "Chatting online is very interesting."],

@@ -1,6 +1,6 @@
 ﻿var z = '\u200B';
 
-var sc02_pre = "<h3>Based on: <a href=\"https://youtu.be/brPz3pNfTbw?list=PLzseEx1w9QjnR9tQFJfl1Rc_YZp-yKXjG\">friendship</a></h3>";
+var sc02_pre = "<h3>Based on: <a href=\"https://www.youtube.com/watch?v=j-9dMqejaM0\">friendship</a></h3>";
 
 invite = "http://s3.amazonaws.com/chinesepod.com/0167/581f3848f60d3d0f405d4e4ddafe1e3e5eb5acf8/mp3/64/rec-1217615402031-0.mp3";
 share = "http://s3.amazonaws.com/chinesepod.com/2778/10b39a6c6cb7fa526319fcd5cf7328ab079787a0/mp3/64/chinesepod_7387_dialogue_69246_prototype_24355_31584_11950.mp3";
