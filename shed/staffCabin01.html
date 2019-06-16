@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html>
+<body onload="reset(); last()">
+<canvas id="myCanvas" width="1200" height="700" style="border:1px solid #d3d3d3;" onmousedown="mouseDown(event)" onmouseup="mouseUp(event)" onmousemove="mouseMove(event)">
+Your browser does not support the HTML5 canvas tag.</canvas>
+<span>
+<h3>hello</h3>
+<button onclick="reset()"><<</button>
+<button onclick="prev()"><</button>
+<button onclick="next()">></button>
+<button onclick="last()">>></button>
+</span>
+<script>
+var canvas = document.getElementById("myCanvas");
+var downX;
+var downY;
+var theta;
+var isDown = false;
+var shiftOn = false;
+
+function mouseDown(e) {
+  isDown = true;
+  shiftOn = event.shiftKey;
+  downX = e.clientX;
+  downY = e.clientY;
+  theta = Math.atan2(downY - canvas.height/2, downX - canvas.width/2);
+  DrawEllipse();
+}
+
+function mouseMove(e) {
+  if (isDown) {
+	alpha = Math.atan2(e.clientY - canvas.height/2, e.clientX - canvas.width/2);
+	phi = alpha - theta;
+	ue_rel_u1 = sub(ue, u1);
+	m_ue_rel_u1 = Math.sqrt(dp(ue_rel_u1, ue_rel_u1));
+	
+	uex = xo - dp(u1,e1);
+	uey = yo - dp(u1,e2);
+	uez = zo - dp(u1,e3);
+	
+	if (shiftOn) {
+		var d = Math.sqrt(uex*uex + uey*uey);
+		var n_xy = [uex/d, uey/d, 0];
+		var cost1 = uez/m_ue_rel_u1;
+		var sint1 = Math.sqrt(1 - cost1*cost1);
+		var cost2 = cost1*Math.cos(phi) - sint1*Math.sin(phi);
+		var sint2 = sint1*Math.cos(phi) + cost1*Math.sin(phi);
+		var new_ue_rel_u1 = mul(m_ue_rel_u1, sum(mul(sint2, n_xy), mul(cost2, e3)));
+		uex2 = dp(new_ue_rel_u1, e1);
+		uey2 = dp(new_ue_rel_u1, e2);
+		uez2 = dp(new_ue_rel_u1, e3);
+	}
+	else {
+		uex2 = uex*Math.cos(phi) - uey*Math.sin(phi);
+		uey2 = uex*Math.sin(phi) + uey*Math.cos(phi);
+		uez2 = uez;
+	}
+	
+	xo = uex2 + dp(u1,e1);
+	yo = uey2 + dp(u1,e2);
+	zo = uez2 + dp(u1,e3);
+	
+	ue = [xo, yo, zo];
+	downX = e.clientX;
+    downY = e.clientY;
+	theta = alpha;
+	init();
+	redraw();
+	DrawEllipse();
+  }
+}
+
+function mouseUp(e) {
+    isDown = false;
+	init
+	// debug=true;
+//	alert("a="+a);
+	redraw();
+}
+
+var counter = 0;
+var debug = false;
+
+var ctx = canvas.getContext("2d");
+
+function inches(n) {
+	return 3*n;
+}
+function feet(n) {
+	return 12*inches(n);
+}
+
+var H1 = inches(96);
+var H2 = inches(132);
+var H = inches(144);
+var W1 = inches(96);
+var W2 = inches(48);
+var W = W1 + W2;
+var in1 = inches(1);
+var in4 = inches(4);
+var in2 = inches(2);
+var in6 = inches(6);
+var L = feet(10);
+
+var r=20
+var h1=50
+//var H = 320; // 300;
+//var H = 350; // 300;
+//var W1 = 360 - 1.5*36;
+//var W2 = 140 - 1.5*14;
+var bw = 8
+var Bw = 2*bw;
+var pw = bw/2;
+// var W = W1 + W2 - Bw;
+// var L = (3/2)*W;
+var bh = Bw;
+var x0 = .5*canvas.width; // 500;
+var y0 = .9*canvas.height; // canvas.height/2; // 560;
+var nRafters = 9;
+var ridgeOverHang = (L-bw)/(nRafters - 1); // 40;
+var rafterOverHang = 40;
+// var H1 = H + 3 * bw + pw; // top of plate
+var ridgeHeight = H1 + (7/11)*W/2;
+
+ctx.fillStyle = "brown";
+
+function dp2(u,v) {
+  return u[0]*v[0]+u[1]*v[1];
+}
+function mul2(a, u) {
+  return [a*u[0], a*u[1]];
+}
+function sub2(u,v) {
+  return [u[0] - v[0], u[1] - v[1]];
+}
+function sum2(u,v) {
+  return [u[0] + v[0], u[1] + v[1]];
+}
+function dp(u,v) {
+  return u[0]*v[0]+u[1]*v[1]+u[2]*v[2];
+}
+function cross(u, v) {
+  return [u[1]*v[2]-u[2]*v[1], u[2]*v[0]-u[0]*v[2], u[0]*v[1]-u[1]*v[0]];
+}
+function sub(u,v) {
+  return [u[0] - v[0], u[1] - v[1], u[2] - v[2]];
+}
+function sum(u,v) {
+  return [u[0] + v[0], u[1] + v[1], u[2] + v[2]];
+}
+function mul(a, u) {
+  return [a*u[0], a*u[1], a*u[2]];
+}
+function norm(u) {
+  return mul(1/Math.sqrt(dp(u,u)), u);
+}
+
+var e1 = [1, 0, 0];
+var e2 = [0, 1, 0];
+var e3 = [0, 0, 1];
+//var u1 = [0, 0, H1/2];
+var u1 = [.5*L, .5*W, H1/2];
+var xo = -4.0*L; //2750; // -4.0*L
+var yo = -4.3*W; // -2242; // -4.3*W;
+var zo = 1.1*H1;
+var ue = [xo, yo, zo];
+var n_view = norm(sub(u1, ue));
+var a = dp(n_view, u1);
+var nDue = dp(n_view, ue);
+  
+var o = proj(u1); // proj([0,0,0]);
+var k = k = norm(sub(proj(sum(u1,[0,0,1])), o)); // norm(sub(proj([0,0,1]), o));
+   
+var i = cross(n_view, k);  
+
+var clipPlanes = new Array();
+var numClipPlanes = 0;
+
+function init() {
+   n_view = norm(sub(u1, ue));
+   a = dp(n_view, u1);
+   nDue = dp(n_view, ue); 
+   o = proj(u1); // proj([0,0,0]);
+//   k = norm(sub(proj([0,0,1]), o));
+   k = norm(sub(proj(sum(u1,[0,0,1])), o));
+   i = cross(n_view, k);
+}
+
+function isVisible(p) {
+//	return dp(n_view, sub(p, ue)) >= 0;
+	if (dp(n_view, sub(p, ue)) >= 0) {
+		return true;
+	}
+	else {
+		alert("NOT VISIBLE: p=" + p);
+		return false;
+	}
+}
+
+function getBorderPoint(p, q) {
+	var t = dp(sub(ue, p), n)/dp(sub(q, p), n);
+	return sum(mul(t, q), mul(1-t, p));
+}
+
+function proj(v) {
+  // project to plane: n1*x + n2*y + n3*z = a
+  var lambda = (a + nDue)/(dp(n_view,sub(v, u1)) - nDue);
+  return sum(ue, mul(lambda, sub(v, ue)));
+}
+
+
+
+function Point(x,y,z) {
+  var p = sub(proj([x,y,z]), o);
+//   return([x0 + dp(p,i), y0 + dp(p,k)]);
+   return([x0 + dp(p,i), .8*y0 - dp(p,k)]);
+}
+
+function MTo(pt) {
+  var p = Point(pt[0],pt[1],pt[2]);
+  ctx.beginPath();
+  ctx.moveTo(p[0], p[1]);
+}
+
+function MoveTo(x,y,z) {
+  var p = Point(x,y,z);
+  ctx.beginPath();
+  ctx.moveTo(p[0], p[1]);
+}
+
+function LTo(pt) {
+  var p = Point(pt[0],pt[1],pt[2]);
+  ctx.lineTo(p[0], p[1]);
+}
+
+function LineTo(x,y,z) {
+  var p = Point(x,y,z);
+  ctx.lineTo(p[0], p[1]);
+}
+
+function ClosePath() {
+	ctx.closePath();
+	ctx.fill();
+	ctx.stroke();
+}
+
+function MakeRafter(x, ymin, zmin, ymax, zmax, h, color) {
+	var slope = (zmax - zmin)/(ymax - ymin);
+    var zL = h * Math.sqrt(1+slope*slope);
+	if (ymin < ymax) {
+		var pts = [[x, ymax, zmax], [x, ymax, zmax - zL], [x, ymin, zmin - zL], [x, ymin, zmin]];
+	}
+	else {
+		var pts = [[x, ymax, zmax], [x, ymin, zmin], [x, ymin, zmin - zL], [x, ymax, zmax - zL]];
+	}
+	return new PolyTope(pts, e1, x, h, color);
+}
+
+function Parallelogram(p, u, v, color) {
+	this.p = p;
+	this.u = u;
+	this.v = v;
+	this.color=color;
+}
+
+Parallelogram.prototype.draw = function(){
+	var pts = [this.p, sum(this.p, this.u), sum(this.p, sum(this.u, this.v)), sum(this.p, this.v)];
+	var w = norm(cross(this.u, this.v));
+	drawPolygon(pts, w, dp(w, pts[0]), this.color);
+}
+
+function Polygon(pts, nn, c, color) {
+	this.pts = pts;
+	this.nn = nn;
+	this.c = c;
+	this.color = color;
+}
+
+Polygon.prototype.draw = function() {
+	if (dp(sub(this.pts[0], ue), this.nn) < 0) {
+		drawPolygon(this.pts, this.nn, this.c, this.color);
+		
+/*		ctx.beginPath();
+		ctx.strokeStyle = "#FFFF00";
+		MTo(this.pts[0]);
+		LTo(sum(this.pts[0], mul(400, this.nn)));
+		ctx.stroke();
+		*/
+	}
+}
+
+function PolyTope(pts, nn, c, h, color) {
+	if (h < 0) {
+		alert("ERROR: h = " + h);
+	}
+	this.nn = nn;
+	this.c = c;
+	this.color = color;
+	
+	this.pts = pts;  //TEMP
+	
+	this.p1 = new Polygon(pts, mul(-1, nn), -c, "orange");
+	var pts2 = [];
+	var w = mul(h, nn);
+	for (var i=0; i<pts.length ; i++) {
+		pts2[i] = sum(pts[i], w);
+	}
+	this.p2 = new Polygon(pts2, nn, c+h, "red");
+	var j = pts.length - 1;
+	this.lats = new Array();
+	for (var i=0; i<pts.length ; i++) {
+		var w = norm(cross(nn, sub(pts[i], pts[j])));
+		this.lats[i] = new Polygon([pts[i], pts[j], pts2[j], pts2[i]], w, dp(w, pts[i]), color);
+		j=i;
+	}
+}
+
+PolyTope.prototype.draw = function() {
+if (false) {
+	alert("PolyTope: pts="+this.pts);
+	alert("PolyTope: nn="+this.nn);
+	alert("PolyTope: c="+this.c);
+	alert("n_view = " + n_view);
+	alert("u1 = " + u1);
+}
+	this.p1.draw();
+	this.p2.draw();
+	for(var i=0; i<this.lats.length ; i++) {
+		this.lats[i].draw();
+	}
+}
+
+
+function setClipPath(pts, v, c) {
+dalert("setClipPath called, v="+v+", c="+c+", numClipPlanes="+numClipPlanes);
+try{
+	ctx.beginPath();
+	var p = pts[0];
+	var path = [[0,0], [canvas.width,0], [canvas.width,canvas.height], [0,canvas.height]];
+	var numPtsInClip = 4;
+	for(var i=0 ; i<numClipPlanes ; i++) {
+		// clipPlanes[i][0] = [v, c];
+
+		var v_clip = clipPlanes[i][0];
+		var c_clip = clipPlanes[i][1];
+		
+		var nVisible = 0;
+		var nInvisible = 0;
+		for(var j=0 ; j<pts.length ; j++) {
+			if (dp(v_clip, pts[j]) >= c_clip) {
+				nVisible++;
+			}
+			else {
+				nInvisible++;
+			}
+		}
+		if (nInvisible == 0) {
+		// alert("CONTINUE");
+			continue;
+		}
+		if (nVisible == 0) {
+			return false;
+		}
+		if (debug) {
+			//alert("v_clip="+v_clip+", c_clip="+c_clip);
+			//alert("v="+v+", c="+c);
+			alert("nVisible="+nVisible+", nInvisible="+nInvisible);
+			//alert("pts="+pts);
+		}
+		
+		var pr = norm(sub(v_clip, mul(dp(v_clip, v), v)));
+		var w = norm(cross(v, v_clip));
+		var u = norm(cross(w, v));
+		
+		// find t where p+t*u is on clipPlanes[i]
+		var t = (c_clip - dp(p, v_clip))/dp(u, v_clip);
+		var pp = sum(p, mul(t, u));
+		var pp2 = sum(pp, pr);
+		var pp_proj = Point(pp[0], pp[1], pp[2]);
+		var pp2_proj = Point(pp2[0], pp2[1], pp2[2]);
+//		alert("pp_proj = " + pp_proj + ", pp2_proj = " + pp2_proj);
+		var q = sub2(pp2_proj, pp_proj);	
+		// var q = sub2(pp_proj, pp2_proj);
+		var cc = dp2(pp_proj, q);
+		var path2 = new Array();
+		var nNewPts = 0;
+		var prevPt = path[path.length - 1];
+		var prevVisible = (dp2(prevPt, q) > cc);
+		if (debug) {
+			alert("pp_proj="+pp_proj+", q="+q);
+		}
+		if (! prevVisible) {
+		// alert("prevVisible is false");
+		
+		}
+				
+		var numVisible = 0;
+		for (var j=0; j<path.length ; j++) {
+			var curPt = path[j];
+			var curVisible = (dp2(curPt, q) > cc);
+			if (curVisible) {
+				numVisible++;
+				if (prevVisible) {
+					path2[nNewPts++] = curPt;
+				}
+				else {
+					var s = dp2(sub2(pp_proj, prevPt), q)/dp2(sub2(curPt, prevPt), q);
+					var bp = sum2(prevPt, mul2(s, sub2(curPt, prevPt)));
+					path2[nNewPts++] = bp;
+					path2[nNewPts++] = curPt;
+				}
+			}
+			else if (prevVisible) {
+				var s = dp2(sub2(pp_proj, prevPt), q)/dp2(sub2(curPt, prevPt), q);
+				var bp = sum2(prevPt, mul2(s, sub2(curPt, prevPt)));
+				path2[nNewPts++] = bp;
+			}
+			prevPt = curPt;
+			prevVisible = curVisible;
+		}
+		if (numVisible == 0) {
+			return false;
+		}
+		if (numVisible != path.length) {
+			// alert("path2="+path2);
+			path = path2;
+			numPtsInClip = nNewPts;
+		}
+		
+	}
+	ctx.moveTo(path[0][0], path[0][1]);
+	for(var i=0 ; i<numPtsInClip ; i++) {
+		ctx.lineTo(path[i][0], path[i][1]);
+//		alert("clip point: " + path[i]);
+	}
+	
+	//ctx.stroke();
+/*		ctx.closePath();
+		ctx.globalAlpha=0.4;
+		ctx.fillStyle = "#990000";
+		ctx.fill();
+		ctx.globalAlpha=1.0;
+		*/
+	ctx.clip();
+	}
+	catch(err) {
+	  alert("EXCEPTION: " + err);
+	  return false;
+	}
+	return true;
+}
+
+var counter2 = 0;
+function drawPolygon(pts, v, c, color) {
+	if (numClipPlanes > 0) {
+		ctx.save();
+		if (! setClipPath(pts, v, c)) {
+			ctx.restore();
+			return;
+		}
+		counter2++;
+		if (counter > 0) {
+			alert("counter2 = " + counter2);
+		}
+		counter++;
+	}
+
+	ctx.beginPath();
+	ctx.fillStyle = color;
+	var firstVisible = -1; // previous is invisible
+	
+	for (var i=0; i<pts.length ; i++) {
+		if (isVisible(pts[i])) {
+			firstVisible = i;
+			break;
+		}
+	}
+	if (firstVisible == 0) {
+		if (isVisible(pts[pts.length - 1])) {
+			MTo(pts[i]);
+		}
+		else {
+			MTo(getBorderPoint(pts[pts.length - 1], pts[0]));
+			LTo(pts[0]);
+		}
+	}
+	else if (firstVisible > 0) {
+		MTo(getBorderPoint(pts[firstVisible - 1], pts[firstVisible]));
+		LTo(pts[firstVisible]);
+	}
+	else {
+		if (numClipPlanes > 0) {
+			ctx.restore();
+			counter--;
+		}
+		return;
+	}
+
+	var prevVisible = true;
+	for (var i=firstVisible+1; i<pts.length ; i++) {
+		var curVisible = isVisible(pts[i]);
+		if (curVisible) {
+			if (prevVisible) {
+				LTo(pts[i]);
+			}
+			else {
+				LTo(getBorderPoint(pts[i - 1], pts[i]));
+				LTo(pts[i]);
+			}
+		}
+		else if (prevVisible) {
+			LTo(getBorderPoint(pts[i - 1], pts[i]));
+		}
+		prevVisible = curVisible;
+	}
+
+	ClosePath();
+	
+	if (numClipPlanes > 0) {
+		ctx.restore();
+		counter--;
+	}
+	
+}
+
+function Node(v, c, b) {
+	this.v = v;
+	this.c = c;
+	this.b = b;
+}
+
+Node.prototype.draw = function() {
+	if (dp(ue, this.v) < this.c) {
+		if (! this.b) {
+			clipPlanes[numClipPlanes++] = [this.v, this.c];
+		}
+		this.right.draw();
+		if (! this.b) {
+			clipPlanes[numClipPlanes-1] = [mul(-1, this.v), -(this.c)];
+		}
+		this.left.draw();
+		if (! this.b) {
+			numClipPlanes--;
+		}
+	}
+	else {
+		if (! this.b) {
+			clipPlanes[numClipPlanes++] = [mul(-1, this.v), -(this.c)];
+		}
+		this.left.draw();
+		if (! this.b) {
+			clipPlanes[numClipPlanes-1] = [this.v, this.c];
+		}		
+		this.right.draw();
+		if (! this.b) {
+			numClipPlanes--;
+		}		
+	}
+}
+
+// c_a increasing
+function Loaf(v, c_a, b) {
+	this.v = v;
+	this.c_a = c_a;
+	this.b = b;
+	this.slices = new Array(c_a.length + 1);
+}
+
+Loaf.prototype.drawSlice = function(ndx) {
+	if (! this.b) {
+		if (ndx > 0) {
+			clipPlanes[numClipPlanes++] = [this.v, this.c_a[ndx-1]];
+		}
+		if (ndx < this.c_a.length) {
+			clipPlanes[numClipPlanes++] = [mul(-1, this.v), -(this.c_a[ndx])];
+		}
+	}
+	this.slices[ndx].draw();
+	if (! this.b) {
+		if (ndx > 0) {
+			numClipPlanes--;
+		}
+		if (ndx < this.c_a.length) {
+			numClipPlanes--;
+		}
+	}
+}
+
+Loaf.prototype.draw = function() {
+	var c = dp(ue, this.v);
+	var ndx = this.c_a.length - 1;
+	while(ndx >= 0 && c < this.c_a[ndx]) {
+		this.drawSlice(ndx+1);
+		ndx--;
+	}
+	for(var i=0 ; i<=ndx+1 ; i++) {
+		this.drawSlice(i);
+	}
+}
+
+	
+function TriNode(pt, v3) {
+	this.planes = new Array(3);
+	this.sectors = new Array(3);
+	for(var i=0 ; i<3 ; i++) {
+		this.planes[i] = [v3[i], dp(pt, v3[i])];
+	}
+}
+
+function dalert(msg) {
+	if (debug) {
+		alert(msg);
+	}
+}
+
+TriNode.prototype.draw = function() {
+	var ndx1=-1;
+	var ndx2=-1;
+	var ndx3=-1;
+	for (var i=0 ; i<3 ; i++) {
+		if (dp(ue, this.planes[i][0]) >= this.planes[i][1] && dp(ue, this.planes[(i+1)%3][0]) <= this.planes[(i+1)%3][1]) {
+			ndx1 = i;
+			break;
+		}
+	}
+	if (ndx1 < 0) {
+		alert("ERROR: ndx1="+ndx1);
+	}
+	for (var i=0 ; i<3 ; i++) {
+		j = (ndx1+1+i) % 3;
+		if (dp(ue, this.planes[j][0]) <= this.planes[j][1] && dp(ue, this.planes[(j+1)%3][0]) >= this.planes[(j+1)%3][1]) {
+			ndx3 = j;
+			break;
+		}
+	}
+	if (ndx3 < 0) {
+		alert("ERROR: ndx3="+ndx3);
+	}
+	ndx2 = 3 - ndx1 - ndx3;
+	this.sectors[ndx3].draw();
+	this.sectors[ndx2].draw();
+	this.sectors[ndx1].draw();
+}
+
+function Skip() {
+}
+Skip.prototype.draw = function() {}
+
+function Board(x, y, z, xL, yL, zL, color) {
+	this.xmin = x;
+	this.xmax = x + xL;
+	this.ymin = y;
+	this.ymax = y + yL;
+	this.zmin = z;
+	this.zmax = z + zL;
+	this.y0 = new Parallelogram([x,y,z], [xL,0,0], [0,0,zL], color)
+	this.y1 = new Parallelogram([x,y+yL,z], [xL,0,0], [0,0,zL], color)
+	this.x0 = new Parallelogram([x,y,z], [0,yL,0], [0,0,zL], color)
+	this.x1 = new Parallelogram([x+xL,y,z], [0,yL,0], [0,0,zL], color)
+	this.z0 = new Parallelogram([x,y,z], [xL,0,0], [0,yL,0], color)
+	this.z1 = new Parallelogram([x,y,z+zL], [xL,0,0], [0,yL,0], color)
+}
+
+Board.prototype.draw = function() {
+	if (xo < this.xmin) { this.x0.draw(); }
+	else if (xo > this.xmax) { this.x1.draw(); }
+	if (yo < this.ymin) { this.y0.draw(); }
+	else if (yo > this.ymax) { this.y1.draw(); }
+	if (zo < this.zmin) { this.z0.draw(); }
+	else if (zo > this.zmax) { this.z1.draw(); }
+}
+
+function XYFrame(x, y, z, xL, yL, dx, dy, dz, nL, color) {
+	this.root = new Node(e2, y+dy, true);
+	this.root.left = new Board(x, y, z, xL, dy, dz, color);
+	this.root.right = new Node(e2, y+yL-dy, true);
+	this.root.right.right = new Board(x, y + yL - dy, z, xL, dy, dz, color);
+	var vert = new Node(e1, x+dx, true);
+	this.root.right.left = vert;
+	vert.left = new Board(x, y + dy, z, dx, yL - 2*dy, dz, color);
+
+	for (var i=1; i<nL ; i++) {
+		var d = i*xL/nL - dx/2;
+		vert.right = new Node(e1, x + d + dx, true);
+		vert = vert.right;
+		vert.left = new Board(x + d, y + dy, z, dx, yL - 2*dy, dz, color);
+	}
+	vert.right = new Board(x + xL - dx, y + dy, z, dx, yL - 2*dy, dz, color);
+}
+XYFrame.prototype.draw = function() {
+	this.root.draw();
+}
+
+function YXFrame(x, y, z, xL, yL, dx, dy, dz, nL, color) {
+	this.root = new Node(e1, x+dx, true);
+	this.root.left = new Board(x, y, z, dx, yL, dz, color);
+	this.root.right = new Node(e1, x+xL-dx, true);
+	this.root.right.right = new Board(x+xL-dx, y, z, dx, yL, dz, color);
+	var vert = new Node(e2, y+dy, true);
+	this.root.right.left = vert;
+	vert.left = new Board(x+dx, y, z, xL-2*dx, dy, dz, color);
+
+	for (var i=1; i<nL ; i++) {
+		var d = i*yL/nL - dy/2;
+		vert.right = new Node(e2, y + d + dy, true);
+		vert = vert.right;
+		vert.left = new Board(x + dx, y + d, z, xL-2*dx, dy, dz, color);
+	}
+	vert.right = new Board(x + dx, y+yL-dy, z, xL-2*dx, dy, dz, color);
+}
+
+YXFrame.prototype.draw = function() {
+	this.root.draw();
+}
+
+function XZFrame(x, y, z, xL, zL, dx, dy, dz, nL, color) {
+	this.root = new Node(e3, z+dz, true);
+	this.root.left = new Board(x, y, z, xL, dy, dz, color); // bottom
+	this.root.right = new Node(e3, z+zL-dz, true);
+	this.root.right.right = new Board(x, y, z + zL - dz, xL, dy, dz, color); // top
+	var vert = new Node(e1, x+dx, true);
+	this.root.right.left = vert;
+	vert.left = new Board(x, y, z + dz, dx, dy, zL - 2*dz, color);
+	for (var i=1; i<nL ; i++) {
+		var d = i*xL/nL - dx/2;
+		vert.right = new Node(e1, x + d + dx, true);
+		vert = vert.right;
+		vert.left = new Board(x + d, y, z + dz, dx, dy, zL - 2*dz, color);
+	}
+	vert.right = new Board(x + xL - dx, y, z + dz, dx, dy, zL - 2*dz, color);
+}
+
+XZFrame.prototype.draw = function() {
+	this.root.draw();
+}
+
+function YZFrame(x, y, z, yL, zL, dx, dy, dz, nL, color, skipTop) {
+	this.root = new Node(e3, z+dz, true);
+	this.root.left = new Board(x, y, z, dx, yL, dz, color); // bottom
+	this.root.right = new Node(e3, z+zL-dz, true);
+	if (skipTop) {
+		this.root.right.right = new Skip();
+	}
+	else {
+		this.root.right.right = new Board(x, y, z + zL - dz, dx, yL, dz, color); // top
+	}
+	var vert = new Node(e2, y+dy, true);
+	this.root.right.left = vert;
+	vert.left = new Board(x, y, z + dz, dx, dy, zL - 2*dz, color);
+	for (var i=1; i<nL ; i++) {
+		var d = i*yL/nL - dy/2;
+		vert.right = new Node(e2, y + d + dy, true);
+		vert = vert.right;
+		vert.left = new Board(x, y + d, z + dz, dx, dy, zL - 2*dz, color);
+	}
+	vert.right = new Board(x, y + yL - dy, z + dz, dx, dy, zL - 2*dz, color);
+}
+
+YZFrame.prototype.draw = function() {
+	this.root.draw();
+}
+
+function DrawBoard(x, y, z, xL, yL, zL, color) {
+	b = new Board(x, y, z, xL, yL, zL, color);
+	b.draw();
+}
+
+function DrawXYFrame(x, y, z, xL, yL, dx, dy, dz, nL, color) {
+	f = new XYFrame(x, y, z, xL, yL, dx, dy, dz, nL, color);
+	f.draw();
+}
+
+function DrawXZFrame(x, y, z, xL, zL, dx, dy, dz, nL, color) {
+	f = new XZFrame(x, y, z, xL, zL, dx, dy, dz, nL, color);
+	f.draw();
+}
+
+function DrawYZFrame(x, y, z, yL, zL, dx, dy, dz, nL, color, skipTop) {
+	f = new YZFrame(x, y, z, yL, zL, dx, dy, dz, nL, color, skipTop);
+	f.draw();
+}
+
+/*********************************************/
+function f1() {
+	DrawXYFrame(0, 0, 0, L, W1, bh, bh, bh, 6, "blue");
+}
+
+function f2() {
+	DrawBoard(0, 0, bh, L, W1, pw, "green");
+}
+
+function f3() {
+	DrawBoard(0, W1 - Bw, bh + pw, L, bh, bw, "purple");
+	DrawXYFrame(0, W1 - Bw, bh + pw + bw, L, W2, bh, bh, bh, 6, "yellow");
+}
+function f3b() {
+	DrawBoard(0, W1 - Bw, 2*bh + pw + bw, L, W2, pw, "green");
+}
+// backwall
+function f5() {
+	DrawXZFrame(Bw, W - Bw, 2*bh + 2*pw + bw, L-2*Bw, H - Bw - bw - pw, bw, bh, bw, 9, "brown");
+}
+
+function f4() {
+	DrawYZFrame(L - Bw, W1 - Bw, 2*bh + 2*pw + bw, W2, H - Bw - bw - pw, bh, bw, bw, 2, "yellow", true);
+	DrawYZFrame(L - Bw, 0, bh + pw, W1 - Bw, H, bh, bw, bw, 4, "yellow", true);
+	DrawBoard(L - Bw, 0, H + bw + pw, bh, W, bw, "yellow"); // top
+}
+
+function f7() {
+	ctx.fillStyle = "yellow";
+	DrawYZFrame(0, W1 - Bw + bw, 2*bh + 2*pw + bw, W2 - bw, H - Bw - bw - pw, bh, bw, bw, 2, true);
+    DrawBoard(0, W1 - Bw - bw + bw, 2*bh + 2*pw + bw, bh, bw, H - 4*bw - bh - pw - bw);
+	DrawBoard(0, W2, Bw + pw, bh, bw, H - 4*bw);
+    DrawBoard(0, W2 - Bw + 2*bw, H - 3*bw + bw, 2*bw, W1 - W2 - bw, 2*bw); // header
+	DrawBoard(0, (W1+W2)/2, H, 2*bw, bw, - Bw - bw + 2*bh + pw );
+	DrawYZFrame(0, 0, bh + pw, W2, H, bh, bw, bw, 2, true);
+	DrawBoard(0, 0, H + bw + pw, bh, W, bw); // top
+}
+
+function f6() {
+	DrawXZFrame(Bw, 0, bh + pw, L - 2*Bw, H, bw, bh, bw, 9, "brown");
+}
+
+function f7b() {
+	ctx.fillStyle = "CC3333";
+	DrawBoard(-ridgeOverHang, W - bh, H + 2*bw + pw, L + 2*ridgeOverHang, bh, bw, "green");
+	DrawBoard(L - Bw, Bw, H + 2* bw + pw, bh, W - 2*Bw , bw, "blue"); // top
+	DrawBoard(0, Bw, H + 2* bw + pw, bh, W - 2*Bw , bw, "blue");
+	DrawBoard(-ridgeOverHang, 0, H + 2*bw + pw, L + 2*ridgeOverHang, bh, bw, "green");
+}
+
+function grid() {
+    ctx.MTo(u1);
+	ctx.LTo(sum(u1,[1000, 0, 0]));
+	ctx.stroke();
+	ctx.MTo(u1);
+	ctx.LTo(sum(u1,[0, 1000, 0]));
+	ctx.stroke();
+	ctx.MTo(u1);
+	ctx.LTo(sum(u1,[0, 0, 1000]));
+	ctx.stroke();
+	xaxis = new Board(0, 0, 0, 100, 10, 10, "red");
+	xaxis.draw();
+	yaxis = new Board(0, 0, 0, 10, 100, 10, "green");
+	yaxis.draw();
+	zaxis = new Board(0, 0, 0, 10, 10, 100, "blue");
+	zaxis.draw();
+}
+
+function MakeVertSupport(y, ht, beam) {
+	var support = new Node(e3, ht, true);
+	support.right = beam;
+	support.left = new Loaf(e1, [0, in4, L-in4, L], true);
+	support.left.slices[0] = bottom1;
+	support.left.slices[1] = new Board(0, y, 0, in4, in4, ht, "red");
+	support.left.slices[2] = new Skip();
+	support.left.slices[3] = new Board(L - in4, y, 0, in4, in4, ht, "red");
+	support.left.slices[4] = bottom2;
+	return support;
+}
+
+function MakeRearSupport(y) {
+	var x = -ridgeOverHang;
+	var m1 = (H-H1)/W1;
+	var dz1 = in4 * Math.sqrt(1+m1*m1);
+	var c1 = H1 + m1*(W-y) - dz1;
+    var beamSize = in6;
+	var beam = new PolyTope([[x,y,c1-beamSize],[x,y,c1],[x,y+in4,c1-m1*in4],[x,y+in4,c1-beamSize]], e1, x, L + 2*ridgeOverHang, "brown");
+	return MakeVertSupport(y, c1-beamSize, beam);
+}
+
+function MakeFrontSupport(y) {
+	var x = -ridgeOverHang;
+	var m2 = (H-H2)/W2;
+	var dz2 = in4 * Math.sqrt(1+m2*m2);
+	var c2 = H2 + m2*in4 - dz2;
+    var beamSize = in6;
+	var beam = new PolyTope([[x,0,c2-beamSize],[x,0,H2-dz2],[x,in4,c2],[x,in4,c2-beamSize]], e1, x, L + 2*ridgeOverHang, "brown");
+	return MakeVertSupport(y, c2-beamSize, beam);
+}
+
+function f10() {
+
+	ctx.fillStyle = "orange";
+	var triPt = [0, W2, H];
+	root = new TriNode(triPt, [e2, [0, -(H-H1), -W1], [0, -(H-H2), W2]]);
+	var m1 = (H-H1)/W1;
+	var m2 = (H-H2)/W2;
+	root.sectors[0] = MakeRafters(W+rafterOverHang, H1 - m1*rafterOverHang, W2, H, in4, "yellow");
+	root.sectors[2] = MakeRafters(-rafterOverHang, H2 - m2*rafterOverHang, W2, H, in4, "green");
+
+	var x = -ridgeOverHang;
+    var dz1 = in4 * Math.sqrt(1+m1*m1);
+    var dz2 = in4 * Math.sqrt(1+m2*m2);
+	var M = H - dz1;
+	var a = M - m1*in2;
+	var b = M - m2*in2;
+	// b + m2*d = a + m1*(in4 - d)
+	var d = (a + m1*in4 - b)/(m1+m2);
+	var ridge = new PolyTope([[x, W2-in2,M-in6],[x,W2-in2,b],[x,W2-in2+d,b+d*m2],[x,W2+in2,a],[x,W2+in2,M-in6]], e1, x, L + 2*ridgeOverHang, "brown");
+	var underRafters = new Node(e3, M - in6, true);
+	root.sectors[1] = underRafters;
+	underRafters.right = ridge;
+	
+	bottom1 = new Board(-in2,0,in2, in2, W, in6, "green");
+	bottom2 = new Board(L,0,in2, in2, W, in6, "green");
+//	var c1 = H1 + m1*in4 - dz1;
+//	var c2 = H2 + m2*in4 - dz2;
+
+	var yx1 = new Loaf(e1, [0, L], true);
+	yx1.slices[0] = bottom1;
+	yx1.slices[1] = new YXFrame(0, in4, in4, L, W2 - in6, in2, in2, in4, 4, "yellow");
+	yx1.slices[2] = bottom2;
+	var yx2 = new Loaf(e1, [0, L], true);
+	yx2.slices[0] = bottom1;
+	yx2.slices[1] = new YXFrame(0, W2 + in2, in4, L, W - 13*in4 - W2, in2, in2, in4, 4, "yellow");
+	yx2.slices[2] = bottom2;
+	var yx3 = new Loaf(e1, [0, L], true);
+	yx3.slices[0] = bottom1;
+	yx3.slices[1] = new YXFrame(0, W - 12*in4 + in2, in4, L, inches(42), in2, in2, in4, 4, "yellow");
+	yx3.slices[2] = bottom2;
+L
+	var loaf = new Loaf(e2, [in4, W2-in2, W2+in2, W-in2-12*in4, W+in2-12*in4, W - in4], false);
+	loaf.slices[0] = MakeFrontSupport(0);
+	loaf.slices[1] = yx1;
+	loaf.slices[2] = MakeVertSupport(W2-in2, M-in6, new Skip());
+	loaf.slices[3] = yx2;	
+	loaf.slices[4] = MakeRearSupport(W-in2-12*in4);
+	loaf.slices[5] = yx3
+	loaf.slices[6] = MakeRearSupport(W-in4);
+	
+	underRafters.left = loaf;
+	
+	root.draw();	
+//	grid();
+}
+
+function MakeRafters(ymin, zmin, ymax, zmax, th, color) {
+	var r = new Node(e1, -ridgeOverHang + bw, true);
+	r.left = MakeRafter(-ridgeOverHang, ymin, zmin, ymax, zmax, th, color);
+	var vert = r;
+	for(var i = 0; i<nRafters ; i++) {
+	  vert.right = new Node(e1, i*(L-bw)/(nRafters - 1) + bw, true);
+	  vert.right.left = MakeRafter(i*(L-bw)/(nRafters - 1), ymin, zmin, ymax, zmax, th, color);
+	  vert = vert.right;
+	}
+	vert.right = MakeRafter(L + ridgeOverHang - bw, ymin, zmin, ymax, zmax, th, color);
+	return r;
+}
+
+function f0() {
+	ctx.resetTransform(); 
+	ctx.clearRect(0, 0, canvas.width, canvas.height); 
+//	alert("width="+canvas.width+", height="+canvas.height);
+//	ctx.scale(1000/1339, 600/965);
+//    ctx.drawImage(img, 0, 0);
+//	DrawPillars();
+}
+
+function DrawPillars() {
+	DrawPillar(bw, bw, 0, r, 2*h1);
+	DrawPillar(L - bw, bw, 0, r, 2*h1);
+	DrawPillar(L/3, bw, 0, r, 2*h1);
+	DrawPillar(2*L/3, bw, 0, r, 2*h1);
+
+	DrawPillar(bw, W1 - bw, 0, r, h1);
+	DrawPillar(L - bw, W1 - bw, 0, r, h1);
+	DrawPillar(L/3, W1 - bw, 0, r, h1);
+	DrawPillar(2*L/3, W1 - bw, 0, r, h1);
+
+	var dd = Bw + bw + pw;
+	DrawPillar(bw, W - bw, dd, r, h1);
+	DrawPillar(L - bw, W - bw, dd, r, h1);
+	DrawPillar(L/3, W - bw, dd, r, h1);
+	DrawPillar(2*L/3, W - bw, dd, r, h1);
+}
+
+var ndx = -1;
+var array_of_functions = [f0, f10];
+//var array_of_functions = [f0, f1, f2, f3, f3b, f4, f5, f6, f7, f7b, f8, f8b, f8c, f9, f10, f11];
+
+function redraw() {
+	var cur = ndx;
+	reset();
+	while(ndx < cur) {
+        next(); 
+    }
+}
+
+function reset() {
+  ndx = -1;
+  next();
+}
+function prev() {
+  if (ndx > 0) {
+    var step = ndx;
+	reset();
+	while(ndx < step - 1) {
+	  next();
+	}
+  }
+}
+function next() {
+	if (ndx < array_of_functions.length - 1) {
+		ndx++;
+		array_of_functions[ndx]();
+	}
+}
+function last() {
+  while(ndx < array_of_functions.length - 1) {
+    next(); 
+  }
+}
+last();
+
+</script>
+
+
+</body>
+</html>
