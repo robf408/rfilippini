@@ -17,18 +17,23 @@ var downY;
 var theta;
 var isDown = false;
 var shiftOn = false;
+var ctrlOn = false;
+
 
 function mouseDown(e) {
+
   isDown = true;
+  
   shiftOn = event.shiftKey;
+  ctrlOn = event.ctrlKey;
   downX = e.clientX;
   downY = e.clientY;
   theta = Math.atan2(downY - canvas.height/2, downX - canvas.width/2);
-  DrawEllipse();
+  
 }
 
 function mouseMove(e) {
-  if (isDown) {
+  if (isDown && (downX != e.clientX || downY != e.clientY)) {
 	alpha = Math.atan2(e.clientY - canvas.height/2, e.clientX - canvas.width/2);
 	phi = alpha - theta;
 	ue_rel_u1 = sub(ue, u1);
@@ -38,7 +43,15 @@ function mouseMove(e) {
 	uey = yo - dp(u1,e2);
 	uez = zo - dp(u1,e3);
 	
-	if (shiftOn) {
+	if (ctrlOn) {
+		// based on dy, move ue towards or away from u1
+		var dy = e.clientY - downY;
+		var s = 1-dy/canvas.height;
+		uex2 = s*uex;
+		uey2 = s*uey;
+		uez2 = s*uez;
+	}
+	else if (shiftOn) {
 		var d = Math.sqrt(uex*uex + uey*uey);
 		var n_xy = [uex/d, uey/d, 0];
 		var cost1 = uez/m_ue_rel_u1;
@@ -66,13 +79,16 @@ function mouseMove(e) {
 	theta = alpha;
 	init();
 	redraw();
-	DrawEllipse();
   }
 }
 
 function mouseUp(e) {
+	if (ctrlOn && shiftOn) {
+		alert("ue =" + ue);
+	}
+	
     isDown = false;
-	init
+	init();
 	// debug=true;
 //	alert("a="+a);
 	redraw();
@@ -80,6 +96,13 @@ function mouseUp(e) {
 
 var counter = 0;
 var debug = false;
+var logToConsole = false;
+
+function dconsole(msg) {
+	if (logToConsole) {
+		console.log(msg);
+	}
+}
 
 var ctx = canvas.getContext("2d");
 
@@ -90,6 +113,10 @@ function feet(n) {
 	return 12*inches(n);
 }
 
+var doorHt = inches(80);
+var doorWd = inches(36);
+var platformHt = inches(92);
+var lift = inches(6);
 var H1 = inches(96);
 var H2 = inches(132);
 var H = inches(144);
@@ -100,6 +127,7 @@ var in1 = inches(1);
 var in4 = inches(4);
 var in2 = inches(2);
 var in6 = inches(6);
+var in8 = inches(8);
 var L = feet(10);
 
 var r=20
@@ -160,66 +188,85 @@ var e2 = [0, 1, 0];
 var e3 = [0, 0, 1];
 //var u1 = [0, 0, H1/2];
 var u1 = [.5*L, .5*W, H1/2];
+// 172.82800073926558,151.88633198292248,145
+// 172.21339900938716,151.95773719634053,145
+
 var xo = -4.0*L; //2750; // -4.0*L
 var yo = -4.3*W; // -2242; // -4.3*W;
 var zo = 1.1*H1;
 var ue = [xo, yo, zo];
 var n_view = norm(sub(u1, ue));
-var a = dp(n_view, u1);
-var nDue = dp(n_view, ue);
+var a = 400; // dp(n_view, u1);
   
 var o = proj(u1); // proj([0,0,0]);
-var k = k = norm(sub(proj(sum(u1,[0,0,1])), o)); // norm(sub(proj([0,0,1]), o));
+var k = norm(sub(proj(sum(u1,[0,0,1])), o)); // norm(sub(proj([0,0,1]), o));
    
 var i = cross(n_view, k);  
 
 var clipPlanes = new Array();
 var numClipPlanes = 0;
+epsilon = 1;
 
 function init() {
    n_view = norm(sub(u1, ue));
-   a = dp(n_view, u1);
-   nDue = dp(n_view, ue); 
+//   a = dp(n_view, u1);
    o = proj(u1); // proj([0,0,0]);
 //   k = norm(sub(proj([0,0,1]), o));
    k = norm(sub(proj(sum(u1,[0,0,1])), o));
    i = cross(n_view, k);
 }
 
+init();
+
 function isVisible(p) {
-//	return dp(n_view, sub(p, ue)) >= 0;
-	if (dp(n_view, sub(p, ue)) >= 0) {
+	if (dp(n_view, sub(p, ue)) > epsilon) {
 		return true;
 	}
 	else {
-		alert("NOT VISIBLE: p=" + p);
+		// alert("NOT VISIBLE: p=" + p);
 		return false;
 	}
 }
 
 function getBorderPoint(p, q) {
-	var t = dp(sub(ue, p), n)/dp(sub(q, p), n);
+	var t = (epsilon+dp(sub(ue, p), n_view))/dp(sub(q, p), n_view);
 	return sum(mul(t, q), mul(1-t, p));
 }
 
 function proj(v) {
-  // project to plane: n1*x + n2*y + n3*z = a
-  var lambda = (a + nDue)/(dp(n_view,sub(v, u1)) - nDue);
-  return sum(ue, mul(lambda, sub(v, ue)));
+  var lambda = (a - dp(sub(v, u1), n_view))/dp(sub(v, ue), n_view);
+  return sum(v, mul(lambda, sub(v, ue)));
 }
 
 
 
 function Point(x,y,z) {
   var p = sub(proj([x,y,z]), o);
-//   return([x0 + dp(p,i), y0 + dp(p,k)]);
-   return([x0 + dp(p,i), .8*y0 - dp(p,k)]);
+  return([x0 + dp(p,i), .6*y0 - dp(p,k)]);
 }
 
 function MTo(pt) {
   var p = Point(pt[0],pt[1],pt[2]);
   ctx.beginPath();
+  if (logToConsole) {
+	console.log("############### MTo: " + pt);
+	console.log("ctx.moveTo: (" + p[0] +", " + p[1]+")");
+  }
   ctx.moveTo(p[0], p[1]);
+}
+
+function ctx_moveTo(p) {
+  if (logToConsole) {
+	console.log("ctx.moveTo(" + p[0] +", " + p[1]+")");
+  }
+  ctx.moveTo(p[0], p[1]);
+}
+
+function ctx_lineTo(p) {
+  if (logToConsole) {
+	console.log("ctx.lineTo(" + p[0] +", " + p[1]+")");
+  }
+  ctx.lineTo(p[0], p[1]);
 }
 
 function MoveTo(x,y,z) {
@@ -230,6 +277,10 @@ function MoveTo(x,y,z) {
 
 function LTo(pt) {
   var p = Point(pt[0],pt[1],pt[2]);
+  if (logToConsole) {
+	console.log("LTo: " + pt);
+	console.log("ctx.lineTo: (" + p[0] +", " + p[1]+")");
+  }
   ctx.lineTo(p[0], p[1]);
 }
 
@@ -253,7 +304,7 @@ function MakeRafter(x, ymin, zmin, ymax, zmax, h, color) {
 	else {
 		var pts = [[x, ymax, zmax], [x, ymin, zmin], [x, ymin, zmin - zL], [x, ymax, zmax - zL]];
 	}
-	return new PolyTope(pts, e1, x, h, color);
+	return new PolyTope(pts, e1, x, in2, color);
 }
 
 function Parallelogram(p, u, v, color) {
@@ -323,17 +374,26 @@ if (false) {
 	alert("n_view = " + n_view);
 	alert("u1 = " + u1);
 }
+try {
 	this.p1.draw();
 	this.p2.draw();
 	for(var i=0; i<this.lats.length ; i++) {
 		this.lats[i].draw();
 	}
 }
+catch(err) {
+	alert("PolyTope.draw exception: " + err);
+}
+}
 
 
 function setClipPath(pts, v, c) {
-dalert("setClipPath called, v="+v+", c="+c+", numClipPlanes="+numClipPlanes);
 try{
+	var pts2 = getVisiblePolygon(pts);
+	pts = pts2;
+	if (pts.length == 0) {
+		return false;
+	}
 	ctx.beginPath();
 	var p = pts[0];
 	var path = [[0,0], [canvas.width,0], [canvas.width,canvas.height], [0,canvas.height]];
@@ -343,6 +403,7 @@ try{
 
 		var v_clip = clipPlanes[i][0];
 		var c_clip = clipPlanes[i][1];
+		// console.log("setClipPath, i="+i+", v_clip="+v_clip+", c_clip="+c_clip);
 		
 		var nVisible = 0;
 		var nInvisible = 0;
@@ -361,12 +422,6 @@ try{
 		if (nVisible == 0) {
 			return false;
 		}
-		if (debug) {
-			//alert("v_clip="+v_clip+", c_clip="+c_clip);
-			//alert("v="+v+", c="+c);
-			alert("nVisible="+nVisible+", nInvisible="+nInvisible);
-			//alert("pts="+pts);
-		}
 		
 		var pr = norm(sub(v_clip, mul(dp(v_clip, v), v)));
 		var w = norm(cross(v, v_clip));
@@ -376,11 +431,25 @@ try{
 		var t = (c_clip - dp(p, v_clip))/dp(u, v_clip);
 		var pp = sum(p, mul(t, u));
 		var pp2 = sum(pp, pr);
+		var ppw = sum(pp, w);
+		dconsole("pp="+pp+", pp2="+pp2+", ppw ="+ppw);
 		var pp_proj = Point(pp[0], pp[1], pp[2]);
 		var pp2_proj = Point(pp2[0], pp2[1], pp2[2]);
-//		alert("pp_proj = " + pp_proj + ", pp2_proj = " + pp2_proj);
+		var ppw_proj = Point(ppw[0], ppw[1], ppw[2]);
+		dconsole("pp_proj = "+pp_proj);
+		dconsole("pp2_proj = " + pp2_proj);
+		dconsole("ppw_proj = " + ppw_proj);
+		var r = sub2(ppw_proj, pp_proj);
+		var q_t = [-r[1], r[0]];
 		var q = sub2(pp2_proj, pp_proj);	
-		// var q = sub2(pp_proj, pp2_proj);
+		dconsole("q = " + q);
+		dconsole("r = " + r);
+		if (dp2(q_t, q) < 0) {
+			q = [r[1], -r[0]];
+		}
+		else {
+			q = q_t;
+		}
 		var cc = dp2(pp_proj, q);
 		var path2 = new Array();
 		var nNewPts = 0;
@@ -428,19 +497,12 @@ try{
 		}
 		
 	}
-	ctx.moveTo(path[0][0], path[0][1]);
+	
+	ctx_moveTo(path[0]);
 	for(var i=0 ; i<numPtsInClip ; i++) {
-		ctx.lineTo(path[i][0], path[i][1]);
-//		alert("clip point: " + path[i]);
+		ctx_lineTo(path[i]);
 	}
 	
-	//ctx.stroke();
-/*		ctx.closePath();
-		ctx.globalAlpha=0.4;
-		ctx.fillStyle = "#990000";
-		ctx.fill();
-		ctx.globalAlpha=1.0;
-		*/
 	ctx.clip();
 	}
 	catch(err) {
@@ -450,8 +512,67 @@ try{
 	return true;
 }
 
+function getVisiblePolygon(pts, v, c) {
+    pts2 = new Array();
+    var nPoints = 0;
+   	var firstVisible = -1; // previous is invisible
+	
+	for (var i=0; i<pts.length ; i++) {
+		if (isVisible(pts[i])) {
+			firstVisible = i;
+			break;
+		}
+	}
+	if (firstVisible == 0) {
+		if (isVisible(pts[pts.length - 1])) {
+			pts2[nPoints++] = pts[0];
+		}
+		else {
+		    var bp = getBorderPoint(pts[pts.length - 1], pts[0]);
+			pts2[nPoints++] = bp;
+			pts2[nPoints++] = pts[0];
+		}
+	}
+	else if (firstVisible > 0) {
+		pts2[nPoints++] = getBorderPoint(pts[firstVisible - 1], pts[firstVisible]);
+		pts2[nPoints++] = pts[firstVisible];
+	}
+	else {
+		return pts2;
+	}
+
+	var prevVisible = true;
+	for (var i=firstVisible+1; i<pts.length ; i++) {
+		var curVisible = isVisible(pts[i]);
+		if (curVisible) {
+			if (prevVisible) {
+				pts2[nPoints++] = pts[i];
+			}
+			else {
+				var bp = getBorderPoint(pts[i - 1], pts[i]);
+				pts2[nPoints++] = bp;
+				pts2[nPoints++] = pts[i];
+			}
+		}
+		else if (prevVisible) {
+			var bp = getBorderPoint(pts[i - 1], pts[i]);
+			pts2[nPoints++] = bp;
+		}
+		prevVisible = curVisible;
+	}
+	if (firstVisible > 0 && isVisible(pts[pts.length - 1])) {
+		var bp = getBorderPoint(pts[pts.length - 1], pts[0]);
+		pts2[nPoints++] = bp;
+	}
+	return pts2;
+}
+
 var counter2 = 0;
 function drawPolygon(pts, v, c, color) {
+try {
+	if (logToConsole) {
+		console.log("drawPolygon: pts = " + pts);
+	}
 	if (numClipPlanes > 0) {
 		ctx.save();
 		if (! setClipPath(pts, v, c)) {
@@ -469,6 +590,7 @@ function drawPolygon(pts, v, c, color) {
 	ctx.fillStyle = color;
 	var firstVisible = -1; // previous is invisible
 	
+	try {
 	for (var i=0; i<pts.length ; i++) {
 		if (isVisible(pts[i])) {
 			firstVisible = i;
@@ -477,10 +599,11 @@ function drawPolygon(pts, v, c, color) {
 	}
 	if (firstVisible == 0) {
 		if (isVisible(pts[pts.length - 1])) {
-			MTo(pts[i]);
+			MTo(pts[0]);
 		}
 		else {
-			MTo(getBorderPoint(pts[pts.length - 1], pts[0]));
+		    var bp = getBorderPoint(pts[pts.length - 1], pts[0]);
+			MTo(bp);
 			LTo(pts[0]);
 		}
 	}
@@ -495,32 +618,53 @@ function drawPolygon(pts, v, c, color) {
 		}
 		return;
 	}
+	}
+	catch(err1) {
+		alert("EXCEPTION 1: " + err1);
+	}
 
 	var prevVisible = true;
 	for (var i=firstVisible+1; i<pts.length ; i++) {
 		var curVisible = isVisible(pts[i]);
 		if (curVisible) {
 			if (prevVisible) {
+				dalert("LTo("+pts[i]+")");
 				LTo(pts[i]);
 			}
 			else {
-				LTo(getBorderPoint(pts[i - 1], pts[i]));
+				var bp = getBorderPoint(pts[i - 1], pts[i]);
+				dalert("LTo border pt("+bp+")");
+				LTo(bp);
+				dalert("Lto: ("+pts[i]+")");
 				LTo(pts[i]);
 			}
 		}
 		else if (prevVisible) {
-			LTo(getBorderPoint(pts[i - 1], pts[i]));
+			var bp = getBorderPoint(pts[i - 1], pts[i]);
+			dalert("LTo border pt("+bp+")");
+			LTo(bp);
 		}
 		prevVisible = curVisible;
 	}
+	if (firstVisible > 0 && isVisible(pts[pts.length - 1])) {
+		var bp = getBorderPoint(pts[pts.length - 1], pts[0]);
+		LTo(bp);
+	}
 
+	if (debug) {
+		ctx.fillStyle = "green";
+	}
 	ClosePath();
 	
 	if (numClipPlanes > 0) {
 		ctx.restore();
 		counter--;
 	}
-	
+}
+catch(err) {
+	alert("DrawPolygon exception: " + err);
+	console.trace();
+}
 }
 
 function Node(v, c, b) {
@@ -567,11 +711,14 @@ function Loaf(v, c_a, b) {
 }
 
 Loaf.prototype.drawSlice = function(ndx) {
+try {
 	if (! this.b) {
 		if (ndx > 0) {
 			clipPlanes[numClipPlanes++] = [this.v, this.c_a[ndx-1]];
 		}
 		if (ndx < this.c_a.length) {
+			if (ndx == 0) {
+			}
 			clipPlanes[numClipPlanes++] = [mul(-1, this.v), -(this.c_a[ndx])];
 		}
 	}
@@ -583,6 +730,11 @@ Loaf.prototype.drawSlice = function(ndx) {
 		if (ndx < this.c_a.length) {
 			numClipPlanes--;
 		}
+	}
+}
+	catch(err) {
+	  alert("EXCEPTION [Loaf.drawSlice: ndx="+ndx+"] " + err);
+	  return false;
 	}
 }
 
@@ -618,7 +770,8 @@ TriNode.prototype.draw = function() {
 	var ndx2=-1;
 	var ndx3=-1;
 	for (var i=0 ; i<3 ; i++) {
-		if (dp(ue, this.planes[i][0]) >= this.planes[i][1] && dp(ue, this.planes[(i+1)%3][0]) <= this.planes[(i+1)%3][1]) {
+		if (dp(ue, this.planes[i][0]) >= this.planes[i][1] && 
+		    dp(ue, this.planes[(i+1)%3][0]) <= this.planes[(i+1)%3][1]) {
 			ndx1 = i;
 			break;
 		}
@@ -781,54 +934,7 @@ function DrawYZFrame(x, y, z, yL, zL, dx, dy, dz, nL, color, skipTop) {
 }
 
 /*********************************************/
-function f1() {
-	DrawXYFrame(0, 0, 0, L, W1, bh, bh, bh, 6, "blue");
-}
 
-function f2() {
-	DrawBoard(0, 0, bh, L, W1, pw, "green");
-}
-
-function f3() {
-	DrawBoard(0, W1 - Bw, bh + pw, L, bh, bw, "purple");
-	DrawXYFrame(0, W1 - Bw, bh + pw + bw, L, W2, bh, bh, bh, 6, "yellow");
-}
-function f3b() {
-	DrawBoard(0, W1 - Bw, 2*bh + pw + bw, L, W2, pw, "green");
-}
-// backwall
-function f5() {
-	DrawXZFrame(Bw, W - Bw, 2*bh + 2*pw + bw, L-2*Bw, H - Bw - bw - pw, bw, bh, bw, 9, "brown");
-}
-
-function f4() {
-	DrawYZFrame(L - Bw, W1 - Bw, 2*bh + 2*pw + bw, W2, H - Bw - bw - pw, bh, bw, bw, 2, "yellow", true);
-	DrawYZFrame(L - Bw, 0, bh + pw, W1 - Bw, H, bh, bw, bw, 4, "yellow", true);
-	DrawBoard(L - Bw, 0, H + bw + pw, bh, W, bw, "yellow"); // top
-}
-
-function f7() {
-	ctx.fillStyle = "yellow";
-	DrawYZFrame(0, W1 - Bw + bw, 2*bh + 2*pw + bw, W2 - bw, H - Bw - bw - pw, bh, bw, bw, 2, true);
-    DrawBoard(0, W1 - Bw - bw + bw, 2*bh + 2*pw + bw, bh, bw, H - 4*bw - bh - pw - bw);
-	DrawBoard(0, W2, Bw + pw, bh, bw, H - 4*bw);
-    DrawBoard(0, W2 - Bw + 2*bw, H - 3*bw + bw, 2*bw, W1 - W2 - bw, 2*bw); // header
-	DrawBoard(0, (W1+W2)/2, H, 2*bw, bw, - Bw - bw + 2*bh + pw );
-	DrawYZFrame(0, 0, bh + pw, W2, H, bh, bw, bw, 2, true);
-	DrawBoard(0, 0, H + bw + pw, bh, W, bw); // top
-}
-
-function f6() {
-	DrawXZFrame(Bw, 0, bh + pw, L - 2*Bw, H, bw, bh, bw, 9, "brown");
-}
-
-function f7b() {
-	ctx.fillStyle = "CC3333";
-	DrawBoard(-ridgeOverHang, W - bh, H + 2*bw + pw, L + 2*ridgeOverHang, bh, bw, "green");
-	DrawBoard(L - Bw, Bw, H + 2* bw + pw, bh, W - 2*Bw , bw, "blue"); // top
-	DrawBoard(0, Bw, H + 2* bw + pw, bh, W - 2*Bw , bw, "blue");
-	DrawBoard(-ridgeOverHang, 0, H + 2*bw + pw, L + 2*ridgeOverHang, bh, bw, "green");
-}
 
 function grid() {
     ctx.MTo(u1);
@@ -848,40 +954,59 @@ function grid() {
 	zaxis.draw();
 }
 
-function MakeVertSupport(y, ht, beam) {
+function MakeVertSupport(y, ht, beam, st) {
+	if (typeof st == 'undefined') {
+		st = new Skip();
+	}
 	var support = new Node(e3, ht, true);
 	support.right = beam;
 	support.left = new Loaf(e1, [0, in4, L-in4, L], true);
 	support.left.slices[0] = bottom1;
 	support.left.slices[1] = new Board(0, y, 0, in4, in4, ht, "red");
-	support.left.slices[2] = new Skip();
+	support.left.slices[2] = st;
 	support.left.slices[3] = new Board(L - in4, y, 0, in4, in4, ht, "red");
 	support.left.slices[4] = bottom2;
 	return support;
 }
 
-function MakeRearSupport(y) {
+function MakeRearSupport(y, st) {
 	var x = -ridgeOverHang;
 	var m1 = (H-H1)/W1;
 	var dz1 = in4 * Math.sqrt(1+m1*m1);
 	var c1 = H1 + m1*(W-y) - dz1;
     var beamSize = in6;
 	var beam = new PolyTope([[x,y,c1-beamSize],[x,y,c1],[x,y+in4,c1-m1*in4],[x,y+in4,c1-beamSize]], e1, x, L + 2*ridgeOverHang, "brown");
-	return MakeVertSupport(y, c1-beamSize, beam);
+	return MakeVertSupport(y, c1-beamSize, beam, st);
 }
 
-function MakeFrontSupport(y) {
+function MakeFrontSupport(y, st) {
 	var x = -ridgeOverHang;
 	var m2 = (H-H2)/W2;
 	var dz2 = in4 * Math.sqrt(1+m2*m2);
 	var c2 = H2 + m2*in4 - dz2;
     var beamSize = in6;
 	var beam = new PolyTope([[x,0,c2-beamSize],[x,0,H2-dz2],[x,in4,c2],[x,in4,c2-beamSize]], e1, x, L + 2*ridgeOverHang, "brown");
-	return MakeVertSupport(y, c2-beamSize, beam);
+	return MakeVertSupport(y, c2-beamSize, beam, st);
 }
 
-function f10() {
+function MakeXZSection(x, y, z, Lx, Lz, n, color) {
+	var v = new Array();
+	v[0] = x + in2;
+	var d = (Lx - in2)/(n+1);
+	for (var i=0; i<n+1 ; i++) {
+		v[i] = x + in2 + i*d;
+	}
+	var loaf = new Loaf(e1, v, true);
+	for (var i=0; i<n+2 ; i++) {
+		loaf.slices[i] = new Board(x + i*d, y, z, in2, in4, Lz, color);
+	}
+	return loaf;
+}
 
+
+
+function f10() {
+	var skip = new Skip();
 	ctx.fillStyle = "orange";
 	var triPt = [0, W2, H];
 	root = new TriNode(triPt, [e2, [0, -(H-H1), -W1], [0, -(H-H2), W2]]);
@@ -903,37 +1028,90 @@ function f10() {
 	root.sectors[1] = underRafters;
 	underRafters.right = ridge;
 	
-	bottom1 = new Board(-in2,0,in2, in2, W, in6, "green");
-	bottom2 = new Board(L,0,in2, in2, W, in6, "green");
+	bottom1 = new Board(-in2,0,lift, in2, W, in6, "brown");
+	bottom2 = new Board(L,0,lift, in2, W, in6, "green");
+	platformB1 = new Board(in4, 0, lift + in6 + platformHt, in2, W2+in2, in4, "pink");
+	platformB2 = new Board(L - in6, 0, lift + in6 + platformHt, in2, W2+in2, in4, "pink");
+	platformBase = new Board(in4, in4, lift + in6 + platformHt + in4, L - 2*in4, W2, inches(.75), "green");
 //	var c1 = H1 + m1*in4 - dz1;
 //	var c2 = H2 + m2*in4 - dz2;
 
+
 	var yx1 = new Loaf(e1, [0, L], true);
 	yx1.slices[0] = bottom1;
-	yx1.slices[1] = new YXFrame(0, in4, in4, L, W2 - in6, in2, in2, in4, 4, "yellow");
+	yx1.slices[1] = new YXFrame(0, in4, lift+in2, L, W2 - in6, in2, in2, in4, 4, "yellow");
 	yx1.slices[2] = bottom2;
+	var yx1b = new Loaf(e3, [lift+in4,lift + in6 + platformHt + in4], true);
+	yx1b.slices[0] = yx1;
+	yx1bx = new Loaf(e1, [in6,L -2*in6], true);
+	yx1b.slices[1] = yx1bx;
+	yx1bx.slices[0] = platformB1;
+	yx1bx.slices[1] = new Board(in6, in4, lift + in6 + platformHt, L -2*in6, in2, in4, "pink");
+	yx1bx.slices[2] = platformB2;
+	yx1b.slices[2] = platformBase;
 	var yx2 = new Loaf(e1, [0, L], true);
 	yx2.slices[0] = bottom1;
-	yx2.slices[1] = new YXFrame(0, W2 + in2, in4, L, W - 13*in4 - W2, in2, in2, in4, 4, "yellow");
+	yx2.slices[1] = new YXFrame(0, W2 + in2, lift+in2, L, W - 13*in4 - W2, in2, in2, in4, 4, "yellow");
 	yx2.slices[2] = bottom2;
+	var yx2b = new Loaf(e3, [lift+in4,lift + in6 + platformHt + in4], true);
+	yx2b.slices[0] = yx2;
+	yx2b.slices[1] = new Board(0, W2+in2, lift+in6+platformHt, L, in2, in4, "pink");
+	yx2b.slices[2] = platformBase;
 	var yx3 = new Loaf(e1, [0, L], true);
 	yx3.slices[0] = bottom1;
-	yx3.slices[1] = new YXFrame(0, W - 12*in4 + in2, in4, L, inches(42), in2, in2, in4, 4, "yellow");
+	yx3.slices[1] = new YXFrame(0, W - 12*in4 + in2, lift+in2, L, inches(42), in2, in2, in4, 4, "yellow");
 	yx3.slices[2] = bottom2;
-L
+
 	var loaf = new Loaf(e2, [in4, W2-in2, W2+in2, W-in2-12*in4, W+in2-12*in4, W - in4], false);
-	loaf.slices[0] = MakeFrontSupport(0);
-	loaf.slices[1] = yx1;
-	loaf.slices[2] = MakeVertSupport(W2-in2, M-in6, new Skip());
-	loaf.slices[3] = yx2;	
+	var fw = MakeFrontWall();
+	var fw_pl = new Loaf(e3, [lift+in6+platformHt], true);
+	fw_pl.slices[0] = new Loaf(e1, [in6], true);
+	fw_pl.slices[0].slices[0] = platformB1;
+	fw_pl.slices[0].slices[1] = platformB2;
+	fw_pl.slices[1] = platformBase;
+	loaf.slices[0] = MakeFrontSupport(0, fw);
+	loaf.slices[1] = yx1b;
+	loaf.slices[2] = MakeVertSupport(W2-in2, M-in6, skip, fw_pl);
+	loaf.slices[3] = yx2b;	
 	loaf.slices[4] = MakeRearSupport(W-in2-12*in4);
 	loaf.slices[5] = yx3
 	loaf.slices[6] = MakeRearSupport(W-in4);
 	
 	underRafters.left = loaf;
 	
-	root.draw();	
+	root.draw();
+//	platformBase.draw();
+
 //	grid();
+}
+
+function MakeFrontWall() {
+	var lf = new Loaf(e3, [lift + in6, lift + in6 + doorHt, lift + inches(10) + doorHt], true);
+	lf.slices[0] = new Board(in4, 0, lift + in4, L - 2*in4, in4, in2, "red");
+	var lf2 = new Loaf(e1, [in4, in4 + (L - in8 - doorWd)/2], true);
+	lf2.slices[0] = MakeXZSection(in4, 0, lift + in6, (L - in8 - doorWd)/2, doorHt, 1, "blue");
+	lf2.slices[1] = new Skip(); // door
+	lf2.slices[2] = MakeXZSection((L + doorWd)/2, 0, lift + in6, (L - in8 - doorWd)/2, doorHt, 1, "blue");
+	lf.slices[1] = lf2;
+	lf.slices[2] = new Board(in4, 0, lift + in6 + doorHt, L - 2*in4, in4, in4, "red");
+	var d = (L - doorWd)/4 - inches(3);
+	var u = [in4+d,in4+2*d,(L-in2)/2, (L+doorWd)/2, (L+doorWd)/2 + d, (L+doorWd)/2 + 2*d];
+	var lf3 = new Loaf(e1, u, true);
+	lf.slices[3] = lf3
+	lf3.slices[0] = platformB1;
+	
+	var m2 = (H-H2)/W2;
+	var dz2 = in4 * Math.sqrt(1+m2*m2);
+	var c2 = H2 + m2*in4 - dz2;
+    var beamSize = in6;
+	var frontBeamHeight = c2 - beamSize;
+	
+	var dz = frontBeamHeight - (lift + in6 + doorHt + in4);
+	for(var i=0 ; i<u.length - 1 ; i++) {
+		lf3.slices[i+1] = new Board(u[i], 0, lift + in6 + doorHt + in4, in2, in4, dz, "blue");
+	}
+	lf3.slices[u.length] = platformB2;
+	return lf;
 }
 
 function MakeRafters(ymin, zmin, ymax, zmax, th, color) {
@@ -952,28 +1130,6 @@ function MakeRafters(ymin, zmin, ymax, zmax, th, color) {
 function f0() {
 	ctx.resetTransform(); 
 	ctx.clearRect(0, 0, canvas.width, canvas.height); 
-//	alert("width="+canvas.width+", height="+canvas.height);
-//	ctx.scale(1000/1339, 600/965);
-//    ctx.drawImage(img, 0, 0);
-//	DrawPillars();
-}
-
-function DrawPillars() {
-	DrawPillar(bw, bw, 0, r, 2*h1);
-	DrawPillar(L - bw, bw, 0, r, 2*h1);
-	DrawPillar(L/3, bw, 0, r, 2*h1);
-	DrawPillar(2*L/3, bw, 0, r, 2*h1);
-
-	DrawPillar(bw, W1 - bw, 0, r, h1);
-	DrawPillar(L - bw, W1 - bw, 0, r, h1);
-	DrawPillar(L/3, W1 - bw, 0, r, h1);
-	DrawPillar(2*L/3, W1 - bw, 0, r, h1);
-
-	var dd = Bw + bw + pw;
-	DrawPillar(bw, W - bw, dd, r, h1);
-	DrawPillar(L - bw, W - bw, dd, r, h1);
-	DrawPillar(L/3, W - bw, dd, r, h1);
-	DrawPillar(2*L/3, W - bw, dd, r, h1);
 }
 
 var ndx = -1;
