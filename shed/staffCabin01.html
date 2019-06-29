@@ -10,13 +10,13 @@ Your browser does not support the HTML5 canvas tag.</canvas>
 </td>
 <td>
 <p>Rotate horizontally:</p>
-<div><input id="azimuth" type="range" id="vertical" min="-180" max="180" value="0"/></div>
+<div><input id="azimuth" type="range" min="-180" max="180" value="0"/></div>
 <p>Rotate vertically:</p>
-<div><input id="polar" type="range" id="vertical" min="-89" max="89" value="0"  styleX="-webkit-appearance: slider-vertical"/></div>
+<div><input id="polar" type="range" min="-89" max="89" value="0"  styleX="-webkit-appearance: slider-vertical"/></div>
 <p>Zoom:</p>
-<div><input id="zoom" type="range" id="vertical" min="-5" max="5" value="0"/></div>
+<div><input id="zoom" type="range" min="-5" max="5" value="0"/></div>
 <p>Move vertically:</p>
-<div><input id="altitude" type="range" id="vertical" min="-50" max="50" value="0"/></div>
+<div><input id="altitude" type="range" min="-50" max="50" value="0"/></div>
 <button onclick="reset()"><<</button>
 <button onclick="prev()"><</button>
 <button onclick="next()">></button>
@@ -95,9 +95,11 @@ beamLevel=4
 frontWallLevel=5
 platformLevel=6;
 rafterLevel=7;
+floorLevel=8;
+bedLevel=9;
 
 curLevel=1;
-maxLevel=7;
+maxLevel=9;
 
 
 function mouseDown(e) {
@@ -144,6 +146,8 @@ function mouseMove(e) {
 		uez2 = dp(new_ue_rel_u1, e3);
 	}
 	else {
+		slider1.value = 180*phi/3.1416
+	
 		uex2 = uex*Math.cos(phi) - uey*Math.sin(phi);
 		uey2 = uex*Math.sin(phi) + uey*Math.cos(phi);
 		uez2 = uez;
@@ -195,17 +199,24 @@ function feet(n) {
 
 var doorHt = inches(80);
 var doorWd = inches(36);
-var platformHt = inches(92);
+var platformHt = inches(84); // (92);
 var lift = inches(6);
 var H1 = inches(96);
-var H2 = inches(132);
-var H = inches(144);
-var W1 = inches(96);
-var W2 = inches(48);
+//var H2 = inches(112); // (132);
+//var H = inches(128); // (144);
+var W1 = inches(108); // (96);
+var W1a = inches(48); // W1/2;
+
+var W1b = W1 - W1a;
+var W2 = inches(36); // (48);
+var H = W1/3 + H1;
+var H2 = H - W2/3;
 var W = W1 + W2;
 var in1 = inches(1);
 var in2 = inches(2);
+var in3 = inches(3);
 var in4 = inches(4);
+var in5 = inches(5);
 var in6 = inches(6);
 var in8 = inches(8);
 var L = feet(10);
@@ -1001,28 +1012,7 @@ YZFrame.prototype.draw = function() {
 	this.root.draw();
 }
 
-function DrawBoard(x, y, z, xL, yL, zL, color) {
-	b = new Board(x, y, z, xL, yL, zL, color);
-	b.draw();
-}
-
-function DrawXYFrame(x, y, z, xL, yL, dx, dy, dz, nL, color) {
-	f = new XYFrame(x, y, z, xL, yL, dx, dy, dz, nL, color);
-	f.draw();
-}
-
-function DrawXZFrame(x, y, z, xL, zL, dx, dy, dz, nL, color) {
-	f = new XZFrame(x, y, z, xL, zL, dx, dy, dz, nL, color);
-	f.draw();
-}
-
-function DrawYZFrame(x, y, z, yL, zL, dx, dy, dz, nL, color, skipTop) {
-	f = new YZFrame(x, y, z, yL, zL, dx, dy, dz, nL, color, skipTop);
-	f.draw();
-}
-
 /*********************************************/
-
 
 function grid() {
     ctx.MTo(u1);
@@ -1091,10 +1081,27 @@ function MakeXZSection(x, y, z, Lx, Lz, n, color, stepLevel) {
 	return loaf;
 }
 
-
+function MakeBed(x, y, z, Lx, Ly, Lz, color, stepLevel) {
+   var ch = inches(12);
+   var bed = new Loaf(e2, [y+in4, y+Ly-in4], true);
+   bed.slices[0] = new Loaf(e1, [x+in4, x+Lx-in4], true);
+   bed.slices[1] = new Loaf(e1, [x+in3, x+Lx-in3], true);
+   bed.slices[2] = new Loaf(e1, [x+in4, x+Lx-in4], true);
+   bed.slices[0].slices[0] = new Board(x, y, z, in4, in4, Lz, color, stepLevel);
+   bed.slices[0].slices[1] = new Board(x+in4, y+in1, z+ch, Lx - in8, in2, in4, color, stepLevel);
+   bed.slices[0].slices[2] = new Board(x+Lx-in4, y, z, in4, in4, Lz, color, stepLevel);
+   bed.slices[1].slices[0] = new Board(x+in1, y+in4, z+ch, in2, Ly-in8, in4, color, stepLevel);
+   bed.slices[1].slices[1] = new Skip();
+   bed.slices[1].slices[2] = new Board(x+Lx-in3, y+in4, z+ch, in2, Ly-in8, in4, color, stepLevel);
+   bed.slices[2].slices[0] = new Board(x, y+Ly-in4, z, in4, in4, Lz, color, stepLevel);
+   bed.slices[2].slices[1] = new Board(x+in4, y+Ly-in3, z+ch, Lx - in8, in2, in4, color, stepLevel);
+   bed.slices[2].slices[2] = new Board(x+Lx-in4, y+Ly-in4, z, in4, in4, Lz, color, stepLevel);
+   return bed;
+}
 
 function f10() {
 	var skip = new Skip();
+	var floorHt = lift+in6+inches(.75);
 	ctx.fillStyle = "orange";
 	var triPt = [0, W2, H];
 	root = new TriNode(triPt, [e2, [0, -(H-H1), -W1], [0, -(H-H2), W2]]);
@@ -1121,53 +1128,88 @@ function f10() {
 	platformB1 = new Board(in4, 0, lift + in6 + platformHt, in2, W2+in2, in4, "pink", platformLevel);
 	platformB2 = new Board(L - in6, 0, lift + in6 + platformHt, in2, W2+in2, in4, "pink", platformLevel);
 	platformBase = new Board(in4, in4, lift + in6 + platformHt + in4, L - 2*in4, W2, inches(.75), "green", platformLevel);
-//	var c1 = H1 + m1*in4 - dz1;
-//	var c2 = H2 + m2*in4 - dz2;
 
+	floor = new Board(in4, in4, lift+in6, L - 2*in4, W - 2*in4, inches(.75), "orange", floorLevel);
+	
+	var bedHt = inches(36);
+	bed1 = MakeBed(in8, W - in4 - inches(82), floorHt, bedHt, inches(80), inches(36), "rgb(135,206,250)", bedLevel);
+	bed2 = MakeBed(in8, W - in4 - inches(82), floorHt + bedHt, bedHt, inches(80), inches(36), "rgb(135,206,250)", bedLevel);
+	bed3 = MakeBed(L - in8 - inches(36), W - in4 - inches(82), floorHt, bedHt, inches(80), inches(36), "rgb(135,206,250)", bedLevel);
+	bed4 = MakeBed(L - in8 - inches(36), W - in4 - inches(82), floorHt + bedHt, bedHt, inches(80), inches(36), "rgb(135,206,250)", bedLevel);
+	
+	var beds = new Loaf(e1, [inches(44)], true);
+	beds.slices[0] = new Loaf(e3, [floorHt+bedHt], true);
+	beds.slices[1] = new Loaf(e3, [floorHt+bedHt], true);
+
+	beds.slices[0].slices[0] = bed1;
+	beds.slices[0].slices[1] = bed2;
+	beds.slices[1].slices[0] = bed3;
+	beds.slices[1].slices[1] = bed4;
 
 	var yx1 = new Loaf(e1, [0, L], true);
 	yx1.slices[0] = bottom1;
-	yx1.slices[1] = new YXFrame(0, in4, lift+in2, L, W2 - in6, in2, in2, in4, 4, "yellow", floorSupportLevel);
+	yx1.slices[1] = new YXFrame(0, in4, lift+in2, L, W2 - in6, in2, in2, in4, 3, "yellow", floorSupportLevel);
 	yx1.slices[2] = bottom2;
-	var yx1b = new Loaf(e3, [lift+in4,lift + in6 + platformHt + in4], true);
+	var yx1b = new Loaf(e3, [lift+in6,floorHt, floorHt+bedHt,lift + in6 + platformHt + in4], true);
 	yx1b.slices[0] = yx1;
+	yx1b.slices[1] = floor;
+	yx1b.slices[2] = skip;
 	yx1bx = new Loaf(e1, [in6,L -2*in6], true);
-	yx1b.slices[1] = yx1bx;
+	yx1b.slices[3] = yx1bx;
 	yx1bx.slices[0] = platformB1;
 	yx1bx.slices[1] = new Board(in6, in4, lift + in6 + platformHt, L -2*in6, in2, in4, "pink", platformLevel);
 	yx1bx.slices[2] = platformB2;
-	yx1b.slices[2] = platformBase;
+	yx1b.slices[4] = platformBase;
+	
 	var yx2 = new Loaf(e1, [0, L], true);
 	yx2.slices[0] = bottom1;
-	yx2.slices[1] = new YXFrame(0, W2 + in2, lift+in2, L, W - 13*in4 - W2, in2, in2, in4, 4, "yellow", floorSupportLevel);
+	yx2.slices[1] = new YXFrame(0, W2 + in2, lift+in2, L, W1b - in4, in2, in2, in4, 4, "yellow", floorSupportLevel);
 	yx2.slices[2] = bottom2;
-	var yx2b = new Loaf(e3, [lift+in4,lift + in6 + platformHt + in4], true);
+	var yx2b = new Loaf(e3, [lift+in6,floorHt,floorHt+bedHt,lift + in6 + platformHt + in4], true);
 	yx2b.slices[0] = yx2;
-	yx2b.slices[1] = new Board(0, W2+in2, lift+in6+platformHt, L, in2, in4, "pink", platformLevel);
-	yx2b.slices[2] = platformBase;
+	yx2b.slices[1] = floor;
+	yx2b.slices[2] = beds;
+	yx2b.slices[3] = new Board(0, W2+in2, lift+in6+platformHt, L, in2, in4, "pink", platformLevel);
+	yx2b.slices[4] = platformBase;
+	
 	var yx3 = new Loaf(e1, [0, L], true);
 	yx3.slices[0] = bottom1;
-	yx3.slices[1] = new YXFrame(0, W - 12*in4 + in2, lift+in2, L, inches(42), in2, in2, in4, 4, "yellow", floorSupportLevel);
+	yx3.slices[1] = new YXFrame(0, W - W1a + in2, lift+in2, L, W1a - in6, in2, in2, in4, 4, "yellow", floorSupportLevel);
 	yx3.slices[2] = bottom2;
+	
+	var yx3b = new Loaf(e3, [lift+in6, floorHt], true);
+	yx3b.slices[0] = yx3;
+	yx3b.slices[1] = floor;
+	yx3b.slices[2] = beds;
 
-	var loaf = new Loaf(e2, [in4, W2-in2, W2+in2, W-in2-12*in4, W+in2-12*in4, W - in4], false);
+	var loaf = new Loaf(e2, [in4, W2-in2, W2+in2, W-in2-W1a, W+in2-W1a, W - in4], false);
 	var fw = MakeFrontWall();
-	var fw_pl = new Loaf(e3, [lift+in6+platformHt], true);
-	fw_pl.slices[0] = new Loaf(e1, [in6], true);
-	fw_pl.slices[0].slices[0] = platformB1;
-	fw_pl.slices[0].slices[1] = platformB2;
-	fw_pl.slices[1] = platformBase;
+	
+	var fw_pl = new Loaf(e3, [lift+in5,lift+in6+platformHt], true);
+	fw_pl.slices[0] = floor;
+	fw_pl.slices[1] = new Loaf(e1, [in6], true);
+	fw_pl.slices[1].slices[0] = platformB1;
+	fw_pl.slices[1].slices[1] = platformB2;
+	fw_pl.slices[2] = platformBase;
 	loaf.slices[0] = MakeFrontSupport(0, fw);
 	loaf.slices[1] = yx1b;
 	loaf.slices[2] = MakeVertSupport(W2-in2, M-in6, skip, fw_pl);
 	loaf.slices[3] = yx2b;	
-	loaf.slices[4] = MakeRearSupport(W-in2-12*in4);
-	loaf.slices[5] = yx3
+	var floorP = new Loaf(e3, [floorHt], true);
+	floorP.slices[0] = floor;
+	floorP.slices[1] = beds;
+	loaf.slices[4] = MakeRearSupport(W-in2-W1a, floorP);
+	loaf.slices[5] = yx3b;
 	loaf.slices[6] = MakeRearSupport(W-in4);
 	
 	underRafters.left = loaf;
 	
 	root.draw();
+//	var fHt = lift + inches(.75);
+	
+//	bed1.draw();
+//	floor.draw();
+	
 //	platformBase.draw();
 
 //	grid();
