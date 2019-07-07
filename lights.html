@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<body>
+<canvas id="myCanvas" width="500" height="500" style="border:1px solid #d3d3d3;">
+Your browser does not support the HTML5 canvas tag.</canvas>
+<script>
+var canvas = document.getElementById("myCanvas");
+var w=500;
+var h=500;
+var r=10;
+var d=30; // center to center distance
+var colors=["white", "red", "blue", "green", "magenta", "cyan", "orange", "brown", "BlueViolet",
+            "CadetBlue", "Chartreuse", "Coral", "DarkBlue", "DarkGreen"]
+
+function mul(a, u) {
+  return [a*u[0], a*u[1]];
+}
+function sub(u,v) {
+  return [u[0] - v[0], u[1] - v[1]];
+}
+function sum(u,v) {
+  return [u[0] + v[0], u[1] + v[1]];
+}
+
+var a = [d*Math.sqrt(3)/2, d/2];
+var b = [0, d];
+
+var ctx = canvas.getContext("2d");
+ctx.translate(w/2, h/2);
+ctx.font = "10px Arial";
+
+function drawSite(m, n, ndx) {
+  ctx.beginPath();
+  var p = sum(mul(m, a), mul(n, b));
+  ctx.arc(p[0], p[1], r, 0, 2 * Math.PI);
+  ctx.stroke();
+  if (ndx < colors.length) {
+    ctx.fillStyle = colors[ndx];
+    ctx.fill();
+  }
+  var f = (ndx > 9) ? .6 : .3;
+  ctx.strokeText(ndx.toString(), p[0]-f*r, p[1]+r/4);
+  
+}
+
+function getColorIndex(m,n) {
+   var k1 = Math.round(3*m/19 + 5*n/19);
+   var k2 = Math.round(2*m/19 - 3*n/19);
+   var mp = m - 3*k1 - 5*k2;
+   var np = n - 2*k1 + 3*k2;
+   if (mp == 0 && np == 0) {
+     return 0
+   }
+   if (mp == 1 && np == 0) {
+     return 1;
+   }
+   if (mp == 0 && np == 1) {
+     return 2;
+   }
+   if (mp == -1 && np == 1) {
+     return 3;
+   }
+   if (mp == -1 && np == 0) {
+     return 4;
+   }
+   if (mp == 0 && np == -1) {
+     return 5;
+   }
+   if (mp == 1 && np == -1) {
+     return 6;
+   }
+   if (mp == 2 && np == -1) {
+     return 7;
+   }
+   if (mp == 2 && np == -1) {
+     return 7;
+   }
+   if (mp == 1 && np == 1) {
+     return 8;
+   }
+   if (mp == -1 && np == 2) {
+     return 9;
+   }
+   if (mp == -2 && np == 1) {
+     return 10;
+   }
+   if (mp == -1 && np == -1) {
+     return 11;
+   }
+   if (mp == 1 && np == -2) {
+     return 12;
+   }
+   else {
+     return 20;
+   }
+}
+for(var m=-8 ; m<0 ; m++) {
+  for(var n=-8-m; n<=8 ; n++) {
+		if (m != -1 || (n <=-1 || n >= 2)) {
+			drawSite(m, n, getColorIndex(m, n));
+		}
+  }
+}
+for(var m=0 ; m<=8 ; m++) {
+  for(var n=-8; n<=8-m ; n++) {
+		drawSite(m, n, getColorIndex(m, n));
+  }
+}
+</script>
+</body>
+</html>
