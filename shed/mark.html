@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html>
 <body>
-<canvas id="myCanvas" width="500" height="500" style="border:1px solid #d3d3d3;">
-Your browser does not support the HTML5 canvas tag.</canvas>
+<canvas id="myCanvas" width="500" height="500" style="border:1px solid #d3d3d3;"></canvas>
 <script>
 var canvas = document.getElementById("myCanvas");
 var w=500;
@@ -10,8 +9,8 @@ var h=500;
 var r=10;
 var d=30; // center to center distance
 var colors=["white", "red", "blue", "green", "magenta", "cyan", "orange", "brown", "BlueViolet",
-            "CadetBlue", "Chartreuse", "Coral", "DarkBlue", "DarkGreen"]
-
+            "CadetBlue", "yellow", "Coral", "DarkBlue", "DeepPink", "MediumSpringGreen", "Gold", "Navy"]
+var switches=[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0];
 function mul(a, u) {
   return [a*u[0], a*u[1]];
 }
@@ -34,7 +33,7 @@ function drawSite(m, n, ndx) {
   var p = sum(mul(m, a), mul(n, b));
   ctx.arc(p[0], p[1], r, 0, 2 * Math.PI);
   ctx.stroke();
-  if (ndx < colors.length) {
+  if (ndx < colors.length /* && (ndx == 15 || ndx == 16) */) {
     ctx.fillStyle = colors[ndx];
     ctx.fill();
   }
@@ -48,8 +47,31 @@ function getColorIndex(m,n) {
    var k2 = Math.round(2*m/19 - 3*n/19);
    var mp = m - 3*k1 - 5*k2;
    var np = n - 2*k1 + 3*k2;
+   if (mp == -3) {
+		mp = 0;
+		np += 2;
+   }
+   if (mp == 3) {
+		mp = 0;
+		np -= 2;
+   }
+   if (mp == 0 && np == 3) {
+		mp = 2;
+		np = -2;
+   }
+   if (mp == 0 && np == -3) {
+	    mp = -2;
+		np = 2;
+   }
    if (mp == 0 && np == 0) {
-     return 0
+     // split this group
+	 var g1 = [3, -5, 2, 1, -8, 7];
+	 for(var j=0 ; j<g1.length ; j++) {
+		if (g1[j] == m) {
+			return 16;
+		}
+	 }
+     return 15;
    }
    if (mp == 1 && np == 0) {
      return 1;
@@ -70,28 +92,63 @@ function getColorIndex(m,n) {
      return 6;
    }
    if (mp == 2 && np == -1) {
-     return 7;
-   }
-   if (mp == 2 && np == -1) {
+     if (m == -8) {
+	   return 15;
+	 }
      return 7;
    }
    if (mp == 1 && np == 1) {
+     if (m == -5) {
+	   return 14;
+	 }
      return 8;
    }
    if (mp == -1 && np == 2) {
+     if (m == 3) {
+	   return 15;
+	 }
      return 9;
    }
    if (mp == -2 && np == 1) {
+     if (m == 8) {
+	    return 13;
+	 }
      return 10;
    }
    if (mp == -1 && np == -1) {
+     if (m == 5) {
+	   return 16;
+	 }
      return 11;
    }
    if (mp == 1 && np == -2) {
+     if (m == -3) {
+	   return 16;
+	 }
      return 12;
    }
+   if (mp == 0 && np == 2) {
+     return 13;
+   }
+   if (mp == 2 && np == 0) {
+     return 13; // 14;
+   }
+   if (mp == 2 && np == -2) {
+     return 14; // 15
+   }
+   if (mp == 0 && np == -2) {
+     return 14; // 16
+   }
+   if (mp == -2 && np == 0) {
+     return 15; // 17
+   }
+   if (mp == -2 && np == 2) {
+     return 16; // 18
+   }
    else {
-     return 20;
+     alert("ERROR");
+     console.log("m="+m+", n=" + n +", mp="+mp+", np="+np);
+     return 21;
    }
 }
 for(var m=-8 ; m<0 ; m++) {
@@ -101,9 +158,17 @@ for(var m=-8 ; m<0 ; m++) {
 		}
   }
 }
-for(var m=0 ; m<=8 ; m++) {
+for(var n=-8; n<=-2 ; n++) {
+  drawSite(0, n, getColorIndex(0, n));
+}
+for(var n=2; n<=8 ; n++) {
+  drawSite(0, n, getColorIndex(0, n));
+}
+for(var m=1 ; m<=8 ; m++) {
   for(var n=-8; n<=8-m ; n++) {
-		drawSite(m, n, getColorIndex(m, n));
+		if (m != 1 || (n<=-2 || n>=1)) {
+			drawSite(m, n, getColorIndex(m, n));
+		}
   }
 }
 </script>
