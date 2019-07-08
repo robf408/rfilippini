@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <body>
-<canvas id="myCanvas" width="500" height="500" style="border:1px solid #d3d3d3;"></canvas>
+<canvas id="myCanvas" width="500" height="500" style="border:1px solid #d3d3d3;" onmouseup="mouseUp(event)"></canvas>
 <script>
 var canvas = document.getElementById("myCanvas");
 var w=500;
@@ -10,9 +10,13 @@ var r=10;
 var d=30; // center to center distance
 var colors=["white", "red", "blue", "green", "magenta", "cyan", "orange", "brown", "BlueViolet",
             "CadetBlue", "yellow", "Coral", "gray", "DeepPink", "MediumSpringGreen", "Gold", "pink"]
-var switches=[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0];
-function mul(a, u) {
-  return [a*u[0], a*u[1]];
+var switches=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
+
+var a = [d*Math.sqrt(3)/2, d/2];
+var b = [0, d];
+
+function mul(c, u) {
+  return [c*u[0], c*u[1]];
 }
 function sub(u,v) {
   return [u[0] - v[0], u[1] - v[1]];
@@ -20,9 +24,48 @@ function sub(u,v) {
 function sum(u,v) {
   return [u[0] + v[0], u[1] + v[1]];
 }
+function dp(u,v) {
+  return u[0]*v[0] + u[1]*v[1];
+}
 
-var a = [d*Math.sqrt(3)/2, d/2];
-var b = [0, d];
+function mouseUp(e) {
+	x = e.clientX - canvas.offsetLeft - w/2;
+	y = e.clientY - canvas.offsetTop - h/2;
+	var m = Math.floor(x/a[0]);
+	var n = Math.floor((y - x*a[1]/a[0])/b[1]);
+	var v = sum(mul(m, a), mul(n, b));
+	var del = sub([x,y], v);
+
+	var d1 = dp(del, del);
+	var d = d1;
+	var d2 = dp(sub(del, a), sub(del, a));
+	var d3 = dp(sub(del, b), sub(del, b));
+	var d4 = dp(sub(del, sum(a, b)), sub(del, sum(a, b)));
+	if (d2 <= d1 && d2 <= d3 && d2 <= d4) {
+	  m = m+1;
+	  d = d2;
+	}
+	else if (d3 <= d1 && d3 <= d2 && d3 <= d4) {
+	  n = n+1;
+	  d = d3;
+	}
+	else if (d4 <= d1 && d4 <= d2 && d4 <= d3) {
+	  m = m+1;
+	  n = n+1;
+	  d = d4;
+	}
+	if (d < r*r) {
+		console.log("x="+x+", y="+y);
+		console.log("m="+m+", n="+n+", d="+d);
+		var ndx = getColorIndex(m,n);
+		console.log("ndx = " + ndx);
+		if (ndx > 0 && ndx <= 16) {
+		  switches[ndx] = 1 - switches[ndx];
+		  drawAll();
+		}
+	}
+}
+
 
 var ctx = canvas.getContext("2d");
 ctx.translate(w/2, h/2);
@@ -33,10 +76,13 @@ function drawSite(m, n, ndx) {
   var p = sum(mul(m, a), mul(n, b));
   ctx.arc(p[0], p[1], r, 0, 2 * Math.PI);
   ctx.stroke();
-  if (ndx < colors.length /* && (ndx == 15 || ndx == 16) */) {
+  if (ndx < colors.length && switches[ndx] == 1) {
     ctx.fillStyle = colors[ndx];
-    ctx.fill();
   }
+  else {
+    ctx.fillStyle = "white";
+  }
+  ctx.fill();
   var f = (ndx > 9) ? .6 : .3;
   ctx.strokeText(ndx.toString(), p[0]-f*r, p[1]+r/4);
   
@@ -151,26 +197,33 @@ function getColorIndex(m,n) {
      return 21;
    }
 }
-for(var m=-8 ; m<0 ; m++) {
-  for(var n=-8-m; n<=8 ; n++) {
-		if (m != -1 || (n <=-1 || n >= 2)) {
-			drawSite(m, n, getColorIndex(m, n));
-		}
-  }
+
+function drawAll()
+{
+	for(var m=-8 ; m<0 ; m++) {
+	  for(var n=-8-m; n<=8 ; n++) {
+			if (m != -1 || (n <=-1 || n >= 2)) {
+				drawSite(m, n, getColorIndex(m, n));
+			}
+	  }
+	}
+	for(var n=-8; n<=-2 ; n++) {
+	  drawSite(0, n, getColorIndex(0, n));
+	}
+	for(var n=2; n<=8 ; n++) {
+	  drawSite(0, n, getColorIndex(0, n));
+	}
+	for(var m=1 ; m<=8 ; m++) {
+	  for(var n=-8; n<=8-m ; n++) {
+			if (m != 1 || (n<=-2 || n>=1)) {
+				drawSite(m, n, getColorIndex(m, n));
+			}
+	  }
+	}
 }
-for(var n=-8; n<=-2 ; n++) {
-  drawSite(0, n, getColorIndex(0, n));
-}
-for(var n=2; n<=8 ; n++) {
-  drawSite(0, n, getColorIndex(0, n));
-}
-for(var m=1 ; m<=8 ; m++) {
-  for(var n=-8; n<=8-m ; n++) {
-		if (m != 1 || (n<=-2 || n>=1)) {
-			drawSite(m, n, getColorIndex(m, n));
-		}
-  }
-}
+
+drawAll();
+
 </script>
 </body>
 </html>
