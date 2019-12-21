@@ -16,7 +16,7 @@ var hungry = "http://s3.amazonaws.com/chinesepod.com/0083/b070a557585216cff26642
 var ic_12 = [
 [restaurant, "那家飯館又小又"+z+"髒，我不太喜歡。", "那家饭馆又小又"+z+"脏，我不太喜欢。", "Nà jiā fànguǎn yòu xiǎo yòu zāng, wǒ bù tài xǐhuān.", "That place is small and dirty, I don't like it."],
 [waiter, "服務員，買單。"+z+"今天我請客。", "服务员，买单。"+z+"今天我请客。", "Fúwùyuán, mǎidān. Jīntiān wǒ qǐngkè.", "Waiter, the bill. Today I'm treating."],
-[beef, "這個牛肉很好吃。", "这个牛肉很好吃。", "Zhège niúròu hěn hào chī.", "This beef is really tasty."],
+[beef, "這個牛肉很好吃。", "这个牛肉很好吃。", "Zhège niúròu hěn hǎochī。", "This beef is really tasty."],
 [dumplings, "炒青菜吧。"+z+"你們有餃子嗎？", "炒青菜吧。"+z+"你们有饺子吗？", "Chǎo qīngcài ba. Nǐmen yǒu jiǎozi ma?", "Stir-fried greens. Do you have dumplings?"],
 [bowl, "我要一份炒飯，"+z+"還要一碗湯。", "我要一份炒饭，"+z+"还要一碗汤。", "Wǒ yào yī fèn chǎofàn, hái yào yī wǎn tāng.", "I want an order of fried rice, and also a bowl of soup."],
 [seem, "我想我開始喜歡"+z+"他了，但是他"+z+"好像喜歡楊潔。", "我想我开始喜欢"+z+"他了，但是他"+z+"好像喜欢杨洁。", "Wǒ xiǎng wǒ kāishǐ xǐhuān tāle, dànshì tā hǎoxiàng xǐhuān yángjié.", "I think I've started to like him, but he seems to like Yang Jie."],

@@ -21,7 +21,7 @@ var ic_08 = [
 [diary, "她堅持每天"+z+"用中文寫日記。", "她坚持每天"+z+"用中文写日记。", "Tā jiānchí měitiān yòng zhōngwén xiě rìjì.", "She keeps a daily diary in Chinese."],
 [pian, "我們明天繼續"+z+"講解這篇課文。", "我们明天继续"+z+"讲解这篇课文。", "Wǒmen míngtiān jìxù jiǎngjiě zhè piān kèwén.", "Tomorrow we will continue to explain this text."],
 [shower, "我每天都洗澡。", "我每天都洗澡。", "Wǒ měitiān dōu xǐzǎo.", "I take a shower every day."],
-[besides, "除了蘋果以外，"+z+"我們還要買什麼？", "除了苹果以外，"+z+"我们还要买什么？", "Chúle píngguǒ yǐwài, wǒmen hái yāomǎi shénme?", "What else do we want to buy besides apples?"],
+[besides, "除了蘋果以外，"+z+"我們還要買什麼？", "除了苹果以外，"+z+"我们还要买什么？", "Chúle píngguǒ yǐwài, wǒmen hái yào mǎi shénme?", "What else do we want to buy besides apples?"],
 [computer, "你經常用電腦嗎？", "你经常用电脑吗？", "Nǐ jīngcháng yòng diànnǎo ma?", "Do you often use a computer?"],
 [major, "我的專業是金融。", "我的专业是金融。", "Wǒ de zhuānyè shì jīnróng.", "My major is finance."],
 [recently, "我們最近經常"+z+"在一起，我覺得"+z+"她挺可愛的。", "我们最近经常"+z+"在一起，我觉得"+z+"她挺可爱的。", "Wǒmen zuìjìn jīngcháng zài yīqǐ, wǒ juédé tā tǐng kě'ài de.", "Lately we're often together. I think she's quite cute."],

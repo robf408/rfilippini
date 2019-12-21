@@ -4,7 +4,8 @@ var listen1_pre = "Based on: <a href=\"https://www.youtube.com/watch?v=G1DA04gmV
 "<li>Time: 00:00 <a href=\"https://hanyufanting.com/2017/06/16/new-practical-audio-visual-chinese-lesson-18-part-1/\">Unit 1</a></li>\n" +
 "<li>Time: 00:00 <a href=\"http://m.blog.naver.com/asian64/40193700079\">Unit 6</a></li>\n" +
 "<li>Time: 12:50 <a href=\"http://m.blog.naver.com/asian64/40193776107\">Unit 7</a></li>\n" +
-"<li>Time: 00:00 <a href=\"http://m.blog.naver.com/asian64/40193891177\">Unit 8</a></li>\n" +
+"<li>Time: 24:15 (2. 25:34)<a href=\"http://m.blog.naver.com/asian64/40193891177\">Unit 8</a></li>\n" +
+"<li>Time: 37:10 <a href=\"https://m.blog.naver.com/asian64/40193958245\">Unit 9</a></li>\n" +
 "</ul>";
 
 
