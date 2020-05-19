@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<body>
+Red: <input type="checkbox" id="red" onchange="draw()">
+Green: <input type="checkbox" id="green" onchange="draw()">
+Blue: <input type="checkbox" id="blue" onchange="draw()">
+<canvas id="myCanvas" width="800" height="600" style="border:1px solid #d3d3d3;">
+Your browser does not support the HTML canvas tag.</canvas>
+
+<script>
+var d = 20;
+var alpha = 35;
+var sinA = Math.sin(alpha*Math.PI/180);
+var m1 = Math.tan((alpha - 30)*Math.PI/180);
+var x0 = 100;
+var x2 = 800;
+var x1=400;
+var y1=100;
+var s=250;
+var r = Math.sqrt(3)/2;
+var h=s*r;
+
+
+function drawBand(a, n, color) {
+   ctx.fillStyle = color;
+   ctx.beginPath();
+   ctx.moveTo(x1-a/2,y1+a*r);
+   ctx.lineTo(x0, y1+a*r + m1*(x1-a/2-x0));
+   ctx.lineTo(x0, y1+a*r + m1*(x1-a/2-x0) + d/Math.cos((alpha - 30)*Math.PI/180));
+   d60 = d/Math.cos(alpha*Math.PI/180);
+   ctx.lineTo(x1-a/2-d60/2, y1+a*r+d60*r);
+   ctx.closePath();
+   ctx.fill();
+   sinB = sinA/n;
+   cosB = Math.sqrt(1 - sinB*sinB);
+   mag = cosB/(.5*cosB +r*sinB);
+   ctx.beginPath();
+   ctx.moveTo(x1-a/2,y1+a*r);
+   ctx.lineTo(x1-a/2-d60/2, y1+a*r+d60*r);
+   ctx.lineTo(x1+ (a+d60)*mag/2, y1+(a+d60)*mag*r);
+   ctx.lineTo(x1+ a*mag/2, y1+a*mag*r);
+   ctx.closePath();
+   ctx.fill();
+   sinC = n*(r*cosB -.5*sinB);
+   cosC = Math.sqrt(1 - sinC*sinC);
+   ctx.beginPath();
+   ctx.lineTo(x1+ a*mag/2, y1+a*mag*r);
+   ctx.lineTo(x1+ (a+d60)*mag/2, y1+(a+d60)*mag*r);
+   tanCm30 = (sinC - cosC/r)/(cosC + sinC/r);
+   ctx.lineTo(x2, y1+(a+d60)*mag*r + (x2 - x1 - (a+d60)*mag/2)*tanCm30);
+   ctx.lineTo(x2, y1+a*mag*r + (x2 - x1 - a*mag/2)*tanCm30);
+   ctx.closePath();
+   ctx.fill();
+}
+
+var c = document.getElementById("myCanvas");
+var ctx = c.getContext("2d");
+
+ctx.globalCompositeOperation = "lighter";  // AKA add / linear-dodge
+
+function draw() { 
+  ctx.clearRect(0, 0, c.width, c.height); 
+  if (document.getElementById("red").checked) {
+    drawBand(100, 1.5, "#FF0000");
+  }
+  if (document.getElementById("green").checked) {
+    drawBand(100, 1.53, "#00FF00");
+  }
+  if (document.getElementById("blue").checked) {
+    drawBand(100, 1.555, "#0000FF");
+  }
+  ctx.beginPath();
+  ctx.moveTo(x1,y1);
+  ctx.lineTo(x1+s/2, y1+h);
+  ctx.lineTo(x1-s/2, y1+h);
+  ctx.closePath();
+  ctx.stroke();
+} 
+
+draw()
+
+
+</script> 
+
+
+
+</body>
+</html>
