@@ -4,12 +4,16 @@
 Red: <input type="checkbox" id="red" onchange="draw()">
 Green: <input type="checkbox" id="green" onchange="draw()">
 Blue: <input type="checkbox" id="blue" onchange="draw()">
+<div class="slidecontainer" style="width: 100%">
+  <p>Default range slider:</p>
+  <input type="range" id="slider" min="1" max="50" value="25" onchange="draw()">
+</div>
 <canvas id="myCanvas" width="800" height="600" style="border:1px solid #d3d3d3;">
 Your browser does not support the HTML canvas tag.</canvas>
 
 <script>
-var d = 20;
-var alpha = 35;
+var d = 25;
+var alpha = 40;
 var sinA = Math.sin(alpha*Math.PI/180);
 var m1 = Math.tan((alpha - 30)*Math.PI/180);
 var x0 = 100;
@@ -59,6 +63,7 @@ var ctx = c.getContext("2d");
 ctx.globalCompositeOperation = "lighter";  // AKA add / linear-dodge
 
 function draw() { 
+  d = slider.value;
   ctx.clearRect(0, 0, c.width, c.height); 
   if (document.getElementById("red").checked) {
     drawBand(100, 1.5, "#FF0000");
